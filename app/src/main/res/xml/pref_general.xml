@@ -1,0 +1,54 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="info"
+        android:selectable="false"
+        android:persistent="false"
+        android:summary="@string/pref_infotop"
+        android:title="">
+    </Preference>
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_list_paidby"
+        android:entryValues="@array/pref_list_paidby_values"
+        android:key="list_paidby_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:layout="@layout/preference_multiline"
+        android:title="@string/pref_title_paidby" />
+
+        <EditTextPreference
+            android:defaultValue="@integer/pref_default_howmuch_paid"
+            android:inputType="number"
+            android:key="paid_hour_key"
+            android:layout="@layout/preference_multiline"
+            android:title="@string/pref_title_howmuch_paid" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_above25"
+            android:layout="@layout/preference_multiline"
+            android:title="@string/pref_title_above25" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_hotels"
+            android:layout="@layout/preference_multiline"
+            android:title="@string/pref_title_hotels" />
+
+    <EditTextPreference
+        android:defaultValue="@integer/pref_default_years_experience"
+        android:layout="@layout/preference_multiline"
+        android:inputType="number"
+        android:key="years_experience_key"
+        android:title="@string/pref_title_years_experience" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_contract"
+        android:layout="@layout/preference_multiline"
+        android:title="@string/pref_title_contract" />
+    <!-- -->
+
+
+
+</PreferenceScreen>
