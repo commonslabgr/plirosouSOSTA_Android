@@ -3,6 +3,7 @@ package gr.commonslab.plirosousosta;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,7 +24,9 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -56,6 +59,7 @@ public class EntitledActivity extends AppCompatActivity {
     private static Calendar FromDate;
     private static Calendar ToDate;
     public static boolean bToDate = false;
+    private static Button button_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,6 @@ public class EntitledActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container_entitled);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs_entitled);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -145,21 +148,31 @@ public class EntitledActivity extends AppCompatActivity {
                 case 1://MONTH
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
                     setMonthValues(rootView);
-                    return rootView;
+                    break;
                 case 2://YEAR
                     rootView = inflater.inflate(R.layout.fragment_year_entitled, container, false);
                     setAnnualValues(rootView);
-                    return rootView;
+                    break;
                 case 3://FROM-TO
                     showDatePicker(this.getActivity());
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
                     setFromToValues(rootView, FromDate, ToDate);
-                    return rootView;
+                    break;
                 case 4://ALL
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
                     setAllValues(rootView);
-                    return rootView;
+                    break;
             }
+            button_info = (Button) rootView.findViewById(R.id.button_whatcanido);
+            button_info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Go to entitled activity
+                    Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
+                    v.getContext().startActivity(intent_info);
+                }
+            });
+
             return rootView;
         }
     }
@@ -286,56 +299,77 @@ public class EntitledActivity extends AppCompatActivity {
         DBHelper dbHelper = new DBHelper(rootView.getContext());
         SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
 
+        //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
         amount = dbHelper.getEntitledPaymentinMonth(month);
         s = String.format("€%.2f", amount);
         text_total_amount.setText(s);
 
+        //BOTTOM
+        TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
+        s = text_bottom.getText().toString();
+        s = s.replaceAll("€",String.format("€%.2f", amount));
+        text_bottom.setText(s);
+
+        //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursinMonth(month);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
+        TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
+        amount = dbHelper.getSundaysPaymentinMonth(month);
+        s = String.format("€%.2f", amount);
+        text_sunday_amount.setText(s);
+
+        //SATURDAYS
+        TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
+        hours = dbHelper.getSaturdayHoursinMonth(month);
+        minutes = getMinutesinHour(hours);
+        s = String.format("%.0fω %dλ",hours,minutes);
+        text_saturday_hours.setText(s);
+
+        TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
+        amount = dbHelper.getSaturdaysPaymentinMonth(month);
+        s = String.format("€%.2f", amount);
+        text_saturday_amount.setText(s);
+
+        //NIGHT SHIFTS
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursinMonth(month);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
+        TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
+        amount = dbHelper.getNightShiftsPaymentinMonth(month);
+        s = String.format("€%.2f", amount);
+        text_night_amount.setText(s);
+
+        //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursinMonth(month);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
+
+        TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
+        amount = dbHelper.getOvertimePaymentinMonth(month);
+        s = String.format("€%.2f", amount);
+        text_overtime_amount.setText(s);
+
+        //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursinMonth(month);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
-        TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
-        text_saturday_hours.setText("0ω 0λ");
-        TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
-        amount = dbHelper.getSundaysPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
-        text_sunday_amount.setText(s);
-        TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
-        amount = dbHelper.getNightShiftsPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
-        text_night_amount.setText(s);
-        TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
-        amount = dbHelper.getOvertimePaymentinMonth(month);
-        s = String.format("€%.2f", amount);
-        text_overtime_amount.setText(s);
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = dbHelper.getOverworkPaymentinMonth(month);
         s = String.format("€%.2f", amount);
         text_overwork_amount.setText(s);
-        TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
-        amount = dbHelper.getSaturdaysPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
-        text_saturday_amount.setText(s);
     }
 
     public static void setAllValues(View rootView) {

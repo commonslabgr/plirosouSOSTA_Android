@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //Listener for actions when INFO button is pressed
+    //Listener for actions when PAID CORRECTLY button is pressed
     public void addListenerOnPaidRight() {
         button_payed_correctly.setOnClickListener(new View.OnClickListener() {
             @Override

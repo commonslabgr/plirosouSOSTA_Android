@@ -33,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static Float multiplier_overtime = 0.8f; //%
     private static Float multiplier_holidays = 0.75f; //%
     private static Float multiplier_nightshifts = 0.25f; //%
+    private static Float multiplier_saturdays = 0.25f; //%
 
     private Calendar nightshift_start = Calendar.getInstance();
     private Calendar nightshift_end = Calendar.getInstance();
@@ -230,9 +231,9 @@ public class DBHelper extends SQLiteOpenHelper {
         int offset = tz.getRawOffset() + tz.getDSTSavings();
         int hourofday = nightshift_start.get(Calendar.HOUR_OF_DAY);
         nightshift_start.set(Calendar.HOUR_OF_DAY, 22);
-        if ( hourofday < 12) {
+        /*if ( hourofday < 12) {
             nightshift_start.add(Calendar.HOUR_OF_DAY, -24);
-        }
+        }*/
         nightshift_start.set(Calendar.MINUTE, 0);
         nightshift_start.set(Calendar.SECOND, 0);
 
@@ -306,6 +307,21 @@ public class DBHelper extends SQLiteOpenHelper {
         if (overtimehours < 0)
             overtimehours = 0f;
         return overtimehours;
+    }
+
+    //Calculate the hours that are in SATURDAY
+    public Float getSaturdaysHours(Date from, Date to) {
+        Calendar beginwork = Calendar.getInstance();
+        beginwork.setTime(from);
+        Calendar endwork = Calendar.getInstance();
+        endwork.setTime(to);
+        //TODO: Check END time if it is Saturday or NOT
+        long millisinhours = 3600000;
+        if (beginwork.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            return (new Float(endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+        } else {
+            return 0f;
+        }
     }
 
     //Calculate the hours that count as overwork υπερεργασία
@@ -416,7 +432,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public void storePayments(Date from, Date to, float normal, float holidays, float nights, float overtime, float overwork) {
+    public void storePayments(Date from, Date to, float normal, float holidays, float saturdays, float nights, float overtime, float overwork) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ContentValues contentValues = new ContentValues();
         float entitled_payment = normal + holidays + nights + overtime + overwork;
@@ -426,6 +442,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(PAYMENT_COLUMN_ENDSHIFT,dateFormat.format(to));
         contentValues.put(PAYMENT_COLUMN_ACTUALAMOUNT, normal);
         contentValues.put(PAYMENT_COLUMN_SUNDAY, holidays);
+        contentValues.put(PAYMENT_COLUMN_SATURDAY, saturdays);
         contentValues.put(PAYMENT_COLUMN_NIGHT, nights);
         contentValues.put(PAYMENT_COLUMN_OVERTIME, overtime);
         contentValues.put(PAYMENT_COLUMN_OVERWORK, overwork);
@@ -451,7 +468,9 @@ public class DBHelper extends SQLiteOpenHelper {
         float payment_overwork = 0f;
         float hours_overwork = 0f;
         float payment_overtime = 0f;
+        float payment_saturdays = 0f;
         float hours_overtime = 0f;
+        float hours_saturday = 0f;
         float payment_entitled = 0f;
         float legal_hourly_pay = 0f;
 
@@ -478,11 +497,12 @@ public class DBHelper extends SQLiteOpenHelper {
         //Calculate Hours
         hours_normal = (to.getTime() - from.getTime()) / 3600000;
         hours_holidays = getHolidaysHours(from, to);
+        hours_saturday = getSaturdaysHours(from, to);
         hours_night = getNightShiftHours(from, to);
         hours_overtime = getOvertimeHours(from, to);
         hours_overwork = getOverworkHours(from, to);
         //Store working hours values to DB
-        storeWorkingHours(from, to, hours_holidays, hours_night, hours_overtime, hours_overwork);
+        storeWorkingHours(from, to, hours_holidays, hours_saturday, hours_night, hours_overtime, hours_overwork);
 
         //Calculate Payments
         legal_hourly_pay = getLegalHourPayment();
@@ -490,16 +510,27 @@ public class DBHelper extends SQLiteOpenHelper {
         payment_normal = getPayment_Actual(hours_normal);
         payment_holidays = getHolidayPayment(hours_holidays, legal_hourly_pay);
         payment_night = getNightShiftPayment(hours_night, legal_hourly_pay);
+        payment_saturdays = getSaturdaysPayment(hours_saturday, hourly_wage);
         payment_overtime = getOvertimePayment(hours_overtime, hourly_wage);
         payment_overwork = getOverworkPayment(hours_overwork, hourly_wage);
         //Store payment values to DB
-        storePayments(from, to, payment_normal, payment_holidays, payment_night, payment_overtime, payment_overwork);
-        payment_entitled = payment_normal + payment_holidays + payment_night + payment_overtime + payment_overwork;
+        storePayments(from, to, payment_normal, payment_holidays, payment_saturdays, payment_night, payment_overtime, payment_overwork);
+        payment_entitled = payment_normal + payment_holidays + payment_night + payment_saturdays + payment_overtime + payment_overwork;
         return payment_entitled;
     }
 
     public float getHolidayPayment(float hours, float legal_pay) {
         return (multiplier_holidays * hours) * legal_pay;
+    }
+
+    public float getSaturdaysPayment(float hours, float hourly_pay) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean bInHotels = prefs.getBoolean("switch_hotels", false);
+        if (bInHotels) {
+            return 0;
+        } else {
+            return (multiplier_saturdays * hours) * hourly_pay;
+        }
     }
 
     public float getNightShiftPayment(float hours, float legal_pay) {
@@ -617,7 +648,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return (workinghours/3600000);
     }
 
-    public void storeWorkingHours(Date from, Date to, float holidays, float nights, float overtime, float overwork) {
+    public void storeWorkingHours(Date from, Date to, float holidays, float saturdays, float nights, float overtime, float overwork) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ContentValues contentValues = new ContentValues();
 
@@ -626,6 +657,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(WORKINGHOURS_COLUMN_BEGINSHIFT, dateFormat.format(from));
         contentValues.put(WORKINGHOURS_COLUMN_ENDSHIFT, dateFormat.format(to));
         contentValues.put(WORKINGHOURS_COLUMN_SUNDAY, holidays);
+        contentValues.put(WORKINGHOURS_COLUMN_SATURDAY, saturdays);
         contentValues.put(WORKINGHOURS_COLUMN_NIGHT, nights);
         contentValues.put(WORKINGHOURS_COLUMN_OVERTIME, overtime);
         contentValues.put(WORKINGHOURS_COLUMN_OVERWORK, overwork);
