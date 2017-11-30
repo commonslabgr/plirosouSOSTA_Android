@@ -10,15 +10,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceActivity;
-import android.support.v7.view.ContextThemeWrapper;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,7 +29,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity
     private ImageButton button_clock;
     private ImageButton button_add_shift;
     private ImageButton button_info;
-    private Button button_paid_correct;
+    private Button button_payed_correctly;
     private boolean CountWork = false;
     Handler hand = new Handler();
     int count = 0;
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     BroadcastReceiver _broadcastReceiver;
     DBHelper dbHelper;
     SQLiteDatabase sqldb;
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         button_clock = (ImageButton) findViewById(R.id.Button_clock);
         button_add_shift = (ImageButton) findViewById(R.id.Button_add_shift);
         button_info = (ImageButton) findViewById(R.id.Button_info);
-        button_paid_correct = (Button) findViewById(R.id.button_payed_correctly);
+        button_payed_correctly = (Button) findViewById(R.id.button_payed_correctly);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -115,6 +115,15 @@ public class MainActivity extends AppCompatActivity
         addListenerOnButtonAddShift();
         addListenerOnButtonClock();
         addListenerOnButtonInfo();
+        addListenerOnPaidRight();
+
+        //Check if application is running for the first time.
+        //Or it's initial data have been cleared
+        prefs = getSharedPreferences("gr.commonslab.plirosousosta", MODE_PRIVATE);
+        if (prefs.getBoolean("firstrun", true)) {
+            //Initialize Shared Preferences: Salary per hour, years of experience etc.
+            initializePreferences();
+        }
     }
 
     Runnable run = new Runnable() {
@@ -170,6 +179,18 @@ public class MainActivity extends AppCompatActivity
     //Listener for actions when INFO button is pressed
     public void addListenerOnButtonInfo() {
         button_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Go to entitled activity
+                Intent intent_entitled = new Intent(v.getContext(), EntitledActivity.class);
+                v.getContext().startActivity(intent_entitled);
+            }
+        });
+    }
+
+    //Listener for actions when INFO button is pressed
+    public void addListenerOnPaidRight() {
+        button_payed_correctly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Go to entitled activity
@@ -253,9 +274,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent_additionalInfo = new Intent(getApplicationContext(), InfoActivity.class);
             startActivity(intent_additionalInfo);
         } else if (id == R.id.nav_shifts) {
-            //TODO: Handle the Shifts
+            //TODO: Handle the Shifts Activity
         } else if (id == R.id.nav_about) {
-            //TODO: Handle the About
+            //TODO: Handle the About Activity
+            //dbHelper.onUpgrade(sqldb,0,1);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -437,7 +459,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (((cal_new_begin.before(cal_rec_end) && cal_new_begin.after(cal_rec_begin)) ||
                         (cal_new_end.before(cal_rec_end) && cal_new_end.after(cal_rec_begin))) )                {
-                    //TODO: Ask user to overwrite or not?
                     dialog = new OverwriteWorkingHours();
                     dialog.show(getFragmentManager(), "Overwrite?");
                 }
@@ -472,4 +493,9 @@ public class MainActivity extends AppCompatActivity
         text_info_entitled.setText(String.format("%s%.2f",getString(R.string.currency),dbHelper.getEntitledPaymentinMonth(month)));
     }
 
+    private void initializePreferences() {
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        prefs.edit().putBoolean("firstrun", false).commit();
+        dbHelper.setHolidays();
+    }
 }

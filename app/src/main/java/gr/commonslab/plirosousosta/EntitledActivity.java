@@ -52,7 +52,6 @@ public class EntitledActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private String currentMonth;
     private String currentYear;
-    private List<Fragment> mFragments = new Vector<Fragment>();
     private TabLayout tabLayout;
     private static Calendar FromDate;
     private static Calendar ToDate;
@@ -142,24 +141,23 @@ public class EntitledActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 0:
                 case 1://MONTH
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
                     setMonthValues(rootView);
-                return rootView;
-
+                    return rootView;
                 case 2://YEAR
-                    //TODO:Set yearly values
                     rootView = inflater.inflate(R.layout.fragment_year_entitled, container, false);
+                    setAnnualValues(rootView);
                     return rootView;
                 case 3://FROM-TO
-                    //TODO: launch datepicker to select range
                     showDatePicker(this.getActivity());
-                    //TODO:Set values
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
+                    setFromToValues(rootView, FromDate, ToDate);
                     return rootView;
                 case 4://ALL
-                    //TODO:Set ALL values
                     rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
+                    setAllValues(rootView);
                     return rootView;
             }
             return rootView;
@@ -266,17 +264,17 @@ public class EntitledActivity extends AppCompatActivity {
         }
     }
 
-    public static void voidsetFromToValues(View rootView, Calendar From, Calendar to) {
-
-    }
-
     public static int getMinutesinHour(float hours) {
         int minutes = (int)((hours % 1)*60);
         return minutes;
     }
 
-    public static void setAnnualValues(View rootView) {
+    public static void setFromToValues(View rootView, Calendar From, Calendar to) {
+        //TODO: implement setFromToValues
+    }
 
+    public static void setAnnualValues(View rootView) {
+        //TODO: implement setAnnualValues
     }
 
     public static void setMonthValues(View rootView) {
@@ -338,5 +336,9 @@ public class EntitledActivity extends AppCompatActivity {
         amount = dbHelper.getSaturdaysPaymentinMonth(month);
         s = String.format("€%.2f", amount);
         text_saturday_amount.setText(s);
+    }
+
+    public static void setAllValues(View rootView) {
+        //TODO: implement setAllValues
     }
 }

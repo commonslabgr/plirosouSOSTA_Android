@@ -115,6 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //Set Holidays
         //setHolidays(database);
+        //setHourWage();
     }
 
     @Override
@@ -127,12 +128,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(database);
     }
 
-    public void setHolidays(SQLiteDatabase database) {
+    public void setHolidays() {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         //Add holidays
-        //sqldb = this.getWritableDatabase();
-        database.beginTransaction();
+        sqldb = this.getWritableDatabase();
+        //database.beginTransaction();
         ContentValues contentValues = new ContentValues();
         //HOLIDAYS IN GREECE 2018 - 2022
         //ΠΡΩΤΟΧΡΟΝΙΑ
@@ -212,9 +213,14 @@ public class DBHelper extends SQLiteOpenHelper {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
-        database.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
-        database.endTransaction();
+        sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        //database.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        //database.endTransaction();
+    }
+
+    public void setHourWage() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        hourly_wage = Float.parseFloat(prefs.getString("paid_hour_key","0"));
     }
 
     public void initializeNightshiftHours() {
@@ -242,7 +248,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    //TODO: Test function!
     public Float getNightShiftHours(Date from, Date to) {
         Float nightshifthours = 0f;
         Calendar beginwork = Calendar.getInstance();
@@ -465,8 +470,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                //TODO: check for overtime multipliers
-                //workinghours += end.getTime() - begin.getTime();
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -483,11 +486,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //Calculate Payments
         legal_hourly_pay = getLegalHourPayment();
+        setHourWage();
         payment_normal = getPayment_Actual(hours_normal);
         payment_holidays = getHolidayPayment(hours_holidays, legal_hourly_pay);
         payment_night = getNightShiftPayment(hours_night, legal_hourly_pay);
-        payment_overtime = getOvertimePayment(hours_overtime, payment_normal);
-        payment_overwork = getOverworkPayment(hours_overwork, payment_normal);
+        payment_overtime = getOvertimePayment(hours_overtime, hourly_wage);
+        payment_overwork = getOverworkPayment(hours_overwork, hourly_wage);
         //Store payment values to DB
         storePayments(from, to, payment_normal, payment_holidays, payment_night, payment_overtime, payment_overwork);
         payment_entitled = payment_normal + payment_holidays + payment_night + payment_overtime + payment_overwork;
@@ -508,10 +512,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public float getOverworkPayment(float hours, float hourly_pay) {
         return (multiplier_overwork * hours) * hourly_pay;
-    }
-
-    public void setHourlyWage(float value) {
-        hourly_wage = value;
     }
 
     public void setDailyWage(float value) {
@@ -567,7 +567,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public float getPayment_Actual(float hours) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        float pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+        String paidby = prefs.getString("list_paidby_values","0");
+        int salary = Integer.parseInt(paidby);
+        float pay = 0f;
+        switch (salary) {
+            case 0:
+                pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                break;
+            case 1:
+                pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                //TODO: How calculation differs for per day?
+                //pay = pay / 8;
+                break;
+            case 2:
+                pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                //TODO: How calculation differs for per month?
+                //pay = pay / 160;
+                break;
+        }
 
         return pay*hours;
     }
@@ -613,17 +630,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(WORKINGHOURS_COLUMN_OVERTIME, overtime);
         contentValues.put(WORKINGHOURS_COLUMN_OVERWORK, overwork);
 
-        //Insert Values
+        //Insert or Update Values
         try {
-            //TODO: Overwork column does not exist in database table!
             sqldb.insertWithOnConflict(WORKINGHOURS_TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*
-            sqldb.update(WORKINGHOURS_TABLE_NAME,contentValues, WORKINGHOURS_COLUMN_BEGINSHIFT+"=?", new String[] {dateFormat.format(from)});
-        }
-        /**/
     }
 
     public Calendar getBeginWorkingHour(Calendar day) {
@@ -648,8 +660,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
             while (cursor.moveToNext()) {
                 try {
-                    beginWorkHour.setTime(dateFormat.parse(cursor.getString(0)));
                     //TODO: What if there are more than 1 entry in the same day?
+                    beginWorkHour.setTime(dateFormat.parse(cursor.getString(0)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     beginWorkHour = null;
@@ -685,8 +697,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
             while (cursor.moveToNext()) {
                 try {
-                    endWorkHour.setTime(dateFormat.parse(cursor.getString(1)));
                     //TODO: What if there are more than 1 entry in the same day?
+                    endWorkHour.setTime(dateFormat.parse(cursor.getString(1)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     endWorkHour = null;

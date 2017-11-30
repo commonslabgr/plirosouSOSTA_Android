@@ -1,9 +1,13 @@
 package gr.commonslab.plirosousosta;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -47,8 +52,9 @@ public class HistoryActivity extends AppCompatActivity {
     private String currentMonth;
     private String currentYear;
     private TabLayout tabLayout;
-    //TextView text_total_amount;
-    //static TextView text_sunday_amount;
+    private static Calendar FromDate;
+    private static Calendar ToDate;
+    public static boolean bToDate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,8 @@ public class HistoryActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs_history);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        FromDate = Calendar.getInstance();
+        ToDate = Calendar.getInstance();
     }
 
 
@@ -115,22 +123,7 @@ public class HistoryActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
-            /*
-            switch (sectionNumber) {
-                case 0:
-                    text_total_amount.setText("€100");
-                    break;
-                case 1:
-                    text_total_amount.setText("€200");
-                    break;
-                case 2:
-                    text_total_amount.setText("€300");
-                    break;
-                case 3:
-                    text_total_amount.setText("€400");
-                    break;
-            }
-            /**/
+
             return fragment;
         }
 
@@ -138,26 +131,26 @@ public class HistoryActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_month_history, container, false);
-            //TODO: Set texts
-            //TextView text_total_amount = rootView.findViewById(R.id.text_workminutes);
-            int i = getArguments().getInt(ARG_SECTION_NUMBER);
-            //text_total_amount.setText(String.valueOf(i));
-/*
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 0:
-                    text_total_amount.setText("€100");
-                    break;
-                case 1:
-                    text_total_amount.setText("€200");
-                    break;
-                case 2:
-                    text_total_amount.setText("€300");
-                    break;
-                case 3:
-                    text_total_amount.setText("€400");
-                    break;
+                case 1://MONTH
+                    rootView = inflater.inflate(R.layout.fragment_month_history, container, false);
+                    setMonthValues(rootView);
+                    return rootView;
+                case 2://YEAR
+                    rootView = inflater.inflate(R.layout.fragment_year_history, container, false);
+                    setAnnualValues(rootView);
+                    return rootView;
+                case 3://FROM-TO
+                    showDatePicker(this.getActivity());
+                    rootView = inflater.inflate(R.layout.fragment_month_history, container, false);
+                    setFromToValues(rootView, FromDate, ToDate);
+                    return rootView;
+                case 4://ALL
+                    rootView = inflater.inflate(R.layout.fragment_month_history, container, false);
+                    setAllValues(rootView);
+                    return rootView;
             }
-            /**/
             return rootView;
         }
     }
@@ -204,6 +197,62 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
+    /* DatePickerFragment
+  Display a calendar for the user to choose the date for adding a shift.
+   */
+    public static class DatePickerFragment extends DialogFragment implements
+            DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            super.onCreateDialog(savedInstanceState);
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
+            if (bToDate) {
+                dp.setTitle("ΕΩΣ");
+            } else {
+                dp.setTitle("ΑΠΟ");
+            }
+            return dp;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            if (bToDate) {
+                ToDate.set(Calendar.HOUR, 0);
+                ToDate.set(Calendar.MINUTE, 0);
+                ToDate.set(Calendar.SECOND, 0);
+                ToDate.set(Calendar.YEAR, year);
+                ToDate.set(Calendar.MONTH, month);
+                ToDate.set(Calendar.DATE, day);
+                bToDate = false;
+                setFromToValues(view, FromDate, ToDate);
+            } else {
+                FromDate.set(Calendar.HOUR, 0);
+                FromDate.set(Calendar.MINUTE, 0);
+                FromDate.set(Calendar.SECOND, 0);
+                FromDate.set(Calendar.YEAR, year);
+                FromDate.set(Calendar.MONTH, month);
+                FromDate.set(Calendar.DATE, day);
+                bToDate = true;
+                DialogFragment TodateFragment;
+                TodateFragment = new EntitledActivity.DatePickerFragment();
+                TodateFragment.show(getFragmentManager(), "datePicker");
+            }
+        }
+    }
+
+    public static void showDatePicker(FragmentActivity activity){
+        DialogFragment dateFragment;
+        dateFragment = new EntitledActivity.DatePickerFragment();
+        dateFragment.show(activity.getFragmentManager(), "datePicker");
+    }
+
     public static int getMinutesinHour(float hours) {
         int minutes = (int)((hours % 1)*60);
         return minutes;
@@ -236,5 +285,17 @@ public class HistoryActivity extends AppCompatActivity {
         amount = dbHelper.getPaymentinMonth(month);
         s = String.format("€%.2f", amount);
         text_amount.setText(s);
+    }
+
+    public static void setFromToValues(View rootView, Calendar From, Calendar to) {
+        //TODO: implement setFromToValues
+    }
+
+    public static void setAnnualValues(View rootView) {
+        //TODO: implement setAnnualValues
+    }
+
+    public static void setAllValues(View rootView) {
+        //TODO: implement setAllValues
     }
 }
