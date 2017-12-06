@@ -1,0 +1,557 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gr.commonslab.plirosousosta.EntitledActivity">
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/text_top"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/entitled_info_top"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.375" />
+
+    <TextView
+        android:id="@+id/text_should_get"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/entitled_main"
+        android:background="#e8646f"
+        android:textColor="#941620"
+        android:gravity="center"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_top"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_total_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#e8646f"
+        android:textSize="36dp"
+        android:text="€320"
+        android:gravity="center"
+        android:textColor="#FFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_should_get"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <!-- START SUNDAY INFO BOX -->
+    <TextView
+        android:id="@+id/square_sunday"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_total_amount"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_sun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_sun"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_sunday"
+        app:layout_constraintRight_toRightOf="@+id/square_sunday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_sunday"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/text_sundays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_sundays"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_sun"
+        app:layout_constraintRight_toRightOf="@+id/square_sunday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_sunday"/>
+    <TextView
+        android:id="@+id/text_sunday_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:text="12ω 25λ"
+        android:textColor="#FFF"
+        tools:layout_editor_absoluteY="402dp"
+        tools:layout_editor_absoluteX="81dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_sundays"
+        app:layout_constraintRight_toRightOf="@+id/square_sunday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_sunday"/>
+
+    <TextView
+        android:id="@+id/text_sunday_should"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#31706d"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_should"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="460dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_sunday_hours"
+        app:layout_constraintRight_toRightOf="@+id/square_sunday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_sunday"/>
+
+    <TextView
+        android:id="@+id/text_sunday_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="12dp"
+        android:text="€76"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="451dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_sunday_should"
+        app:layout_constraintRight_toLeftOf="@+id/text_sunday_more"
+        app:layout_constraintLeft_toLeftOf="@+id/square_sunday"/>
+
+    <TextView
+        android:id="@+id/text_sunday_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_more"
+        android:textColor="#31706d"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_sunday_should"
+        app:layout_constraintRight_toRightOf="@+id/square_sunday"
+        app:layout_constraintLeft_toRightOf="@+id/text_sunday_amount"/>
+    <!-- END SUNDAY INFO BOX -->
+
+    <!-- START NIGHT INFO BOX -->
+    <TextView
+        android:id="@+id/square_night"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_total_amount"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_night"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_night"
+        app:layout_constraintRight_toRightOf="@+id/square_night"
+        app:layout_constraintLeft_toLeftOf="@+id/square_night"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/text_night"
+        android:layout_width="96dp"
+        android:layout_height="35dp"
+        android:text="@string/entitled_infobox_nights"
+        android:textSize="12dp"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_night"
+        app:layout_constraintRight_toRightOf="@+id/square_night"
+        app:layout_constraintLeft_toLeftOf="@+id/square_night"/>
+    <TextView
+        android:id="@+id/text_night_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:text="3ω 0λ"
+        android:textColor="#FFF"
+        tools:layout_editor_absoluteY="402dp"
+        tools:layout_editor_absoluteX="81dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_night"
+        app:layout_constraintRight_toRightOf="@+id/square_night"
+        app:layout_constraintLeft_toLeftOf="@+id/square_night"/>
+
+    <TextView
+        android:id="@+id/text_night_should"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#31706d"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_should"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="460dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_night_hours"
+        app:layout_constraintRight_toRightOf="@+id/square_night"
+        app:layout_constraintLeft_toLeftOf="@+id/square_night"/>
+
+    <TextView
+        android:id="@+id/text_night_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="12dp"
+        android:text="€25"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="451dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_night_should"
+        app:layout_constraintRight_toLeftOf="@+id/text_night_more"
+        app:layout_constraintLeft_toLeftOf="@+id/square_night"/>
+
+    <TextView
+        android:id="@+id/text_night_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_more"
+        android:textColor="#31706d"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_night_should"
+        app:layout_constraintRight_toRightOf="@+id/square_night"
+        app:layout_constraintLeft_toRightOf="@+id/text_night_amount"/>
+    <!-- END NIGHT INFO BOX -->
+
+    <!-- START OVERTIME INFO BOX -->
+    <TextView
+        android:id="@+id/square_overtime"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/square_sunday"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_overtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_yperoria"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_overtime"
+        app:layout_constraintRight_toRightOf="@+id/square_overtime"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overtime"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/text_overtime"
+        android:layout_width="96dp"
+        android:layout_height="35dp"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_overtime"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_overtime"
+        app:layout_constraintRight_toRightOf="@+id/square_overtime"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overtime"/>
+    <TextView
+        android:id="@+id/text_overtime_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:text="2ω 0λ"
+        android:textColor="#FFF"
+        tools:layout_editor_absoluteY="402dp"
+        tools:layout_editor_absoluteX="81dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overtime"
+        app:layout_constraintRight_toRightOf="@+id/square_overtime"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overtime"/>
+
+    <TextView
+        android:id="@+id/text_overtime_should"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="#31706d"
+        android:text="@string/entitled_infobox_should"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="460dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overtime_hours"
+        app:layout_constraintRight_toRightOf="@+id/square_overtime"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overtime"/>
+
+    <TextView
+        android:id="@+id/text_overtime_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="#FFF"
+        android:text="€25"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="451dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overtime_should"
+        app:layout_constraintRight_toLeftOf="@+id/text_overtime_more"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overtime"/>
+
+    <TextView
+        android:id="@+id/text_overtime_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_more"
+        android:textColor="#31706d"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overtime_should"
+        app:layout_constraintRight_toRightOf="@+id/square_overtime"
+        app:layout_constraintLeft_toRightOf="@+id/text_overtime_amount"/>
+    <!-- END OVERTIME INFO BOX -->
+
+    <!-- START SATURDAY INFO BOX -->
+    <TextView
+        android:id="@+id/square_saturday"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/square_night"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_beer"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_saturday"
+        app:layout_constraintRight_toRightOf="@+id/square_saturday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_saturday"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/text_saturday"
+        android:layout_width="96dp"
+        android:layout_height="35dp"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_saturdays"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_saturday"
+        app:layout_constraintRight_toRightOf="@+id/square_saturday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_saturday"/>
+    <TextView
+        android:id="@+id/text_saturday_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:text="2ω 0λ"
+        android:textColor="#FFF"
+        tools:layout_editor_absoluteY="402dp"
+        tools:layout_editor_absoluteX="81dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_saturday"
+        app:layout_constraintRight_toRightOf="@+id/square_saturday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_saturday"/>
+
+    <TextView
+        android:id="@+id/text_saturday_should"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="#31706d"
+        android:text="@string/entitled_infobox_should"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="460dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_saturday_hours"
+        app:layout_constraintRight_toRightOf="@+id/square_saturday"
+        app:layout_constraintLeft_toLeftOf="@+id/square_saturday"/>
+
+    <TextView
+        android:id="@+id/text_saturday_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="#FFF"
+        android:text="€25"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="451dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_saturday_should"
+        app:layout_constraintRight_toLeftOf="@+id/text_saturday_more"
+        app:layout_constraintLeft_toLeftOf="@+id/square_saturday"/>
+
+    <TextView
+        android:id="@+id/text_saturday_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_more"
+        android:textColor="#31706d"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_saturday_should"
+        app:layout_constraintRight_toRightOf="@+id/square_saturday"
+        app:layout_constraintLeft_toRightOf="@+id/text_saturday_amount"/>
+    <!-- END SATURDAY INFO BOX -->
+
+    <!-- START OVERWORK INFO BOX -->
+    <TextView
+        android:id="@+id/square_overwork"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/square_overtime"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_overwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_yperoria"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_overwork"
+        app:layout_constraintRight_toRightOf="@+id/square_overwork"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overwork"
+        android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/text_overwork"
+        android:layout_width="96dp"
+        android:layout_height="35dp"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_overworking"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_overwork"
+        app:layout_constraintRight_toRightOf="@+id/square_overwork"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overwork"/>
+    <TextView
+        android:id="@+id/text_overwork_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:text="2ω 0λ"
+        android:textColor="#FFF"
+        tools:layout_editor_absoluteY="402dp"
+        tools:layout_editor_absoluteX="81dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overwork"
+        app:layout_constraintRight_toRightOf="@+id/square_overwork"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overwork"/>
+
+    <TextView
+        android:id="@+id/text_overwork_should"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#31706d"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_should"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="460dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overwork_hours"
+        app:layout_constraintRight_toRightOf="@+id/square_overwork"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overwork"/>
+
+    <TextView
+        android:id="@+id/text_overwork_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="12dp"
+        android:text="€25"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="451dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overwork_should"
+        app:layout_constraintRight_toLeftOf="@+id/text_overwork_more"
+        app:layout_constraintLeft_toLeftOf="@+id/square_overwork"/>
+
+    <TextView
+        android:id="@+id/text_overwork_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/entitled_infobox_more"
+        android:textColor="#31706d"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_overwork_should"
+        app:layout_constraintRight_toRightOf="@+id/square_overwork"
+        app:layout_constraintLeft_toRightOf="@+id/text_overwork_amount"/>
+    <!-- END OVERWORK INFO BOX -->
+
+    <TextView
+        android:id="@+id/text_should_getpaid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/entitled_should_get_paid"
+        android:background="#e8646f"
+        android:textColor="#941620"
+        android:gravity="center"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/square_overwork"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_whatcanido"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="@string/entitled_button_what_do"
+        android:textAllCaps="false"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_should_getpaid"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/text_label_whattodo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/entitled_info_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_whatcanido" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@android:color/white"
+        android:src="@drawable/ic_zygos"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_whattodo" />
+
+</android.support.constraint.ConstraintLayout>
+</ScrollView>

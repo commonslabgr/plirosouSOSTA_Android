@@ -155,11 +155,11 @@ public class EntitledActivity extends AppCompatActivity {
                     break;
                 case 3://FROM-TO
                     showDatePicker(this.getActivity());
-                    rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_fromto_entitled, container, false);
                     setFromToValues(rootView, FromDate, ToDate);
                     break;
                 case 4://ALL
-                    rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_all_entitled, container, false);
                     setAllValues(rootView);
                     break;
             }
@@ -261,7 +261,7 @@ public class EntitledActivity extends AppCompatActivity {
                 ToDate.set(Calendar.DATE, day);
                 bToDate = false;
                 //TODO: set values
-
+                setFromToValues(this.getView(),FromDate, ToDate);
             } else {
                 FromDate.set(Calendar.HOUR, 0);
                 FromDate.set(Calendar.MINUTE, 0);
