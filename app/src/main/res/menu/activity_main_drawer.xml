@@ -12,11 +12,11 @@
             android:id="@+id/nav_info"
             android:title="@string/nav_info" />
         <item
-            android:id="@+id/nav_shifts"
-            android:title="@string/nav_shifts" />
-        <item
             android:id="@+id/nav_about"
             android:title="@string/nav_about" />
+        <!--<item
+            android:id="@+id/nav_shifts"
+            android:title="@string/nav_shifts" />-->
     </group>
 
 </menu>
