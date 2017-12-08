@@ -36,7 +36,7 @@
     <string name="nav_history">ΙΣΤΟΡΙΚΟ</string>
     <string name="nav_info">ΧΡΗΣΙΜΕΣ ΠΛΗΡΟΦΟΡΙΕΣ</string>
     <string name="nav_shifts">ΒΑΡΔΙΕΣ</string>
-    <string name="nav_about">ABOUT</string>
+    <string name="nav_about">ΣΧΕΤΙΚΑ</string>
     <!--INFO ACTIVITY-->
     <string name="text_salary">Βασικός μισθός</string>
     <string name="text_sundays">Κυριακές</string>

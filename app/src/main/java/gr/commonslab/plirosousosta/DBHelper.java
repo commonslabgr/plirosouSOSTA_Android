@@ -820,7 +820,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return result;
     }
-
+/*
+    WORKING HOURS IN MONTH
+ */
     public float getSundayHoursinMonth(int month) {
         return getHoursinMonth(WORKINGHOURS_COLUMN_SUNDAY, month);
     }
@@ -881,6 +883,28 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return workinghours;
     }
+    /*
+    WORKING HOURS ALL DURATION
+ */
+    public float getSundayHoursAll() {
+        return getHoursinMonth(WORKINGHOURS_COLUMN_SUNDAY, -1);
+    }
+
+    public float getNightShiftHoursAll() {
+        return getHoursinMonth(WORKINGHOURS_COLUMN_NIGHT, -1);
+    }
+
+    public float getOverworkHoursAll() {
+        return getHoursinMonth(WORKINGHOURS_COLUMN_OVERWORK, -1);
+    }
+
+    public float getOvertimeHoursAll() {
+        return getHoursinMonth(WORKINGHOURS_COLUMN_OVERTIME, -1);
+    }
+
+    public float getSaturdayHoursAll() {
+        return getHoursinMonth(WORKINGHOURS_COLUMN_SATURDAY, -1);
+    }
 
     public float getPaymentinMonth(int month) {
         //calculate payment for whole month
@@ -893,27 +917,41 @@ public class DBHelper extends SQLiteOpenHelper {
         salary = whours * hour_pay;
         return salary;
     }
+
+    /*
+    Return the total payment amount of a given data column and a given month
+     */
     public float getPaymentValueinMonth(String column, int month) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar startDay =  Calendar.getInstance();
-        startDay.set(Calendar.MONTH, month);
-        startDay.set(Calendar.DAY_OF_MONTH, 1);
-        startDay.set(Calendar.HOUR_OF_DAY, 0);
-        startDay.set(Calendar.MINUTE, 0);
-        startDay.set(Calendar.SECOND, 0);
-        Calendar endDay =  Calendar.getInstance();
-        endDay.set(Calendar.MONTH, month);
-        endDay.set(Calendar.DAY_OF_MONTH, startDay.getActualMaximum(Calendar.DAY_OF_MONTH));
-        endDay.set(Calendar.HOUR_OF_DAY, 23);
-        endDay.set(Calendar.MINUTE, 59);
-        endDay.set(Calendar.SECOND, 59);
+        boolean bgetAll = false;
+        Calendar startDay = Calendar.getInstance();
+        Calendar endDay = Calendar.getInstance();
+        if (month == -1)
+        {
+            //Get All history
+            bgetAll = true;
+        } else {
+            startDay.set(Calendar.MONTH, month);
+            startDay.set(Calendar.DAY_OF_MONTH, 1);
+            startDay.set(Calendar.HOUR_OF_DAY, 0);
+            startDay.set(Calendar.MINUTE, 0);
+            startDay.set(Calendar.SECOND, 0);
+            endDay.set(Calendar.MONTH, month);
+            endDay.set(Calendar.DAY_OF_MONTH, startDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+            endDay.set(Calendar.HOUR_OF_DAY, 23);
+            endDay.set(Calendar.MINUTE, 59);
+            endDay.set(Calendar.SECOND, 59);
+        }
         sqldb = this.getReadableDatabase();
         float result = 0f;
 
         try {
-            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime("+
-                    PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
-                    PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
+            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME;
+            if (!bgetAll) {
+                sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime(" +
+                      PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
+                      PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
+            }
             Cursor cursor = sqldb.rawQuery(sql, null);
 
             while (cursor.moveToNext()) {
@@ -927,6 +965,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return result;
     }
 
+
+    /*
+    PAYMENT FUNCTIONS IN MONTH
+     */
     public float getSundaysPaymentinMonth(int month) {
         return getPaymentValueinMonth(PAYMENT_COLUMN_SUNDAY, month);
     }
@@ -949,6 +991,33 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public float getEntitledPaymentinMonth(int month) {
         return getPaymentValueinMonth(PAYMENT_COLUMN_ENTITLED_AMOUNT, month);
+    }
+
+    /*
+        PAYMENT FUNCTIONS FOR ALL DATA
+    */
+    public float getSundaysPaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_SUNDAY, -1);
+    }
+
+    public float getNightShiftsPaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_NIGHT, -1);
+    }
+
+    public float getOverworkPaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_OVERWORK, -1);
+    }
+
+    public float getOvertimePaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_OVERTIME, -1);
+    }
+
+    public float getSaturdaysPaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_SATURDAY, -1);
+    }
+
+    public float getEntitledPaymentAll() {
+        return getPaymentValueinMonth(PAYMENT_COLUMN_ENTITLED_AMOUNT, -1);
     }
 }
 
