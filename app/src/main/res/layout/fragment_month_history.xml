@@ -9,103 +9,45 @@
 <android.support.constraint.ConstraintLayout
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true">
 
-    <!-- START WORKHOURS INFO BOX -->
-    <TextView
-        android:id="@+id/square_workhours"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="#55b4ae"
-        android:text=""
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
+    <!-- START HAVEWORKED INFO BOX -->
     <TextView
         android:id="@+id/text_youhaveworked"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/history_youhaveworked"
+        android:textSize="20sp"
+        android:background="#55b4ae"
         android:textColor="#31706d"
         android:gravity="center"
+        android:paddingTop="10dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="@+id/square_workhours"
-        app:layout_constraintRight_toRightOf="@+id/square_workhours"
-        app:layout_constraintLeft_toLeftOf="@+id/square_workhours"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <ImageView
-        android:id="@+id/image_clock"
-        android:layout_width="33dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/square_workhours"
-        app:layout_constraintRight_toRightOf="@+id/square_workhours"
-        app:layout_constraintTop_toBottomOf="@+id/text_youhaveworked"
-        app:srcCompat="@drawable/ic_clock" />
     <TextView
         android:id="@+id/text_workhours"
-        android:layout_width="96dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="30 ώρες"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/image_clock"
-        app:layout_constraintRight_toRightOf="@+id/square_workhours"
-        app:layout_constraintLeft_toLeftOf="@+id/square_workhours"/>
-
-    <TextView
-        android:id="@+id/text_workminutes"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:text="και 12 λεπτά"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_workhours"
-        app:layout_constraintRight_toRightOf="@+id/square_workhours"
-        app:layout_constraintLeft_toLeftOf="@+id/square_workhours"/>
-    <!-- END WORKHOURS INFO BOX -->
-    <!-- START PAID AMOUNT INFO BOX -->
-    <TextView
-        android:id="@+id/square_paid"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:textSize="25sp"
+        android:paddingBottom="10dp"
         android:background="#55b4ae"
-        android:text=""
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toRightOf="@+id/square_workhours"/>
-
-    <TextView
-        android:id="@+id/text_youwillget"
-        android:layout_width="96dp"
-        android:layout_height="35dp"
-        android:text="@string/history_youwillget"
-        android:textColor="#31706d"
-        android:gravity="center"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toTopOf="@+id/square_paid"
-        app:layout_constraintRight_toRightOf="@+id/square_paid"
-        app:layout_constraintLeft_toLeftOf="@+id/square_paid"/>
-
-    <TextView
-        android:id="@+id/text_amount"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:text="€292"
-        android:textSize="32dp"
         android:textColor="#FFFFFF"
         android:gravity="center"
         android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_youwillget"
-        app:layout_constraintRight_toRightOf="@+id/square_paid"
-        app:layout_constraintLeft_toLeftOf="@+id/square_paid"/>
-    <!-- END PAID AMOUNT INFO BOX -->
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_youhaveworked"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <!-- END HAVEWORKED INFO BOX -->
 
     <TextView
         android:id="@+id/text_should_get"
@@ -118,13 +60,12 @@
         android:background="#e8646f"
         android:textColor="#941620"
         android:gravity="center"
-        android:padding="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/square_workhours"
+        app:layout_constraintTop_toBottomOf="@+id/text_workhours"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/text_total_amount"
@@ -134,7 +75,8 @@
         android:layout_marginRight="16dp"
         android:background="#e8646f"
         android:text="€320"
-        android:textSize="28dp"
+        android:textSize="25sp"
+        android:paddingBottom="10dp"
         android:gravity="center"
         android:textColor="#FFF"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -143,5 +85,39 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_total_amount">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="ΗΜΕΡΟΜΗΝΙΑ"
+                />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="ΔΟΥΛΕΨΕΣ" />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="ΔΙΚΑΙΟΥΣΑΙ"
+                android:layout_marginRight="0dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+
 </android.support.constraint.ConstraintLayout>
+
 </ScrollView>

@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,15 +18,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 
 import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -260,9 +259,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     public static void setMonthValues(View rootView) {
         int month = Calendar.getInstance().get(Calendar.MONTH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date startDate = new Date();
+        Date endDate = new Date();
         float hours = 0f;
         int minutes = 0;
         float amount = 0f;
+
         String s = "";
         DBHelper dbHelper = new DBHelper(rootView.getContext());
         SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
@@ -272,19 +275,62 @@ public class HistoryActivity extends AppCompatActivity {
         s = String.format("€%.2f", amount);
         text_total_amount.setText(s);
 
-        TextView text_workminutes = rootView.findViewById(R.id.text_workminutes);
         TextView text_workhours = rootView.findViewById(R.id.text_workhours);
         hours = dbHelper.getTotalHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0f ώρες", hours);
+        s = String.format("%.0f ώρες και %d λεπτά", hours, minutes);
         text_workhours.setText(s);
-        s = String.format("και %d λεπτά",minutes);
-        text_workminutes.setText(s);
 
-        TextView text_amount = rootView.findViewById(R.id.text_amount);
-        amount = dbHelper.getPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
-        text_amount.setText(s);
+        TableLayout tl = (TableLayout) rootView.findViewById(R.id.table);
+        boolean evenrow = false;
+        Calendar cal = Calendar.getInstance();
+        int maxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Calendar nextDay = (Calendar)cal.clone();
+
+        for (int i=0; i < maxDays; i++) {
+            cal.set(Calendar.DAY_OF_MONTH,i+1);
+            if (i%2 == 0) {
+                evenrow = true;
+            } else {
+                evenrow = false;
+            }
+            TableRow row = new TableRow(rootView.getContext());
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(60,5,60,0);
+
+            row.setLayoutParams(lp);
+            TextView date = new TextView(rootView.getContext());
+            TextView time = new TextView(rootView.getContext());
+            TextView amountPay = new TextView(rootView.getContext());
+            if (evenrow) {
+                date.setBackgroundColor(0XFFDADADA);
+                time.setBackgroundColor(0XFFDADADA);
+                amountPay.setBackgroundColor(0XFFDADADA);
+            } else {
+                date.setBackgroundColor(0XFFFFFFFF);
+                time.setBackgroundColor(0XFFFFFFFF);
+                amountPay.setBackgroundColor(0XFFFFFFFF);
+            }
+            amountPay.setTextColor(0XFFE8646F);
+            nextDay.set(Calendar.DAY_OF_MONTH,cal.get(Calendar.DAY_OF_MONTH)+1);
+            endDate.setTime(nextDay.getTimeInMillis());
+            startDate.setTime(cal.getTimeInMillis());
+            date.setText(dateFormat.format(startDate));
+            date.setPadding(100,5,10,5);
+            time.setPadding(100,5,10,5);
+            amountPay.setPadding(100,5,50,5);
+            hours = dbHelper.getWorkingHours(startDate,endDate);
+            minutes = getMinutesinHour(hours);
+            s = String.format("%.0fω %dλ", hours, minutes);
+            time.setText(s);
+            amount = dbHelper.getPaymentValueonDay(cal,nextDay);
+            amountPay.setText(String.format("€%.2f",amount));
+
+            row.addView(date);
+            row.addView(time);
+            row.addView(amountPay);
+            tl.addView(row);
+        }
     }
 
     public static void setFromToValues(View rootView, Calendar From, Calendar to) {
