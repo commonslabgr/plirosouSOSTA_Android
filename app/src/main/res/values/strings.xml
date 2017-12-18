@@ -16,7 +16,10 @@
 
     <!--BUTTONS-->
     <string name="button_payed_correctly">Πληρώθηκα Σωστά;</string>
-    <string name="button_insert_shift">ΠΡΟΣΘΗΚΗ ΒΑΡΔΙΑΣ</string>
+    <string name="button_insert_shift">ΠΡΟΣΘΗΚΗ\nΒΑΡΔΙΑΣ</string>
+    <string name="subtitle_insert_shift">ΣΗΜΕΙΩΣΕ ΠΟΤΕ ΔΟΥΛΕΨΕΣ</string>
+    <string name="button_history">ΙΣΤΟΡΙΚΟ\nΒΑΡΔΙΩΝ</string>
+    <string name="subtitle_history">ΔΕΣ ΤΟ ΙΣΤΟΡΙΚΟ ΣΟΥ</string>
     <!--Pickers-->
     <string name="picker_title_date">Ημέρα</string>
     <string name="picker_title_shift_start">ΕΝΑΡΞΗ ΒΑΡΔΙΑΣ</string>
@@ -292,12 +295,13 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
     <string name="pref_infotop">Τα παρακάτω στοιχεία χρειάζονται για να υπολογιστούν τα λεφτά σου. Δεν στελνονται πουθενά και σε κανέναν!</string>
-    <string name="pref_title_above25">Είσαι πάνω από 25 ετών;</string>
-    <string name="pref_title_hotels">Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση;</string>
+    <string name="pref_title_below25yold">Είσαι κάτω από 25 ετών;</string>
+    <string name="pref_title_hotels">Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση; (πχ καφετέρια, εστιατόριο, ταβέρνα, μπαρ, σαντουιτσάδικο κλπ)</string>
 
-    <string name="pref_title_howmuch_paid">Πόσο παίρνεις την ώρα;</string>
-    <integer name="pref_default_howmuch_paid">5</integer>
     <string name="pref_title_paidby">Πώς έχεις συμφωνήσει την πληρωμή σου;</string>
+    <string name="pref_title_howmuch_paid">Πόσο έχεις συμφωνήσει να πληρώνεσαι; (καθαρά, στην τσέπη σου)</string>
+    <integer name="pref_default_howmuch_paid">5</integer>
+
     <string-array name="pref_list_paidby">
         <item>ΜΕ ΤΗΝ ΩΡΑ</item>
         <item>ΜΕ ΤΗΝ ΗΜΕΡΑ</item>
@@ -310,10 +314,9 @@
     </string-array>
     <integer name="pref_default_years_experience">0</integer>
     <string name="pref_title_years_experience">Μέχρι τις 14/02/2012 πόσα χρόνια προϋπηρεσίας είχες;</string>
-    <string name="pref_title_contract">Έχεις σύμβαση πενθήμερες εργασίας;</string>
+
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
-
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
