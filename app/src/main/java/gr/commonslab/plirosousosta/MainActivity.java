@@ -54,14 +54,11 @@ public class MainActivity extends AppCompatActivity
     DialogFragment dateFragment;
     DialogFragment dialog;
     private TextView text_datetime;
-    private TextView text_hours;
     private TextView text_info_month;
     private TextView text_info_worked;
-    private TextView text_info_paid;
     private TextView text_info_entitled;
-    private ImageButton button_clock;
-    private ImageButton button_add_shift;
-    private ImageButton button_info;
+    private TextView button_history;
+    private TextView button_add_shift;
     private Button button_payed_correctly;
     private boolean CountWork = false;
     Handler hand = new Handler();
@@ -92,10 +89,9 @@ public class MainActivity extends AppCompatActivity
         month = mCalendar.get(Calendar.MONTH);
         day = mCalendar.get(Calendar.DAY_OF_MONTH);
 
-        button_clock = (ImageButton) findViewById(R.id.Button_clock);
-        button_add_shift = (ImageButton) findViewById(R.id.Button_add_shift);
-        button_info = (ImageButton) findViewById(R.id.Button_info);
         button_payed_correctly = (Button) findViewById(R.id.button_payed_correctly);
+        button_add_shift = (TextView) findViewById(R.id.square_add_shift);
+        button_history = (TextView) findViewById(R.id.square_history);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -109,9 +105,9 @@ public class MainActivity extends AppCompatActivity
 
         timeFragmentStart = new TimePickerFragment();
         timeFragmentStop = new TimePickerFragment();
+
         addListenerOnButtonAddShift();
-        addListenerOnButtonClock();
-        addListenerOnButtonInfo();
+        addListenerOnButtonHistory();
         addListenerOnPaidRight();
 
         //Check if application is running for the first time.
@@ -123,64 +119,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            long diff = System.currentTimeMillis() - startTime;
-            int hours = 0;
-            int mins = 0;
-
-            if (diff > 3600000) {
-                hours = (int) diff / 3600000;
-            }
-            int remainder = (int) diff - (hours*3600000);
-            if (remainder > 60000) {
-                mins = remainder / 60000;
-            }
-            remainder = remainder - (mins * 60000);
-            int secs = remainder/1000;
-            String display = String.format("%02d:%02d:%02d", hours, mins, secs);
-            text_hours = (TextView) findViewById(R.id.text_hours);
-            text_hours.setText(display);
-            hand.postDelayed(this, 1000);
-        }
-    };
-
-    //Listener for actions when CLOCK button is pressed
-    public void addListenerOnButtonClock() {
-        //Clock button start counting work time
-        button_clock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CountWork = !CountWork;
-                //START counting
-                if (CountWork) {
-                    //Start counter
-                    startTime = System.currentTimeMillis();
-                    hand.postDelayed(run, 1000);
-                    //Change icon
-                    button_clock.setImageResource(R.drawable.ic_clock2);
-                //STOP counting
-                } else {
-                    hand.removeCallbacks(run);
-                    button_clock.setImageResource(R.drawable.ic_clock);
-                    BeginWork.setTime(new Date(startTime));
-                    //EndWork.setTime(new Date(System.currentTimeMillis()+14400000));
-                    EndWork.setTime(new Date(System.currentTimeMillis()));
-                    addWorkday(BeginWork, EndWork);
-                }
-            }
-        });
-    }
-
     //Listener for actions when INFO button is pressed
-    public void addListenerOnButtonInfo() {
-        button_info.setOnClickListener(new View.OnClickListener() {
+    public void addListenerOnButtonHistory() {
+        button_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Go to entitled activity
-                Intent intent_entitled = new Intent(v.getContext(), EntitledActivity.class);
-                v.getContext().startActivity(intent_entitled);
+                Intent intent_history = new Intent(v.getContext(), HistoryActivity.class);
+                v.getContext().startActivity(intent_history);
             }
         });
     }
@@ -481,9 +427,7 @@ public class MainActivity extends AppCompatActivity
 
         text_info_worked = (TextView) findViewById(R.id.text_info_worked);
         text_info_worked.setText(String.format("%.0f%s %d%s",workinghours,getString(R.string.short_hour), minutes,getString(R.string.short_minute)));
-        //Set text_info_paid
-        text_info_paid = (TextView) findViewById(R.id.text_info_paid);
-        text_info_paid.setText(String.format("%s%.2f",getString(R.string.currency),dbHelper.getPaymentinMonth(month)));
+
         //Set text_info_entitled
         text_info_entitled = (TextView) findViewById(R.id.text_info_entitled);
         text_info_entitled.setText(String.format("%s%.2f",getString(R.string.currency),dbHelper.getEntitledPaymentinMonth(month)));

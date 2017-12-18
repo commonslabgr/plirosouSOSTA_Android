@@ -23,79 +23,105 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:id="@+id/text_hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="fonts/PFDinTextCondPro-Light.ttf"
-        android:text="00:00:00"
-        android:textColor="@color/colorGrey"
-        android:textSize="70dp"
+        android:id="@+id/square_add_shift"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_datetime"
+        android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_datetime" />
+        android:clickable="true"/>
 
-    <ImageButton
-        android:id="@+id/Button_clock"
-        android:layout_width="89dp"
-        android:layout_height="98dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="6dp"
-        android:background="@android:color/white"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_hours"
-        app:srcCompat="@drawable/ic_clock" />
-
-    <ImageButton
+    <ImageView
         android:id="@+id/Button_add_shift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@android:color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_plus"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/Button_clock"
-        app:layout_constraintBottom_toTopOf="@+id/button_payed_correctly" />
-
-
-
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_add_shift"
+        app:layout_constraintRight_toRightOf="@+id/square_add_shift"
+        app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"
+        android:layout_marginTop="24dp" />
     <TextView
-        android:id="@+id/text_insert_shift"
+        android:id="@+id/text_add_shift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
+        android:textSize="18sp"
         android:text="@string/button_insert_shift"
-        android:fontFamily="fonts/PFDinTextCondPro-Regular.ttf"
-        android:textSize="26px"
-        android:textColor="@color/colorGrey"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/Button_add_shift" />
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/Button_add_shift"
+        app:layout_constraintRight_toRightOf="@+id/square_add_shift"
+        app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"/>
 
-    <Button
-        android:id="@+id/button_payed_correctly"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <TextView
+        android:id="@+id/text_sub_add_shift"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/button_payed_correctly"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="fonts/PFDinTextCondPro-Light.ttf"
+        android:textSize="10sp"
+        android:text="@string/subtitle_insert_shift"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_add_shift"
+        app:layout_constraintRight_toRightOf="@+id/square_add_shift"
+        app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"/>
+
+    <TextView
+        android:id="@+id/square_history"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="#55b4ae"
+        android:text=""
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_datetime"
+        android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Button_info" />
+        android:clickable="true"/>
+
+    <ImageView
+        android:id="@+id/Button_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_clock2"
+        tools:layout_editor_absoluteX="112dp"
+        app:layout_constraintTop_toTopOf="@+id/square_history"
+        app:layout_constraintRight_toRightOf="@+id/square_history"
+        app:layout_constraintLeft_toLeftOf="@+id/square_history"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/text_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
+        android:textSize="18sp"
+        android:text="@string/button_history"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/Button_add_shift"
+        app:layout_constraintRight_toRightOf="@+id/square_history"
+        app:layout_constraintLeft_toLeftOf="@+id/square_history"/>
+
+    <TextView
+        android:id="@+id/text_sub_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="fonts/PFDinTextCondPro-Light.ttf"
+        android:textSize="10sp"
+        android:text="@string/subtitle_history"
+        android:textColor="#31706d"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_add_shift"
+        app:layout_constraintRight_toRightOf="@+id/square_history"
+        app:layout_constraintLeft_toLeftOf="@+id/square_history"/>
 
     <TextView
         android:id="@+id/text_label_month"
@@ -103,11 +129,11 @@
         android:layout_height="wrap_content"
         android:text="@string/info_month"
         android:fontFamily="fonts/PFDinTextCondPro-Regular.ttf"
-        android:textSize="20px"
-        app:layout_constraintTop_toBottomOf="@+id/text_insert_shift"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/square_add_shift"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/text_label_haveworked" />
 
     <TextView
         android:id="@+id/text_info_month"
@@ -117,10 +143,10 @@
         android:layout_marginTop="2dp"
         android:fontFamily="fonts/PFDinTextCondPro-Light.ttf"
         android:text="TextView"
-        android:textSize="52px"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_label_month"
-        app:layout_constraintBottom_toTopOf="@+id/button_whatcanido"/>
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/text_label_month"
+        app:layout_constraintRight_toRightOf="@+id/text_label_month"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_month" />
 
     <TextView
         android:id="@+id/text_label_haveworked"
@@ -128,11 +154,11 @@
         android:layout_height="wrap_content"
         android:text="@string/info_you_have_worked"
         android:fontFamily="fonts/PFDinTextCondPro-Regular.ttf"
-        android:textSize="20px"
-        app:layout_constraintTop_toBottomOf="@+id/text_insert_shift"
-        android:layout_marginTop="15dp"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/square_add_shift"
+        android:layout_marginTop="30dp"
         app:layout_constraintLeft_toRightOf="@+id/text_label_month"
-        app:layout_constraintRight_toLeftOf="@+id/text_label_paid"
+        app:layout_constraintRight_toLeftOf="@+id/text_label_entitled"
         android:layout_marginLeft="8dp" />
 
     <TextView
@@ -140,42 +166,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
-        android:textSize="52px"
+        android:textSize="18sp"
         android:text="0"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="2dp"
         app:layout_constraintTop_toBottomOf="@+id/text_label_haveworked"
-        app:layout_constraintBottom_toTopOf="@+id/button_whatcanido"
         app:layout_constraintRight_toRightOf="@+id/text_label_haveworked"
-        app:layout_constraintLeft_toLeftOf="@+id/text_label_haveworked"/>
-
-    <TextView
-        android:id="@+id/text_label_paid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/info_you_will_earn"
-        android:fontFamily="fonts/PFDinTextCondPro-Regular.ttf"
-        android:textSize="20px"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_insert_shift"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toRightOf="@+id/text_label_haveworked"
-        app:layout_constraintRight_toLeftOf="@+id/text_label_entitled" />
-
-    <TextView
-        android:id="@+id/text_info_paid"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="2dp"
-        android:fontFamily="fonts/PFDinTextCondPro-Light.ttf"
-        android:text="0"
-        android:textSize="52px"
-        app:layout_constraintLeft_toLeftOf="@+id/text_label_paid"
-        app:layout_constraintRight_toRightOf="@+id/text_label_paid"
-        app:layout_constraintTop_toBottomOf="@+id/text_label_paid"
-        app:layout_constraintBottom_toTopOf="@+id/button_whatcanido"/>
+        app:layout_constraintLeft_toLeftOf="@+id/text_label_haveworked" />
 
     <TextView
         android:id="@+id/text_label_entitled"
@@ -183,11 +180,11 @@
         android:layout_height="wrap_content"
         android:text="@string/info_you_are_entitled"
         android:fontFamily="fonts/PFDinTextCondPro-Regular.ttf"
-        android:textSize="20px"
+        android:textSize="10sp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_insert_shift"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toRightOf="@+id/text_label_paid"
+        app:layout_constraintTop_toBottomOf="@+id/square_add_shift"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toRightOf="@+id/text_label_haveworked"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -201,21 +198,36 @@
         android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
         android:text="amount"
         android:textColor="#e8646f"
-        android:textSize="52px"
-        app:layout_constraintLeft_toRightOf="@+id/text_info_paid"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_label_entitled" />
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="@+id/text_label_entitled"
+        app:layout_constraintLeft_toLeftOf="@+id/text_label_entitled"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_entitled"
+        />
 
-    <ImageButton
-        android:id="@+id/Button_info"
+    <Button
+        android:id="@+id/button_payed_correctly"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        app:srcCompat="@drawable/ic_info"
-        app:layout_constraintLeft_toLeftOf="@+id/text_info_entitled"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_info_entitled"
-        android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_whatcanido"/>
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/button_payed_correctly"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/zygos" />
 
+    <ImageView
+        android:id="@+id/zygos"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/ic_zygos"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 </android.support.constraint.ConstraintLayout>
