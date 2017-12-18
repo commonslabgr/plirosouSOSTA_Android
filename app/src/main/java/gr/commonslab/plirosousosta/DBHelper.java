@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private Calendar nightshift_end = Calendar.getInstance();
     private float[] LegalPaymentsOver25 = new float[4];
     private float[] LegalPaymentsUnder25 = new float[2];
-    private boolean Over25 = false;
+    private boolean Below25 = false;
     private int YearsExperience = 0;
     private boolean FnBIndustryWorker = false;
     private float hourly_wage = 0f;
@@ -566,7 +566,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public float getLegalHourPayment() {
         float result = 0f;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Over25 = prefs.getBoolean("switch_above25", false);
+        Below25 = prefs.getBoolean("switch_below25", false);
         YearsExperience = Integer.parseInt(prefs.getString("years_experience_key","0"));
         //Set Hourly Legal Payment
         LegalPaymentsOver25[0] = 3.52f;
@@ -576,7 +576,7 @@ public class DBHelper extends SQLiteOpenHelper {
         LegalPaymentsUnder25[0] = 3.07f;
         LegalPaymentsUnder25[1] = 3.37f;
 
-        if (Over25) {
+        if (!Below25) {
             if (YearsExperience < 3) {
                 result = LegalPaymentsOver25[0];
             } else if (YearsExperience < 6) {
@@ -918,6 +918,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return salary;
     }
 
+    public float getPaymentValueonDay(Calendar startDay, Calendar endDay) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        sqldb = this.getReadableDatabase();
+        float result = 0f;
+
+        try {
+            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime(" +
+                        PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
+                        PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
+            Cursor cursor = sqldb.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                result += cursor.getFloat(cursor.getColumnIndex(PAYMENT_COLUMN_ENTITLED_AMOUNT));
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+        if (result < 0)
+            result = 0f;
+        return result;
+    }
+
     /*
     Return the total payment amount of a given data column and a given month
      */
@@ -1019,5 +1042,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public float getEntitledPaymentAll() {
         return getPaymentValueinMonth(PAYMENT_COLUMN_ENTITLED_AMOUNT, -1);
     }
+
 }
 
