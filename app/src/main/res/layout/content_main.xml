@@ -36,10 +36,9 @@
 
     <ImageView
         android:id="@+id/Button_add_shift"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_plus"
-        tools:layout_editor_absoluteX="112dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:srcCompat="@drawable/ic_bardia"
         app:layout_constraintTop_toTopOf="@+id/square_add_shift"
         app:layout_constraintRight_toRightOf="@+id/square_add_shift"
         app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"
@@ -53,7 +52,7 @@
         android:text="@string/button_insert_shift"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/Button_add_shift"
         app:layout_constraintRight_toRightOf="@+id/square_add_shift"
         app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"/>
@@ -67,7 +66,7 @@
         android:text="@string/subtitle_insert_shift"
         android:textColor="#31706d"
         android:gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/text_add_shift"
         app:layout_constraintRight_toRightOf="@+id/square_add_shift"
         app:layout_constraintLeft_toLeftOf="@+id/square_add_shift"/>
@@ -86,9 +85,9 @@
 
     <ImageView
         android:id="@+id/Button_history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_clock2"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:srcCompat="@drawable/ic_istoriko"
         tools:layout_editor_absoluteX="112dp"
         app:layout_constraintTop_toTopOf="@+id/square_history"
         app:layout_constraintRight_toRightOf="@+id/square_history"
@@ -104,7 +103,7 @@
         android:text="@string/button_history"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/Button_add_shift"
         app:layout_constraintRight_toRightOf="@+id/square_history"
         app:layout_constraintLeft_toLeftOf="@+id/square_history"/>
@@ -118,7 +117,7 @@
         android:text="@string/subtitle_history"
         android:textColor="#31706d"
         android:gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/text_add_shift"
         app:layout_constraintRight_toRightOf="@+id/square_history"
         app:layout_constraintLeft_toLeftOf="@+id/square_history"/>
