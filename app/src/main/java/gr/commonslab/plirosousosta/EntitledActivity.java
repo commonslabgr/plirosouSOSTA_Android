@@ -438,9 +438,7 @@ public class EntitledActivity extends AppCompatActivity {
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount += dbHelper.getEntitledPaymentinMonth(i);
-        }
+        amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_total_amount.setText(s);
 
@@ -452,91 +450,61 @@ public class EntitledActivity extends AppCompatActivity {
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
-        hours = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            hours += dbHelper.getSundayHoursinMonth(i);
-        }
+        hours = dbHelper.getSundayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
-        amount = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount += dbHelper.getSundaysPaymentinMonth(i);
-        }
+        amount = dbHelper.getSundayPaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_sunday_amount.setText(s);
 
         //SATURDAYS
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
-        hours = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            hours += dbHelper.getSaturdayHoursinMonth(i);
-        }
+        hours = dbHelper.getSaturdayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
-        amount = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount += dbHelper.getSaturdaysPaymentinMonth(i);
-        }
+        amount = dbHelper.getSaturdayPaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_saturday_amount.setText(s);
 
         //NIGHT SHIFTS
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
-        hours = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            hours += dbHelper.getNightShiftHoursinMonth(i);
-        }
+        hours = dbHelper.getNightShiftHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
-        amount = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount = dbHelper.getNightShiftsPaymentinMonth(i);
-        }
+        amount = dbHelper.getNightShiftPaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_night_amount.setText(s);
 
         //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
-        hours = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            hours = dbHelper.getOvertimeHoursinMonth(i);
-        }
+        hours = dbHelper.getOvertimeHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
-        amount = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount = dbHelper.getOvertimePaymentinMonth(i);
-        }
+        amount = dbHelper.getOvertimePaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_overtime_amount.setText(s);
 
         //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
-        hours = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            hours = dbHelper.getOverworkHoursinMonth(i);
-        }
+        hours = dbHelper.getOverworkHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = String.format("%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
-        amount = 0;
-        for (int i=startMonth; i <= endMonth; i++) {
-            amount = dbHelper.getOverworkPaymentinMonth(i);
-        }
+        amount = dbHelper.getOverworkPaymentValueFromTo(From, to);
         s = String.format("€%.2f", amount);
         text_overwork_amount.setText(s);
     }
