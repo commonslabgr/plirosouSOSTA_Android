@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gr.commonslab.plirosousosta.EntitledActivity">
+    tools:context="gr.commonslab.plirosousosta.InfoActivity">
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -51,6 +52,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_salary"/>
 
         <!-- END BASIC SALARY INFO BOX -->
+
         <!-- START SUNDAY INFO BOX -->
         <TextView
             android:id="@+id/square_info_sunday"
@@ -271,7 +273,6 @@
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/square_info_holidaybonus"
-            app:layout_constraintBottom_toBottomOf="@+id/square_info_holidaybonus"
             app:layout_constraintRight_toRightOf="@+id/square_info_holidaybonus"
             app:layout_constraintTop_toTopOf="@+id/square_info_holidaybonus"
             app:srcCompat="@drawable/ic_suitcase" />
@@ -370,9 +371,9 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_xmas"/>
 
         <!-- END XMAS INFO BOX -->
-        <!-- START STRIKE BONUS SALARY INFO BOX -->
+        <!-- START LAYOFF INFO BOX -->
         <TextView
-            android:id="@+id/square_info_strike"
+            android:id="@+id/square_info_layoff"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="16dp"
@@ -385,28 +386,28 @@
             app:layout_goneMarginTop="16dp" />
 
         <ImageView
-            android:id="@+id/image_locker"
+            android:id="@+id/image_box"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/square_info_strike"
-            app:layout_constraintRight_toRightOf="@+id/square_info_strike"
-            app:layout_constraintTop_toTopOf="@+id/square_info_strike"
-            app:srcCompat="@drawable/ic_locker" />
+            app:layout_constraintLeft_toLeftOf="@+id/square_info_layoff"
+            app:layout_constraintRight_toRightOf="@+id/square_info_layoff"
+            app:layout_constraintTop_toTopOf="@+id/square_info_layoff"
+            app:srcCompat="@drawable/ic_box" />
 
         <TextView
-            android:id="@+id/text_strike"
+            android:id="@+id/text_layoff"
             android:layout_width="96dp"
             android:layout_height="35dp"
             android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
-            android:text="@string/text_strike"
+            android:text="@string/text_layoff"
             android:textColor="#31706d"
             android:textSize="12dp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/square_info_strike"
-            app:layout_constraintTop_toBottomOf="@+id/image_locker"
-            app:layout_constraintRight_toRightOf="@+id/square_info_strike"
-            app:layout_constraintLeft_toLeftOf="@+id/square_info_strike"/>
+            app:layout_constraintBottom_toBottomOf="@+id/square_info_layoff"
+            app:layout_constraintTop_toBottomOf="@+id/image_box"
+            app:layout_constraintRight_toRightOf="@+id/square_info_layoff"
+            app:layout_constraintLeft_toLeftOf="@+id/square_info_layoff"/>
 
         <!-- END STRIKE BONUS SALARY INFO BOX -->
         <!-- START discrimination INFO BOX -->
@@ -418,7 +419,7 @@
             android:layout_marginTop="16dp"
             android:background="#55b4ae"
             android:text=""
-            app:layout_constraintLeft_toRightOf="@+id/square_info_strike"
+            app:layout_constraintLeft_toRightOf="@+id/square_info_layoff"
             app:layout_constraintTop_toBottomOf="@+id/square_info_pregnant"
             app:layout_goneMarginTop="16dp"
             android:clickable="true"/>
@@ -448,45 +449,45 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_discrimination"/>
 
         <!-- END discrimination INFO BOX -->
-        <!-- START LAYOFF INFO BOX -->
+        <!-- START SYMVASI INFO BOX -->
         <TextView
-            android:id="@+id/square_info_layoff"
+            android:id="@+id/square_info_symvasi"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:background="#55b4ae"
+            android:clickable="true"
             android:text=""
             app:layout_constraintLeft_toRightOf="@+id/square_info_discrimination"
             app:layout_constraintTop_toBottomOf="@+id/square_info_xmas"
-            app:layout_goneMarginTop="16dp"
-            android:clickable="true"/>
+            app:layout_goneMarginTop="16dp" />
 
         <ImageView
-            android:id="@+id/image_box"
+            android:id="@+id/image_symvasi"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/square_info_layoff"
-            app:layout_constraintRight_toRightOf="@+id/square_info_layoff"
-            app:layout_constraintTop_toTopOf="@+id/square_info_layoff"
-            app:srcCompat="@drawable/ic_box" />
+            app:layout_constraintLeft_toLeftOf="@+id/square_info_symvasi"
+            app:layout_constraintRight_toRightOf="@+id/square_info_symvasi"
+            app:layout_constraintTop_toTopOf="@+id/square_info_symvasi"
+            app:srcCompat="@drawable/ic_symvasi" />
 
         <TextView
-            android:id="@+id/text_layoff"
+            android:id="@+id/text_symvasi"
             android:layout_width="96dp"
             android:layout_height="35dp"
+            android:text="@string/text_symvasi"
             android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
-            android:text="@string/text_layoff"
             android:textColor="#31706d"
-            android:gravity="center"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/square_info_layoff"
-            app:layout_constraintTop_toBottomOf="@+id/image_box"
-            app:layout_constraintRight_toRightOf="@+id/square_info_layoff"
-            app:layout_constraintLeft_toLeftOf="@+id/square_info_layoff"/>
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/image_symvasi"
+            app:layout_constraintBottom_toBottomOf="@+id/square_info_symvasi"
+            app:layout_constraintRight_toRightOf="@+id/square_info_symvasi"
+            app:layout_constraintLeft_toLeftOf="@+id/square_info_symvasi"/>
 
-        <!-- END LAYOFF INFO BOX -->
+        <!-- END BASIC SALARY INFO BOX -->
         <!-- START OVERTIME INFO BOX -->
         <TextView
             android:id="@+id/square_info_overtime"
@@ -498,18 +499,18 @@
             android:clickable="true"
             android:text=""
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/square_info_strike"
+            app:layout_constraintTop_toBottomOf="@+id/square_info_layoff"
             app:layout_goneMarginTop="16dp" />
 
         <ImageView
             android:id="@+id/image_overtime"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/square_info_overtime"
             app:layout_constraintRight_toRightOf="@+id/square_info_overtime"
             app:layout_constraintTop_toTopOf="@+id/square_info_overtime"
-            app:srcCompat="@drawable/ic_sunday" />
+            app:srcCompat="@drawable/ic_yperoria2_w" />
 
         <TextView
             android:id="@+id/text_overtime"
@@ -542,13 +543,13 @@
 
         <ImageView
             android:id="@+id/image_overwork"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/square_info_overwork"
             app:layout_constraintRight_toRightOf="@+id/square_info_overwork"
             app:layout_constraintTop_toTopOf="@+id/square_info_overwork"
-            app:srcCompat="@drawable/ic_sunday" />
+            app:srcCompat="@drawable/ic_yperergasia_w" />
 
         <TextView
             android:id="@+id/text_overwork"
@@ -565,17 +566,19 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_overwork"/>
 
         <!-- END OVERWORK INFO BOX -->
+
         <!-- START WHATTODO INFO BOX -->
         <TextView
             android:id="@+id/square_info_whattodo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:background="#e8646f"
             android:text=""
             app:layout_constraintLeft_toRightOf="@+id/square_info_overwork"
-            app:layout_constraintTop_toBottomOf="@+id/square_info_layoff"
+            app:layout_constraintTop_toBottomOf="@+id/square_info_symvasi"
             app:layout_goneMarginTop="16dp"
             android:clickable="true"/>
 
@@ -591,7 +594,7 @@
 
         <TextView
             android:id="@+id/text_whattodo"
-            android:layout_width="96dp"
+            android:layout_width="95dp"
             android:layout_height="35dp"
             android:fontFamily="fonts/PFDinTextCondPro-Medium.ttf"
             android:text="@string/text_whatcanido"
