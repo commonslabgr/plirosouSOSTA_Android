@@ -24,7 +24,7 @@
             android:title="@string/pref_title_howmuch_paid" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="switch_below25"
             android:layout="@layout/preference_multiline"
             android:title="@string/pref_title_below25yold" />
