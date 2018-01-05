@@ -2,10 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <!--<item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="colorPrimary">#55b4ae</item>
         <item name="colorPrimaryDark">#459d98</item>
         <item name="colorAccent">#459d98</item>
@@ -34,13 +30,26 @@
         <item name="android:color">#FFFFFF</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Material.Dialog">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#55b4ae</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:colorAccent">#FFFFFF</item>
+        <item name="android:fontFamily">@font/mediumfont</item>
+    </style>
+
     <style name="MySpinnerPickerStyle" parent="android:Theme.Material.Dialog">
         <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
         <item name="android:timePickerStyle">@style/MySpinnerTimePicker</item>
+        <item name="android:background">#55b4ae</item>
+        <item name="android:colorAccent">#FFFFFF</item>
     </style>
+
     <style name="MySpinnerDatePicker" parent="android:Widget.Material.DatePicker">
         <item name="android:datePickerMode">spinner</item>
     </style>
+
     <style name="MySpinnerTimePicker" parent="android:Widget.Material.TimePicker">
         <item name="android:timePickerMode">spinner</item>
     </style>

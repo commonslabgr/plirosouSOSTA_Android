@@ -485,10 +485,10 @@ http://www.ypakp.gr/index.php?ID=tHeZjsqSamzi82Xv%26Rec_ID=2553
     <!--ENTITLED ACTIVITY-->
     <string name="entitled_tab_from_to">ΑΠΟ-ΕΩΣ</string>
     <string name="entitled_tab_all">ΟΛΑ</string>
-    <string name="entitled_info_top">Ο νόμος λέει ότι κάποιες φορές πρέπει να αμοίβεσαι με παραπάνω λεφτά, πχ αν δούλεψες Κυριακή ή υπερωρίες</string>
-    <string name="entitled_main">ΒΑΣΕΙ ΝΟΜΟΥ ΘΑ ΕΠΡΕΠΕ ΝΑ ΠΑΡΕΙΣ ΣΥΝΟΛΟ</string>
-    <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΘΑ ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ € ΣΥΜΦΩΝΑ ΜΕ ΤΟ ΝΟΜΟ. ΕΤΣΙ ΠΡΕΠΕΙ. ΑΝ ΠΛΗΡΩΘΗΚΕΣ ΛΙΓΟΤΕΡΟ ΑΠΟ ΑΥΤΟ, ΤΟΤΕ ΣΕ ΕΧΟΥΝ ΑΔΙΚΗΣΕΙ</string>
-    <string name="entitled_info_bottom">Μπορώ να κάνω κάτι για αυτά τα λεφτά μου που κανονικά δικαιούμαι από το νόμο αλλά δεν μου τα πλήρωσαν;</string>
+    <string name="entitled_main">ΕΧΕΙΣ ΕΡΓΑΣΤΕΙ ώρες και λεπτά</string>
+    <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΠΡΕΠΕΙ ΝΑ ΠΛΗΡΩΘΕΙΣ €</string>
+    <string name="entitled_law_states">ΕΤΣΙ ΟΡΙΖΕΙ Ο ΝΟΜΟΣ. ΚΑΠΟΙΕΣ ΦΟΡΕΣ ΠΡΕΠΕΙ ΝΑ ΜΟΙΒΕΣΑΙ ΜΕ ΠΑΡΑΠΑΝΩ ΛΕΦΤΑ, πχ ΟΤΑΝ ΔΟΥΛΕΥΕΙΣ ΚΥΡΙΑΚΗ, ΥΠΕΡΩΡΙΕΣ, ΚΛΠ</string>
+    <string name="entitled_info_bottom">Μπορώ να κάνω κάτι αν πήρα λιγότερα λεφτά από αυτά που κανονικά δικαιούμαι;</string>
     <string name="entitled_button_what_do">Μπορώ να κάνω κάτι;</string>
     <string name="entitled_infobox_paid">ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ € ΕΠΙΠΛΕΟΝ</string>
     <string name="entitled_infobox_sundays">ΚΥΡΙΑΚΕΣ\nΔΟΥΛΕΨΕΣ</string>
@@ -499,6 +499,7 @@ http://www.ypakp.gr/index.php?ID=tHeZjsqSamzi82Xv%26Rec_ID=2553
     <string name="entitled_infobox_should">ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ</string>
     <string name="entitled_infobox_more">ΕΠΙΠΛΕΟΝ</string>
     <string name="title_activity_settings">ΡΥΘΜΙΣΕΙΣ</string>
+    <string name="entitled_infobox_top_deserve">ΣΟΥ ΑΝΑΛΟΓΟΥΝ</string>
 
     <!-- Strings related to Settings -->
 
@@ -579,19 +580,15 @@ http://www.ypakp.gr/index.php?ID=tHeZjsqSamzi82Xv%26Rec_ID=2553
     <string name="title_activity_about">AboutActivity</string>
 
     <!-- ABOUT ACTIVITY -->
-    <string name="about_title">Πληρώσου Σωστά</string>
+    <string name="about_title"><b>Πληρώσου Σωστά</b></string>
     <string name="about_text">Θέλουμε οι εργαζόμενοι να γνωρίζουν πόσα λεφτά δικαιούνται για την εργασία τους, ποια είναι τα δικαιώματα τους, τι ορίζει η νομοθεσία. Με το PlirosouSosta, οι εργαζόμενοι απλά σημειώνουν το πότε δούλεψαν και αυτόματα βλέπουν πόσο ακριβώς πρέπει να πληρωθούν. Έτσι μπορούν να ελέγχουν αν έχει γίνει κάποιο λάθος στη
  μισθοδοσία τους.\n\nΌλα όσα αναφέρει η εφαρμογή (πληροφορίες, υπολογισμοί, ποσά) ισχύουν για όλους τους μισθωτούς υπαλλήλους στον ιδιωτικό τομέα, πχ εργαζόμενοι στον κλάδο της εστίασης, σερβιτόροι, μπουφετζήδες, ντελίβερι, μάγειροι, υπάλληλοι γραφείου, στελέχη επιχειρήσεων, καθηγητές φροντιστηρίων, υπάλληλοι σε τηλεφωνικά κέντρα,
  εμποροϋπάλληλοι, πωλητές καταστημάτων, βιβλιοπωλείων, κούριερ, ρεσεψιονίστ, καθαριστές, φύλακες, κλπ κλπ. Λαμβάνονται κάθε φορά υπόψη όλοι οι πολύπλοκοι νομικοί κανόνες για την αμοιβή της εργασίας, πχ τι ορίζει ο νόμος αν εργαστεί κάποιος Κυριακές, Σάββατα, Νύχτα, παραπάνω από το κανονικό κλπ, τι γίνεται με το Δώρο Πάσχα, Χριστουγέννων, Επίδομα Αδείας κλπ.\n\n
 Η εφαρμογή αυτή είναι μια πρωτοβουλία του Χυμοποιείου (Αθήνα, Μοναστηράκι).\n
-(ιδέα, σχεδιασμός λειτουργίας, συντονισμός, χρηματοδότηση).\n\nΗ ανάπτυξη της εφαρμογής έγινε από τo CommonsLab (Κρήτη, www.commonslab.gr).\n
+(ιδέα, σχεδιασμός λειτουργίας, συντονισμός, χρηματοδότηση).\n\nΗ ανάπτυξη της εφαρμογής έγινε από τo commons|lab (http://commonslab.gr).\n
 Η εφαρμογή είναι ανοικτού λογισμικού, διατίθεται με άδεια GPL v3.\n\nΤα γραφιστικά της εφαρμογής έγιναν από τους designature (Αθήνα, http://www.designature.gr/).\n\n
 Όλη η νομική πληροφορία και οι νομικοί κανόνες παρήχθησαν από το δικηγορικό γραφείο "Χρυσούλα Μυλωνά │ Φιλόστρατος Στρούμπος και Συνεργάτες" (Αθήνα, Ναυαρίνου 17 - τηλ. 211 0121684, email: info@mslawoffice.eu - web: mslawoffice.eu).\n
 Χρήσιμη βοήθεια, πληροφορίες, ανταλλαγή σκέψεων και υποστήριξη παρείχε αφιλοκερδώς το OpenLab (Αθήνα, https://www.olathens.org - email: info@olathens.com).\n\n
 Υπεύθυνος για το περιεχόμενο και για οποιαδήποτε παράλειψη ή αστοχία είναι το Χυμοποιείο και συγκεκριμένα ο Άρης Π. (plirosousosta@gmail.com).
 </string>
-    <!--
-    <string name=""></string>
-    <string name=""></string>
-    -->
 </resources>
