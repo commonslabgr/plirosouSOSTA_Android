@@ -4,19 +4,16 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,9 +23,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ *  Name: EntitledActivity.java
+ *  Description: Implements the "Entitled" screen on the PlirosouSOSTA Android App.
+ *  The screen includes four tabs, current month, current year, from - to, and all.
+ *  Each tab displays the total entitled amount, the hours and amount for Sundays, Saturdays, Nights and Overtime
+ *
+ *  Company: commons|lab
+ *  Author: Dimitris Koukoulakis
+ *  License: General Public Licence v3.0 GPL
+ */
 
 public class EntitledActivity extends AppCompatActivity {
 
@@ -40,63 +49,49 @@ public class EntitledActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private CustomViewPager mViewPager;
-    private String currentMonth;
-    private String currentYear;
-    private TabLayout tabLayout;
+
     private static Calendar FromDate;
     private static Calendar ToDate;
     public static boolean bToDate = false;
     private static Button button_info;
-    private static View currentView;
+    private static MonthFragment tab1;
+    private static YearFragment tab2;
+    private static FromToFragment tab3;
+    private static AllFragment tab4;
+    private static boolean bFromToVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SectionsPagerAdapter mSectionsPagerAdapter;
+        CustomViewPager mViewPager;
+        TabLayout tabLayout;
         setContentView(R.layout.activity_entitled);
-        //mFragments.add(new MonthFrangment());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        //setSupportActionBar(toolbar);
+
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (CustomViewPager) findViewById(R.id.container_entitled);
+        mViewPager = findViewById(R.id.container_entitled);
         mViewPager.setPagingEnabled(false);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.tabs_entitled);
+
+        tabLayout = findViewById(R.id.tabs_entitled);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         FromDate = Calendar.getInstance();
         ToDate = Calendar.getInstance();
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_entitled, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        return super.onOptionsItemSelected(item);
+        tab1 = new MonthFragment().newInstance(0);
+        tab2 = new YearFragment().newInstance(1);
+        tab3 = new FromToFragment().newInstance(2);
+        tab4 = new AllFragment().newInstance(3);
     }
 
     /**
@@ -109,23 +104,18 @@ public class EntitledActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public MonthFragment(int sectionNumber) {
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            this.setArguments(args);
-        }
+        public MonthFragment() { }
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         public static MonthFragment newInstance(int sectionNumber) {
-            MonthFragment fragment = new MonthFragment(sectionNumber);
-            /**
+            MonthFragment fragment = new MonthFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
-             /**/
+
             return fragment;
 
         }
@@ -136,7 +126,7 @@ public class EntitledActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
             setMonthValues(rootView);
 
-            button_info = (Button) rootView.findViewById(R.id.button_whatcanido);
+            button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,18 +147,14 @@ public class EntitledActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public YearFragment(int sectionNumber) {
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            this.setArguments(args);
-        }
+        public YearFragment() {}
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         public static YearFragment newInstance(int sectionNumber) {
-            YearFragment fragment = new YearFragment(sectionNumber);
+            YearFragment fragment = new YearFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -180,7 +166,8 @@ public class EntitledActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_year_entitled, container, false);
             setAnnualValues(rootView);
-            button_info = (Button) rootView.findViewById(R.id.button_whatcanido);
+
+            button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -204,18 +191,14 @@ public class EntitledActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public FromToFragment(int sectionNumber) {
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            this.setArguments(args);
-        }
+        public FromToFragment() {}
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         public static FromToFragment newInstance(int sectionNumber) {
-            FromToFragment fragment = new FromToFragment(sectionNumber);
+            FromToFragment fragment = new FromToFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -226,10 +209,8 @@ public class EntitledActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_fromto_entitled, container, false);
-            //setMonthValues(rootView);
-            currentView = rootView;
-            setUserVisibleHint(false);
-            button_info = (Button) rootView.findViewById(R.id.button_whatcanido);
+
+            button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -238,16 +219,52 @@ public class EntitledActivity extends AppCompatActivity {
                     v.getContext().startActivity(intent_info);
                 }
             });
-
+            bFromToVisible = true;
+            if(isVisible()) {
+                showDatePicker(getActivity());
+            }
             return rootView;
         }
 
         @Override
-        public void setMenuVisibility(final boolean visible) {
-            super.setMenuVisibility(visible);
-            if(visible) {
+        public void onResume() {
+            super.onResume();
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            bFromToVisible = false;
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            bFromToVisible = false;
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            bFromToVisible = false;
+        }
+
+        @Override
+        public void setUserVisibleHint(boolean isVisibleToUser) {
+            super.setUserVisibleHint(isVisibleToUser);
+            if ((bFromToVisible) && (isVisibleToUser)) {
                 showDatePicker(getActivity());
             }
+        }
+
+        @Override
+        public void onHiddenChanged(boolean hidden) {
+            super.onHiddenChanged(hidden);
         }
     }
 
@@ -261,18 +278,14 @@ public class EntitledActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public AllFragment(int sectionNumber) {
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            this.setArguments(args);
-        }
+        public AllFragment() {}
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         public static AllFragment newInstance(int sectionNumber) {
-            AllFragment fragment = new AllFragment(sectionNumber);
+            AllFragment fragment = new AllFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -283,8 +296,8 @@ public class EntitledActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_all_entitled, container, false);
-
-            button_info = (Button) rootView.findViewById(R.id.button_whatcanido);
+            setAllValues(rootView);
+            button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -314,21 +327,16 @@ public class EntitledActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    MonthFragment tab1 = new MonthFragment(0);
                     return tab1;
                 case 1:
-                    YearFragment tab2 = new YearFragment(1);
                     return tab2;
                 case 2:
-                    FromToFragment tab3 = new FromToFragment(2);
                     return tab3;
                 case 3:
-                    AllFragment tab4 = new AllFragment(3);
                     return tab4;
                 default:
                     return null;
             }
-            //return PlaceholderFragment.newInstance(position);
         }
 
         @Override
@@ -338,6 +346,8 @@ public class EntitledActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
+            String currentMonth;
+            String currentYear;
             Calendar cal = Calendar.getInstance();
             currentMonth = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
             currentYear =  Integer.toString(cal.get(Calendar.YEAR));
@@ -347,9 +357,9 @@ public class EntitledActivity extends AppCompatActivity {
                 case 1:
                     return currentYear;
                 case 2:
-                    return getString(R.string.entitled_tab_from_to);
+                    return getString(R.string.tab_title_from_to);
                 case 3:
-                    return getString(R.string.entitled_tab_all);
+                    return getString(R.string.tab_title_all);
             }
             return null;
         }
@@ -358,11 +368,14 @@ public class EntitledActivity extends AppCompatActivity {
     public static void showDatePicker(Activity activity){
         DialogFragment dateFragment;
         dateFragment = new DatePickerFragment();
-        dateFragment.show(activity.getFragmentManager(), "datePicker");
+        if(activity != null) {
+            dateFragment.show(activity.getFragmentManager(), "datePicker");
+        }
     }
 
-    /* DatePickerFragment
-   Display a calendar for the user to choose the date for adding a shift.
+    /**
+     *  DatePickerFragment
+     *  Display a calendar for the user to choose the date for adding a shift.
     */
     public static class DatePickerFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
@@ -375,18 +388,13 @@ public class EntitledActivity extends AppCompatActivity {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            int dayId = Resources.getSystem().getIdentifier("day", "id", "android");
+
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
-            //Do not show day
-            View daypicker = dp.getDatePicker().findViewById(dayId);
-            if(daypicker != null) {
-                daypicker.setVisibility(View.GONE);
-            }
             if (bToDate) {
-                dp.setTitle("ΕΩΣ");
+                dp.setTitle(getString(R.string.picker_title_to));
             } else {
-                dp.setTitle("ΑΠΟ");
+                dp.setTitle(getString(R.string.picker_title_from));
             }
 
             return dp;
@@ -399,11 +407,30 @@ public class EntitledActivity extends AppCompatActivity {
                 ToDate.set(Calendar.SECOND, 0);
                 ToDate.set(Calendar.YEAR, year);
                 ToDate.set(Calendar.MONTH, month);
-                ToDate.set(Calendar.DAY_OF_MONTH, ToDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-                bToDate = false;
-                //TODO: set values
-                if(currentView != null) {
-                    setFromToValues(currentView,FromDate, ToDate);
+                ToDate.set(Calendar.DAY_OF_MONTH, day);
+                if (ToDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
+                    Context context = view.getContext();
+                    CharSequence text = "Please select a past or present date.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    DialogFragment TodateFragment;
+                    TodateFragment = new DatePickerFragment();
+                    TodateFragment.show(getFragmentManager(), "datePicker");
+                } else if (ToDate.getTimeInMillis() <= FromDate.getTimeInMillis()) {
+                    Context context = view.getContext();
+                    CharSequence text = "Please select a date that is after the first selected date.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    DialogFragment TodateFragment;
+                    TodateFragment = new DatePickerFragment();
+                    TodateFragment.show(getFragmentManager(), "datePicker");
+                } else {
+                    bToDate = false;
+                    setFromToValues(getActivity(), FromDate, ToDate);
                 }
             } else {
                 FromDate.set(Calendar.HOUR, 0);
@@ -411,125 +438,151 @@ public class EntitledActivity extends AppCompatActivity {
                 FromDate.set(Calendar.SECOND, 0);
                 FromDate.set(Calendar.YEAR, year);
                 FromDate.set(Calendar.MONTH, month);
-                FromDate.set(Calendar.DAY_OF_MONTH, 1);
-                bToDate = true;
-                DialogFragment TodateFragment;
-                TodateFragment = new DatePickerFragment();
-                TodateFragment.show(getFragmentManager(), "datePicker");
+                FromDate.set(Calendar.DAY_OF_MONTH, day);
+                if (FromDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
+                    Context context = view.getContext();
+                    CharSequence text = "Please select a past date.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    DialogFragment FromdateFragment;
+                    FromdateFragment = new DatePickerFragment();
+                    FromdateFragment.show(getFragmentManager(), "datePicker");
+                } else {
+                    bToDate = true;
+                    DialogFragment TodateFragment;
+                    TodateFragment = new DatePickerFragment();
+                    TodateFragment.show(getFragmentManager(), "datePicker");
+                }
             }
         }
     }
 
     public static int getMinutesinHour(float hours) {
-        int minutes = (int)((hours % 1)*60);
-        return minutes;
+        return (int)((hours % 1)*60);
     }
 
-    public static void setFromToValues(View rootView, Calendar From, Calendar to) {
+    /**
+     * Retrieve and set specified period values in tab FROM-TO in Entitled Activity
+     */
+    public static void setFromToValues(Activity activity, Calendar From, Calendar to) {
+        View rootView = activity.findViewById(R.id.main_content_fromto_entitled);
         DBHelper dbHelper = new DBHelper(rootView.getContext());
-        SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
-        float hours = 0f;
-        int minutes = 0;
-        float amount = 0f;
-        String s = "";
-        //Get start month to end month
-        int startMonth = From.get(Calendar.MONTH);
-        int endMonth = to.get(Calendar.MONTH);
+        float hours;
+        int minutes;
+        float amount;
+        String s;
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
         amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_total_amount.setText(s);
+        TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
+        hours = dbHelper.getAllHoursFromTo(From, to);
+        minutes = getMinutesinHour(hours);
+        s = text_total_hours.getText().toString();
+        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format("€%.2f", amount));
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
         text_bottom.setText(s);
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
         amount = dbHelper.getSundayPaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_sunday_amount.setText(s);
 
         //SATURDAYS
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
         amount = dbHelper.getSaturdayPaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_saturday_amount.setText(s);
 
         //NIGHT SHIFTS
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
         amount = dbHelper.getNightShiftPaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_night_amount.setText(s);
 
         //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
         amount = dbHelper.getOvertimePaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overtime_amount.setText(s);
 
         //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = dbHelper.getOverworkPaymentValueFromTo(From, to);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overwork_amount.setText(s);
     }
 
+    /**
+     * Retrieve and set current ANNUAL values in tab YEAR in Entitled Activity
+     */
     public static void setAnnualValues(View rootView) {
-        //TODO: implement setAnnualValues
         float hours = 0f;
-        int minutes = 0;
+        int minutes;
         float amount = 0f;
-        String s = "";
+        String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
-        SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
         for (int i=0; i < 12; i++) {
-            amount += dbHelper.getEntitledPaymentinMonth(i);
+            amount += dbHelper.getEntitledPaymentinMonth(i, -1);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_total_amount.setText(s);
+        TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
+        for (int i=0; i < 12; i++) {
+            hours += dbHelper.getWorkingHoursinMonth(i);
+        }
+        minutes = getMinutesinHour(hours);
+        s = text_total_hours.getText().toString();
+        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format("€%.2f", amount));
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
         text_bottom.setText(s);
 
         //SUNDAYS & HOLIDAYS
@@ -539,7 +592,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getSundayHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
@@ -547,7 +600,7 @@ public class EntitledActivity extends AppCompatActivity {
         for (int i=0; i < 12; i++) {
             amount += dbHelper.getSundaysPaymentinMonth(i);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_sunday_amount.setText(s);
 
         //SATURDAYS
@@ -557,7 +610,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getSaturdayHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
@@ -565,7 +618,7 @@ public class EntitledActivity extends AppCompatActivity {
         for (int i=0; i < 12; i++) {
             amount += dbHelper.getSaturdaysPaymentinMonth(i);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_saturday_amount.setText(s);
 
         //NIGHT SHIFTS
@@ -575,215 +628,230 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getNightShiftHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
         amount = 0;
         for (int i=0; i < 12; i++) {
-            amount = dbHelper.getNightShiftsPaymentinMonth(i);
+            amount += dbHelper.getNightShiftsPaymentinMonth(i);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_night_amount.setText(s);
 
         //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = 0;
         for (int i=0; i < 12; i++) {
-            hours = dbHelper.getOvertimeHoursinMonth(i);
+            hours += dbHelper.getOvertimeHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
         amount = 0;
         for (int i=0; i < 12; i++) {
-            amount = dbHelper.getOvertimePaymentinMonth(i);
+            amount += dbHelper.getOvertimePaymentinMonth(i);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overtime_amount.setText(s);
 
         //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = 0;
         for (int i=0; i < 12; i++) {
-            hours = dbHelper.getOverworkHoursinMonth(i);
+            hours += dbHelper.getOverworkHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = 0;
         for (int i=0; i < 12; i++) {
-            amount = dbHelper.getOverworkPaymentinMonth(i);
+            amount += dbHelper.getOverworkPaymentinMonth(i);
         }
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overwork_amount.setText(s);
     }
 
+    /**
+    Retrieve and set current MONTH values in tab MONTH in Entitled Activity
+     */
     public static void setMonthValues(View rootView) {
         int month = Calendar.getInstance().get(Calendar.MONTH);
-        float hours = 0f;
-        int minutes = 0;
-        float amount = 0f;
-        String s = "";
+        float hours;
+        int minutes;
+        float amount;
+        String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
-        SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
-        amount = dbHelper.getEntitledPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        amount = dbHelper.getEntitledPaymentinMonth(month, -1);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_total_amount.setText(s);
+        TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
+        hours = dbHelper.getWorkingHoursinMonth(month);
+        minutes = getMinutesinHour(hours);
+        s = text_total_hours.getText().toString();
+        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format("€%.2f", amount));
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
         text_bottom.setText(s);
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
         amount = dbHelper.getSundaysPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_sunday_amount.setText(s);
 
         //SATURDAYS
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
         amount = dbHelper.getSaturdaysPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_saturday_amount.setText(s);
 
         //NIGHT SHIFTS
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
         amount = dbHelper.getNightShiftsPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_night_amount.setText(s);
 
         //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
         amount = dbHelper.getOvertimePaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overtime_amount.setText(s);
 
         //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = dbHelper.getOverworkPaymentinMonth(month);
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overwork_amount.setText(s);
     }
 
-
+    /**
+    Retrieve and set values for tab "ALL" in entitled Activity
+     */
     public static void setAllValues(View rootView) {
-        float hours = 0f;
-        int minutes = 0;
-        float amount = 0f;
-        String s = "";
+        float hours;
+        int minutes;
+        float amount;
+        String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
-        SQLiteDatabase sqldb = dbHelper.getReadableDatabase();
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
         amount = dbHelper.getEntitledPaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_total_amount.setText(s);
+        TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
+        hours = dbHelper.getWorkingHoursAll();
+        minutes = getMinutesinHour(hours);
+        s = text_total_hours.getText().toString();
+        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format("€%.2f", amount));
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
         text_bottom.setText(s);
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
         amount = dbHelper.getSundaysPaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_sunday_amount.setText(s);
 
         //SATURDAYS
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
         amount = dbHelper.getSaturdaysPaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_saturday_amount.setText(s);
 
         //NIGHT SHIFTS
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
         amount = dbHelper.getNightShiftsPaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_night_amount.setText(s);
 
         //OVERTIME
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
         amount = dbHelper.getOvertimePaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overtime_amount.setText(s);
 
         //OVERWORK
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format("%.0fω %dλ",hours,minutes);
+        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = dbHelper.getOverworkPaymentAll();
-        s = String.format("€%.2f", amount);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overwork_amount.setText(s);
     }
 }

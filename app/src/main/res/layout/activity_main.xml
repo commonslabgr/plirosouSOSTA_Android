@@ -39,7 +39,6 @@
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
         android:layout_marginTop="?attr/actionBarSize"
-        app:headerLayout="@layout/nav_header_main"
         app:itemTextColor="@android:color/white"
         app:menu="@menu/activity_main_drawer" />
 

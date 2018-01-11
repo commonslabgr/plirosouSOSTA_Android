@@ -8,35 +8,45 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Name: InfoActivity.java
+ * Description: Implements the "Useful information" screen on the PlirosouSOSTA Android App.
+ * A series of textview buttons that spawn alert dialogs (pop ups) with extra information.
+ *
+ *  Company: commons|lab
+ *  Author: Dimitris Koukoulakis
+ * License: General Public Licence v3.0 GPL
+*/
 
 public class InfoActivity extends AppCompatActivity {
-    private TextView Salary;
-    private TextView Sunday;
-    private TextView Saturday;
-    private TextView Holidays;
-    private TextView HolidayBonus;
-    private TextView Easter;
-    private TextView Christmas;
-    private TextView Night;
-    private TextView Strike;
-    private TextView Discrimination;
-    private TextView Pregnancy;
-    private TextView Layoff;
-    private TextView Overtime;
-    private TextView Overwork;
-    private TextView WhatToDo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TextView Salary;
+        TextView Sunday;
+        TextView Saturday;
+        TextView Holidays;
+        TextView HolidayBonus;
+        TextView Easter;
+        TextView Christmas;
+        TextView Night;
+        TextView Discrimination;
+        TextView Pregnancy;
+        TextView Layoff;
+        TextView Overtime;
+        TextView Overwork;
+        TextView Symvasi;
+        TextView WhatToDo;
         setContentView(R.layout.activity_info);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final AlertDialog infodialog = new AlertDialog.Builder(InfoActivity.this).create();
+        final AlertDialog infodialog = new AlertDialog.Builder(InfoActivity.this, R.style.AlertDialogCustom).create();
 
         infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
             @Override
@@ -45,129 +55,130 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
 
-        Salary = (TextView) findViewById(R.id.square_info_salary);
+        Salary = findViewById(R.id.square_info_salary);
         Salary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_salary));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_salary)));
                 infodialog.show();
             }
         });
 
-        Sunday = (TextView) findViewById(R.id.square_info_sunday);
+        Sunday = findViewById(R.id.square_info_sunday);
         Sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_sunday));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_sunday)));
                 infodialog.show();
             }
         });
 
-        Saturday = (TextView) findViewById(R.id.square_info_saturday);
+        Saturday = findViewById(R.id.square_info_saturday);
         Saturday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_saturday));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_saturday)));
                 infodialog.show();
             }
         });
-        Holidays = (TextView) findViewById(R.id.square_info_holidays);
+        Holidays = findViewById(R.id.square_info_holidays);
         Holidays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_holidays));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_holidays)));
                 infodialog.show();
             }
         });
-        Easter = (TextView) findViewById(R.id.square_info_easter);
+        Easter = findViewById(R.id.square_info_easter);
         Easter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_easter));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_easter)));
                 infodialog.show();
             }
         });
-        Night = (TextView) findViewById(R.id.square_info_night);
+        Night = findViewById(R.id.square_info_night);
         Night.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_night));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_night)));
                 infodialog.show();
             }
         });
-        HolidayBonus = (TextView) findViewById(R.id.square_info_holidaybonus);
+        HolidayBonus = findViewById(R.id.square_info_holidaybonus);
         HolidayBonus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_holidaybonus));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_holidaybonus)));
                 infodialog.show();
             }
         });
-        Pregnancy = (TextView) findViewById(R.id.square_info_pregnant);
+        Pregnancy = findViewById(R.id.square_info_pregnant);
         Pregnancy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_pregnancy));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_pregnancy)));
                 infodialog.show();
             }
         });
-        Christmas = (TextView) findViewById(R.id.square_info_xmas);
+        Christmas = findViewById(R.id.square_info_xmas);
         Christmas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_christmas));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_christmas)));
                 infodialog.show();
             }
         });
-        Strike = (TextView) findViewById(R.id.square_info_strike);
-        Strike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_strike));
-                infodialog.show();
-            }
-        });
-        Discrimination = (TextView) findViewById(R.id.square_info_discrimination);
+        Discrimination = findViewById(R.id.square_info_discrimination);
         Discrimination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_discrimination));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_discrimination)));
                 infodialog.show();
             }
         });
-        Layoff = (TextView) findViewById(R.id.square_info_layoff);
+        Layoff = findViewById(R.id.square_info_layoff);
         Layoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_layoff));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_layoff)));
                 infodialog.show();
             }
         });
-        Overtime = (TextView) findViewById(R.id.square_info_overtime);
+        Overtime = findViewById(R.id.square_info_overtime);
         Overtime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_overtime));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_overtime)));
                 infodialog.show();
             }
         });
-        Overwork = (TextView) findViewById(R.id.square_info_overwork);
+        Overwork = findViewById(R.id.square_info_overwork);
         Overwork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_overwork));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_overwork)));
                 infodialog.show();
             }
         });
-        WhatToDo = (TextView) findViewById(R.id.square_info_whattodo);
+        Symvasi = findViewById(R.id.square_info_symvasi);
+        Symvasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_symvasi)));
+                infodialog.show();
+            }
+        });
+        WhatToDo = findViewById(R.id.square_info_whattodo);
         WhatToDo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                infodialog.setMessage(getString(R.string.text_info_whatcanido));
+                infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_whatcanido)));
                 infodialog.show();
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -178,6 +189,5 @@ public class InfoActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

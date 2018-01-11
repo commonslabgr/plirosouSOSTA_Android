@@ -13,7 +13,7 @@
         android:fitsSystemWindows="true">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_about_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -24,7 +24,7 @@
             android:padding="10dp"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/text_about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -32,6 +32,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/text_about_title" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

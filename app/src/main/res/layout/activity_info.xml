@@ -75,7 +75,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_sunday"
             app:layout_constraintRight_toRightOf="@+id/square_info_sunday"
             app:layout_constraintTop_toTopOf="@+id/square_info_sunday"
-            app:srcCompat="@drawable/ic_sunday" />
+            app:srcCompat="@drawable/ic_sun_light" />
 
         <TextView
             android:id="@+id/text_sundays"
@@ -114,7 +114,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_saturday"
             app:layout_constraintRight_toRightOf="@+id/square_info_saturday"
             app:layout_constraintTop_toTopOf="@+id/square_info_saturday"
-            app:srcCompat="@drawable/ic_beer2" />
+            app:srcCompat="@drawable/ic_beer_light" />
 
         <TextView
             android:id="@+id/text_saturday"
@@ -155,7 +155,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_holidays"
             app:layout_constraintRight_toRightOf="@+id/square_info_holidays"
             app:layout_constraintTop_toTopOf="@+id/square_info_holidays"
-            app:srcCompat="@drawable/ic_flips" />
+            app:srcCompat="@drawable/ic_flips_light" />
 
         <TextView
             android:id="@+id/text_holidays"
@@ -195,7 +195,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_easter"
             app:layout_constraintRight_toRightOf="@+id/square_info_easter"
             app:layout_constraintTop_toTopOf="@+id/square_info_easter"
-            app:srcCompat="@drawable/ic_egg" />
+            app:srcCompat="@drawable/ic_egg_light" />
 
         <TextView
             android:id="@+id/text_easter"
@@ -235,7 +235,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_night"
             app:layout_constraintRight_toRightOf="@+id/square_info_night"
             app:layout_constraintTop_toTopOf="@+id/square_info_night"
-            app:srcCompat="@drawable/ic_night2" />
+            app:srcCompat="@drawable/ic_night_light" />
 
         <TextView
             android:id="@+id/text_night"
@@ -275,7 +275,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_holidaybonus"
             app:layout_constraintRight_toRightOf="@+id/square_info_holidaybonus"
             app:layout_constraintTop_toTopOf="@+id/square_info_holidaybonus"
-            app:srcCompat="@drawable/ic_suitcase" />
+            app:srcCompat="@drawable/ic_suitcase_light" />
 
         <TextView
             android:id="@+id/text_holidaybonus"
@@ -314,7 +314,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_pregnant"
             app:layout_constraintRight_toRightOf="@+id/square_info_pregnant"
             app:layout_constraintTop_toTopOf="@+id/square_info_pregnant"
-            app:srcCompat="@drawable/ic_baby" />
+            app:srcCompat="@drawable/ic_baby_light" />
 
         <TextView
             android:id="@+id/text_pregnancy"
@@ -354,7 +354,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_xmas"
             app:layout_constraintRight_toRightOf="@+id/square_info_xmas"
             app:layout_constraintTop_toTopOf="@+id/square_info_xmas"
-            app:srcCompat="@drawable/ic_xmas" />
+            app:srcCompat="@drawable/ic_xmas_light" />
 
         <TextView
             android:id="@+id/text_xmas"
@@ -393,7 +393,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_layoff"
             app:layout_constraintRight_toRightOf="@+id/square_info_layoff"
             app:layout_constraintTop_toTopOf="@+id/square_info_layoff"
-            app:srcCompat="@drawable/ic_box" />
+            app:srcCompat="@drawable/ic_box_light" />
 
         <TextView
             android:id="@+id/text_layoff"
@@ -432,7 +432,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_discrimination"
             app:layout_constraintRight_toRightOf="@+id/square_info_discrimination"
             app:layout_constraintTop_toTopOf="@+id/square_info_discrimination"
-            app:srcCompat="@drawable/ic_scale" />
+            app:srcCompat="@drawable/ic_scale_light" />
 
         <TextView
             android:id="@+id/text_discrimination"
@@ -471,7 +471,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_symvasi"
             app:layout_constraintRight_toRightOf="@+id/square_info_symvasi"
             app:layout_constraintTop_toTopOf="@+id/square_info_symvasi"
-            app:srcCompat="@drawable/ic_symvasi" />
+            app:srcCompat="@drawable/ic_papers_light" />
 
         <TextView
             android:id="@+id/text_symvasi"
@@ -504,13 +504,13 @@
 
         <ImageView
             android:id="@+id/image_overtime"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/square_info_overtime"
             app:layout_constraintRight_toRightOf="@+id/square_info_overtime"
             app:layout_constraintTop_toTopOf="@+id/square_info_overtime"
-            app:srcCompat="@drawable/ic_yperoria2_w" />
+            app:srcCompat="@drawable/ic_clock_time_light" />
 
         <TextView
             android:id="@+id/text_overtime"
@@ -543,13 +543,13 @@
 
         <ImageView
             android:id="@+id/image_overwork"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/square_info_overwork"
             app:layout_constraintRight_toRightOf="@+id/square_info_overwork"
             app:layout_constraintTop_toTopOf="@+id/square_info_overwork"
-            app:srcCompat="@drawable/ic_yperergasia_w" />
+            app:srcCompat="@drawable/ic_calendar_light" />
 
         <TextView
             android:id="@+id/text_overwork"
@@ -590,7 +590,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/square_info_whattodo"
             app:layout_constraintRight_toRightOf="@+id/square_info_whattodo"
             app:layout_constraintTop_toTopOf="@+id/square_info_whattodo"
-            app:srcCompat="@drawable/ic_clock2" />
+            app:srcCompat="@drawable/ic_clock_tick_red" />
 
         <TextView
             android:id="@+id/text_whattodo"

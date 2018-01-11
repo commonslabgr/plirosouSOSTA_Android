@@ -1,5 +1,6 @@
 package gr.commonslab.plirosousosta;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -14,9 +15,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -29,43 +28,41 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.BroadcastReceiver;
 import android.widget.TimePicker;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+/**
+ *  Name: MainActivity.java
+ *  Description: Implements the main screen on the PlirosouSOSTA Android App.
+ *  It displays the hours and amount for the current month and three buttons, add a shift, view history and view entitled payment.
+ *  It also calls a navigation drawer with other application options.
+ *
+ *  Company: commons|lab
+ *  Author: Dimitris Koukoulakis
+ *  License: General Public Licence v3.0 GPL
+ */
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static Calendar BeginWork;
     private static Calendar EndWork;
-    private Calendar mCalendar;
-    private int year, month, day;
+    private int month;
     private static boolean BeginWorkSet = false;
-    private boolean b_Overwrite = false;
-    static DialogFragment timeFragmentStart;
-    static DialogFragment timeFragmentStop;
-    DialogFragment dateFragment;
-    DialogFragment dialog;
-    private TextView text_datetime;
-    private TextView text_info_month;
-    private TextView text_info_worked;
-    private TextView text_info_entitled;
+    private static boolean b_Overwrite = false;
+
     private TextView button_history;
     private TextView button_add_shift;
     private Button button_payed_correctly;
-    private boolean CountWork = false;
-    Handler hand = new Handler();
-    int count = 0;
-    private long startTime;
     private Calendar cal;
-    private final SimpleDateFormat _sdfWatchTime = new SimpleDateFormat("dd/M/yyyy HH:mm");
+    private final SimpleDateFormat _sdfWatchTime = new SimpleDateFormat("dd/M/yyyy HH:mm", Locale.getDefault());
     BroadcastReceiver _broadcastReceiver;
     DBHelper dbHelper;
     SQLiteDatabase sqldb;
@@ -74,38 +71,33 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Calendar mCalendar;
 
         dbHelper = new DBHelper(this.getBaseContext());
         sqldb = dbHelper.getWritableDatabase();
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         BeginWork = Calendar.getInstance();
         EndWork = Calendar.getInstance();
         mCalendar = Calendar.getInstance();
-        year = mCalendar.get(Calendar.YEAR);
         month = mCalendar.get(Calendar.MONTH);
-        day = mCalendar.get(Calendar.DAY_OF_MONTH);
 
-        button_payed_correctly = (Button) findViewById(R.id.button_payed_correctly);
-        button_add_shift = (TextView) findViewById(R.id.square_add_shift);
-        button_history = (TextView) findViewById(R.id.square_history);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        button_payed_correctly = findViewById(R.id.button_payed_correctly);
+        button_add_shift = findViewById(R.id.square_add_shift);
+        button_history = findViewById(R.id.square_history);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         cal = Calendar.getInstance();
-
-        timeFragmentStart = new TimePickerFragment();
-        timeFragmentStop = new TimePickerFragment();
-
         addListenerOnButtonAddShift();
         addListenerOnButtonHistory();
         addListenerOnPaidRight();
@@ -117,9 +109,12 @@ public class MainActivity extends AppCompatActivity
             //Initialize Shared Preferences: Salary per hour, years of experience etc.
             initializePreferences();
         }
+
     }
 
-    //Listener for actions when INFO button is pressed
+    /**
+     * Listener for actions when HISTORY button is pressed
+     */
     public void addListenerOnButtonHistory() {
         button_history.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +126,9 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //Listener for actions when PAID CORRECTLY button is pressed
+    /**
+     * Listener for actions when PAID CORRECTLY button is pressed
+     */
     public void addListenerOnPaidRight() {
         button_payed_correctly.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +140,9 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //Add shift button to show date and time pickers
+    /**
+     * Listener for Add shift button to show date and time pickers
+     */
     public void addListenerOnButtonAddShift() {
         button_add_shift.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,27 +158,20 @@ public class MainActivity extends AppCompatActivity
         //once for start shift time and once for end shift time
         //then working hours are added to DB
         //and values on UI are updated
-        dateFragment = new DatePickerFragment();
+        DialogFragment dateFragment = new DatePickerFragment();
         dateFragment.show(getFragmentManager(), "datePicker");
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    /**/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -218,11 +210,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent_additionalInfo);
         //} else if (id == R.id.nav_shifts) { //Shifts functionality to be added later
         } else if (id == R.id.nav_about) {
-            //TODO: Handle the About Activity
-            //dbHelper.onUpgrade(sqldb,0,1);
+            Intent intent_about = new Intent(getApplicationContext(), AboutActivity.class);
+            startActivity(intent_about);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -230,20 +222,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
-        /**/
-        Typeface font_light = Typeface.createFromAsset(getAssets(), "fonts/PFDinTextCondPro-Light.ttf");
-        Typeface font_regular = Typeface.createFromAsset(getAssets(), "fonts/PFDinTextCondPro-Regular.ttf");
-        Typeface font_medium = Typeface.createFromAsset(getAssets(), "fonts/PFDinTextCondPro-Medium.ttf");
-        /**/
-
         //Set Month
-        text_info_month = (TextView) findViewById(R.id.text_info_month);
+        TextView text_info_month;
+        text_info_month = findViewById(R.id.text_info_month);
         text_info_month.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
-
-        text_info_month.setTypeface(font_light);
         //Set Date and Time
         SetCurrentDateTime();
-
         //Update Clock every minute
         _broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -252,32 +236,29 @@ public class MainActivity extends AppCompatActivity
                     SetCurrentDateTime();
             }
         };
-
         registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         UpdateValuesOnScreen();
     }
 
     //Set Current Date and time on main activity
     public void SetCurrentDateTime() {
-        text_datetime = (TextView) findViewById(R.id.text_datetime);
+        TextView text_datetime;
+        text_datetime = findViewById(R.id.text_datetime);
         text_datetime.setText(_sdfWatchTime.format(new Date()));
     }
 
-    /* TimePickerFragment
-    Display a time picker for user to select start and end of shift.
+    /**
+     *  TimePickerFragment
+     *  Display a time picker for user to select start and end of shift.
      */
     public class TimePickerFragment extends DialogFragment implements
             TimePickerDialog.OnTimeSetListener {
 
-        @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-
-
             // Create a new instance of TimePickerDialog and return it
             TimePickerDialog tp = new TimePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, 9, 0, DateFormat.is24HourFormat(getActivity()));
 
-            if (BeginWorkSet != true) {
+            if (!BeginWorkSet) {
                 tp.setTitle(getString(R.string.picker_title_shift_start));
             } else {
                 tp.setTitle(getString(R.string.picker_title_shift_end));
@@ -286,15 +267,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            if (BeginWorkSet != true) {
+            if (!BeginWorkSet) {
                 BeginWork.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 BeginWork.set(Calendar.MINUTE, minute);
                 BeginWorkSet = true;
-                //add_wh_begin = BeginWork.getTime();
-                //debug.setText(BeginWork.getTime().toString());
+
+                @SuppressLint("ValidFragment")
+                TimePickerFragment timeFragmentStop = new TimePickerFragment();
                 timeFragmentStop.show(getFragmentManager(), "timePicker");
             } else {
-
                 BeginWorkSet = false;
                 EndWork = (Calendar)BeginWork.clone();
                 EndWork.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -308,10 +289,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /* DatePickerFragment
-    Display a calendar for the user to choose the date for adding a shift.
+    /**
+     *  DatePickerFragment
+     *  Display a calendar for the user to choose the date for adding a shift.
      */
-    public static class DatePickerFragment extends DialogFragment implements
+    public class DatePickerFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -336,19 +318,20 @@ public class MainActivity extends AppCompatActivity
             BeginWork.set(Calendar.MONTH, month);
             BeginWork.set(Calendar.DATE, day);
             //Show TimePicker
+            TimePickerFragment timeFragmentStart = new TimePickerFragment();
             timeFragmentStart.show(getFragmentManager(), "timePicker");
         }
     }
 
     public void setWorkingHourBegin (Date begin) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT, dateFormat.format(begin));
         sqldb.insert(dbHelper.WORKINGHOURS_TABLE_NAME,null,contentValues);
     }
 
     public void setWorkingHourEnd (Date end, Date begin) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.WORKINGHOURS_COLUMN_ENDSHIFT, dateFormat.format(end));
         sqldb.update(dbHelper.WORKINGHOURS_TABLE_NAME,contentValues,dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT+"= ?",new String[] {dateFormat.format(begin)});
@@ -359,7 +342,7 @@ public class MainActivity extends AppCompatActivity
         dbHelper.getEntitledPayment(begin, end);
     }
 
-    public class OverwriteWorkingHours extends DialogFragment {
+    public static class OverwriteWorkingHours extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -381,7 +364,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void addWorkday(Calendar cal_new_begin, Calendar cal_new_end) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Calendar cal_rec_begin = Calendar.getInstance();
         Calendar cal_rec_end = Calendar.getInstance();
         //Write values to DB by default
@@ -400,8 +383,8 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 if (((cal_new_begin.before(cal_rec_end) && cal_new_begin.after(cal_rec_begin)) ||
-                        (cal_new_end.before(cal_rec_end) && cal_new_end.after(cal_rec_begin))) )                {
-                    dialog = new OverwriteWorkingHours();
+                        (cal_new_end.before(cal_rec_end) && cal_new_end.after(cal_rec_begin))) ) {
+                    DialogFragment dialog = new OverwriteWorkingHours();
                     dialog.show(getFragmentManager(), "Overwrite?");
                 }
             }
@@ -419,23 +402,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void UpdateValuesOnScreen() {
-        int minutes = 0;
-        float workinghours = 0f;
+        TextView text_info_worked;
+        TextView text_info_entitled;
+        int minutes;
+        float workinghours;
         //Set text_info_worked
         workinghours = dbHelper.getWorkingHoursinMonth(month);
         minutes = (int)((workinghours % 1)*60);
 
-        text_info_worked = (TextView) findViewById(R.id.text_info_worked);
-        text_info_worked.setText(String.format("%.0f%s %d%s",workinghours,getString(R.string.short_hour), minutes,getString(R.string.short_minute)));
+        text_info_worked = findViewById(R.id.text_info_worked);
+        text_info_worked.setText(String.format(Locale.getDefault(),"%.0f%s %d%s",workinghours,getString(R.string.short_hour), minutes,getString(R.string.short_minute)));
 
         //Set text_info_entitled
-        text_info_entitled = (TextView) findViewById(R.id.text_info_entitled);
-        text_info_entitled.setText(String.format("%s%.2f",getString(R.string.currency),dbHelper.getEntitledPaymentinMonth(month)));
+        text_info_entitled = findViewById(R.id.text_info_entitled);
+        text_info_entitled.setText(String.format(Locale.getDefault(),"%s%.2f",getString(R.string.currency),dbHelper.getEntitledPaymentinMonth(month,-1)));
     }
 
     private void initializePreferences() {
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
-        prefs.edit().putBoolean("firstrun", false).commit();
+        prefs.edit().putBoolean("firstrun", false).apply();
         dbHelper.setHolidays();
     }
 }
