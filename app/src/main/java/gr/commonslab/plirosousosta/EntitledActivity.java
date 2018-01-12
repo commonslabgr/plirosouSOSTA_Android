@@ -483,7 +483,7 @@ public class EntitledActivity extends AppCompatActivity {
         hours = dbHelper.getAllHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -576,7 +576,7 @@ public class EntitledActivity extends AppCompatActivity {
         }
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -696,7 +696,7 @@ public class EntitledActivity extends AppCompatActivity {
         hours = dbHelper.getWorkingHoursinMonth(month);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -785,7 +785,7 @@ public class EntitledActivity extends AppCompatActivity {
         hours = dbHelper.getWorkingHoursAll();
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("ώρες και λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM

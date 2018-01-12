@@ -50,7 +50,7 @@
     <string name="tab_title_all">ΟΛΑ</string>
 
     <!--ENTITLED ACTIVITY-->
-    <string name="entitled_main">ΕΧΕΙΣ ΕΡΓΑΣΤΕΙ ώρες και λεπτά</string>
+    <string name="entitled_main">ΕΧΕΙΣ ΕΡΓΑΣΤΕΙ 0 ώρες και 0 λεπτά</string>
     <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΠΡΕΠΕΙ ΝΑ ΠΛΗΡΩΘΕΙΣ €</string>
     <string name="entitled_law_states">ΕΤΣΙ ΟΡΙΖΕΙ Ο ΝΟΜΟΣ. ΚΑΠΟΙΕΣ ΦΟΡΕΣ ΠΡΕΠΕΙ ΝΑ ΑΜΟΙΒΕΣΑΙ ΜΕ ΠΑΡΑΠΑΝΩ ΛΕΦΤΑ, πχ ΟΤΑΝ ΔΟΥΛΕΥΕΙΣ ΚΥΡΙΑΚΗ, ΥΠΕΡΩΡΙΕΣ, ΚΛΠ</string>
     <string name="entitled_info_bottom">Μπορώ να κάνω κάτι αν πήρα λιγότερα λεφτά από αυτά που κανονικά δικαιούμαι;</string>
