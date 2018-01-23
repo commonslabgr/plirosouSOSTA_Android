@@ -1,10 +1,12 @@
 package gr.commonslab.plirosousosta;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
@@ -15,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -125,14 +128,23 @@ public class EntitledActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_month_entitled, container, false);
             setMonthValues(rootView);
+            final AlertDialog infodialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom).create();
 
+            infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Go to INFO activity
-                    Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
-                    v.getContext().startActivity(intent_info);
+                    //Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
+                    //v.getContext().startActivity(intent_info);
+                    infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_whatcanido)));
+                    infodialog.show();
                 }
             });
 
@@ -166,14 +178,23 @@ public class EntitledActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_year_entitled, container, false);
             setAnnualValues(rootView);
+            final AlertDialog infodialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom).create();
 
+            infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Go to INFO activity
-                    Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
-                    v.getContext().startActivity(intent_info);
+                    //Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
+                    //v.getContext().startActivity(intent_info);
+                    infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_whatcanido)));
+                    infodialog.show();
                 }
             });
 
@@ -209,26 +230,36 @@ public class EntitledActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_fromto_entitled, container, false);
+            final AlertDialog infodialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom).create();
 
+            infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Go to INFO activity
-                    Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
-                    v.getContext().startActivity(intent_info);
+                    //Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
+                    //v.getContext().startActivity(intent_info);
+                    infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_whatcanido)));
+                    infodialog.show();
                 }
             });
-            bFromToVisible = true;
-            if(isVisible()) {
-                showDatePicker(getActivity());
-            }
+
             return rootView;
         }
 
         @Override
         public void onResume() {
             super.onResume();
+            if(bFromToVisible && isVisible()) {
+                showDatePicker(getActivity());
+            }
+            bFromToVisible = true;
         }
 
         @Override
@@ -297,13 +328,23 @@ public class EntitledActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_all_entitled, container, false);
             setAllValues(rootView);
+            final AlertDialog infodialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom).create();
+
+            infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             button_info = rootView.findViewById(R.id.button_whatcanido);
             button_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Go to INFO activity
-                    Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
-                    v.getContext().startActivity(intent_info);
+                    //Intent intent_info = new Intent(v.getContext(), InfoActivity.class);
+                    //v.getContext().startActivity(intent_info);
+                    infodialog.setMessage(Html.fromHtml(getString(R.string.text_info_whatcanido)));
+                    infodialog.show();
                 }
             });
 
@@ -457,6 +498,11 @@ public class EntitledActivity extends AppCompatActivity {
                 }
             }
         }
+
+        public void onCancel(DialogInterface dialog) {
+            super.onCancel(dialog);
+            bToDate = false;
+        }
     }
 
     public static int getMinutesinHour(float hours) {
@@ -476,21 +522,24 @@ public class EntitledActivity extends AppCompatActivity {
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
-        amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
-        s = String.format(Locale.getDefault(),"€%.2f", amount);
-        text_total_amount.setText(s);
+        //amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
+
         TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
         hours = dbHelper.getAllHoursFromTo(From, to);
+        amount = dbHelper.getPayment_Actual(hours);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
+        text_total_amount.setText(s);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ΩΡΕΣ &amp; 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ &amp; %d ΛΕΠΤΑ",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
-        text_bottom.setText(s);
+        amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_bottom.setText(Html.fromHtml(s));
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
@@ -565,25 +614,33 @@ public class EntitledActivity extends AppCompatActivity {
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
+        /*
         for (int i=0; i < 12; i++) {
             amount += dbHelper.getEntitledPaymentinMonth(i, -1);
-        }
-        s = String.format(Locale.getDefault(),"€%.2f", amount);
-        text_total_amount.setText(s);
+        }*/
+
         TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
         for (int i=0; i < 12; i++) {
             hours += dbHelper.getWorkingHoursinMonth(i);
         }
+        amount = dbHelper.getPayment_Actual(hours);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
+        text_total_amount.setText(s);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ΩΡΕΣ &amp; 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ &amp; %d ΛΕΠΤΑ",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
-        text_bottom.setText(s);
+        amount = 0;
+        for (int i=0; i < 12; i++) {
+            amount += dbHelper.getEntitledPaymentinMonth(i, -1);
+        }
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_bottom.setText(Html.fromHtml(s));
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
@@ -689,21 +746,25 @@ public class EntitledActivity extends AppCompatActivity {
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
-        amount = dbHelper.getEntitledPaymentinMonth(month, -1);
-        s = String.format(Locale.getDefault(),"€%.2f", amount);
-        text_total_amount.setText(s);
+
         TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
         hours = dbHelper.getWorkingHoursinMonth(month);
+        amount = dbHelper.getPayment_Actual(hours);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
+        text_total_amount.setText(s);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
-        text_bottom.setText(s);
+        amount = dbHelper.getEntitledPaymentinMonth(month, -1);
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        //s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
+        text_bottom.setText(Html.fromHtml(s));
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
@@ -778,21 +839,24 @@ public class EntitledActivity extends AppCompatActivity {
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
-        amount = dbHelper.getEntitledPaymentAll();
-        s = String.format(Locale.getDefault(),"€%.2f", amount);
-        text_total_amount.setText(s);
+
         TextView text_total_hours = rootView.findViewById(R.id.text_should_get);
         hours = dbHelper.getWorkingHoursAll();
+        amount = dbHelper.getPayment_Actual(hours);
+        s = String.format(Locale.getDefault(),"€%.2f", amount);
+        text_total_amount.setText(s);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
+        s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
         text_total_hours.setText(s);
 
         //BOTTOM
         TextView text_bottom = rootView.findViewById(R.id.text_should_getpaid);
         s = text_bottom.getText().toString();
-        s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
-        text_bottom.setText(s);
+        amount = dbHelper.getEntitledPaymentAll();
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_bottom.setText(Html.fromHtml(s));
 
         //SUNDAYS & HOLIDAYS
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
