@@ -287,6 +287,11 @@ public class MainActivity extends AppCompatActivity
                 addWorkday(BeginWork,EndWork);
             }
         }
+
+        public void onCancel(DialogInterface dialog) {
+            super.onCancel(dialog);
+            BeginWorkSet = false;
+        }
     }
 
     /**
@@ -325,9 +330,36 @@ public class MainActivity extends AppCompatActivity
 
     public void setWorkingHourBegin (Date begin) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT, dateFormat.format(begin));
         sqldb.insert(dbHelper.WORKINGHOURS_TABLE_NAME,null,contentValues);
+    }
+
+    public void deleteHoursandPayments(Calendar begin, Calendar end, boolean overwrite) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        if (!overwrite) {
+            String sql = "DELETE FROM " + dbHelper.WORKINGHOURS_TABLE_NAME + " WHERE datetime(" +
+                    dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ") == datetime('" + dateFormat.format(begin.getTime()) + "')";
+            sqldb.execSQL(sql);
+            sql = "DELETE FROM " + dbHelper.PAYMENT_TABLE_NAME + " WHERE datetime(" +
+                    dbHelper.PAYMENT_COLUMN_BEGINSHIFT + ") == datetime('" + dateFormat.format(begin.getTime()) + "')";
+            sqldb.execSQL(sql);
+        } else {
+            String sql = "DELETE FROM " + dbHelper.WORKINGHOURS_TABLE_NAME + " WHERE (datetime("+
+                    dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(begin.getTime()) + "') AND datetime(" +
+                    dbHelper.WORKINGHOURS_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(begin.getTime()) + "') ) OR (datetime(" +
+                    dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(end.getTime()) + "') AND datetime(" +
+                    dbHelper.WORKINGHOURS_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(end.getTime()) + "') )";
+            sqldb.execSQL(sql);
+            sql = "DELETE FROM " + dbHelper.PAYMENT_TABLE_NAME + " WHERE (datetime("+
+                    dbHelper.PAYMENT_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(begin.getTime()) + "') AND datetime(" +
+                    dbHelper.PAYMENT_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(begin.getTime()) + "') ) OR (datetime(" +
+                    dbHelper.PAYMENT_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(end.getTime()) + "') AND datetime(" +
+                    dbHelper.PAYMENT_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(end.getTime()) + "') )";
+            sqldb.execSQL(sql);
+        }
+        UpdateValuesOnScreen();
     }
 
     public void setWorkingHourEnd (Date end, Date begin) {
@@ -342,7 +374,7 @@ public class MainActivity extends AppCompatActivity
         dbHelper.getEntitledPayment(begin, end);
     }
 
-    public static class OverwriteWorkingHours extends DialogFragment {
+    public class OverwriteWorkingHours extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -351,12 +383,22 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             b_Overwrite = true;
+                            deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
+                            setWorkingHourBegin(BeginWork.getTime());
+                            setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
+                            setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
+                            UpdateValuesOnScreen();
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             b_Overwrite = false;
+                            deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
+                            setWorkingHourBegin(BeginWork.getTime());
+                            setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
+                            setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
+                            UpdateValuesOnScreen();
                         }
                     });
             return builder.create();
@@ -365,40 +407,31 @@ public class MainActivity extends AppCompatActivity
 
     public void addWorkday(Calendar cal_new_begin, Calendar cal_new_end) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        Calendar cal_rec_begin = Calendar.getInstance();
-        Calendar cal_rec_end = Calendar.getInstance();
         //Write values to DB by default
-        b_Overwrite = true;
         sqldb = dbHelper.getReadableDatabase();
-        String sql = "select * from "+DBHelper.WORKINGHOURS_TABLE_NAME+" WHERE datetime("+
-                DBHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ", 'start of day') == datetime('" + dateFormat.format(cal_new_begin.getTime()) + "', 'start of day')";
+        //Check for existing entries between the same datetimes.
+        String sql = "SELECT * FROM " + dbHelper.WORKINGHOURS_TABLE_NAME + " WHERE (datetime("+
+                dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(cal_new_begin.getTime()) + "') AND datetime(" +
+                dbHelper.WORKINGHOURS_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(cal_new_begin.getTime()) + "') ) OR (datetime(" +
+                dbHelper.WORKINGHOURS_COLUMN_BEGINSHIFT + ") <= datetime('" + dateFormat.format(cal_new_end.getTime()) + "') AND datetime(" +
+                dbHelper.WORKINGHOURS_COLUMN_ENDSHIFT + ") >= datetime('" + dateFormat.format(cal_new_end.getTime()) + "') )";
         Cursor cursor =  sqldb.rawQuery(sql, null );
 
         try {
             while (cursor.moveToNext()) {
-                try {
-                    cal_rec_begin.setTime(dateFormat.parse(cursor.getString(0)));
-                    cal_rec_end.setTime(dateFormat.parse(cursor.getString(1)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (((cal_new_begin.before(cal_rec_end) && cal_new_begin.after(cal_rec_begin)) ||
-                        (cal_new_end.before(cal_rec_end) && cal_new_end.after(cal_rec_begin))) ) {
-                    DialogFragment dialog = new OverwriteWorkingHours();
-                    dialog.show(getFragmentManager(), "Overwrite?");
-                }
+                DialogFragment dialog = new OverwriteWorkingHours();
+                dialog.show(getFragmentManager(), "Overwrite?");
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
         }
-        if (!b_Overwrite) {
-            return;
-        }
 
+        //deleteHoursandPayments(cal_new_begin, cal_new_end, b_Overwrite);
         setWorkingHourBegin(cal_new_begin.getTime());
         setWorkingHourEnd(cal_new_end.getTime(), cal_new_begin.getTime());
         setEntitledPayment(cal_new_begin.getTime(), cal_new_end.getTime());
         UpdateValuesOnScreen();
+        b_Overwrite = false;
     }
 
     public void UpdateValuesOnScreen() {
