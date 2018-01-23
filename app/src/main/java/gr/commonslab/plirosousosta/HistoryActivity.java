@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
@@ -408,6 +409,10 @@ public class HistoryActivity extends AppCompatActivity {
                 }
             }
         }
+        public void onCancel(DialogInterface dialog) {
+            super.onCancel(dialog);
+            bToDate = false;
+        }
     }
 
     public static void showDatePicker(FragmentActivity activity){
@@ -429,7 +434,7 @@ public class HistoryActivity extends AppCompatActivity {
      */
     public static void setMonthValues(View rootView) {
         int month = Calendar.getInstance().get(Calendar.MONTH);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM",Locale.getDefault());
         Date startDate = new Date();
         Date endDate = new Date();
         float hours;
@@ -455,7 +460,7 @@ public class HistoryActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         int maxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         Calendar nextDay = Calendar.getInstance();
-
+        int rownumber = 0;
         for (int i=0; i < maxDays; i++) {
             cal.set(Calendar.DAY_OF_MONTH,i+1);
             cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -468,7 +473,12 @@ public class HistoryActivity extends AppCompatActivity {
             nextDay.set(Calendar.SECOND, 59);
             endDate.setTime(nextDay.getTimeInMillis());
 
-            if (i%2 == 0) {
+            amount = dbHelper.getEntitledPaymentValueFromTo(cal,nextDay);
+            if(amount == 0f) {
+                continue;
+            }
+            rownumber++;
+            if (rownumber%2 == 0) {
                 evenrow = true;
             } else {
                 evenrow = false;
@@ -500,7 +510,7 @@ public class HistoryActivity extends AppCompatActivity {
             minutes = getMinutesinHour(hours);
             s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
             time.setText(s);
-            amount = dbHelper.getEntitledPaymentValueFromTo(cal,nextDay);
+
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
 
             row.addView(date);
@@ -559,6 +569,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         cStart.setTime(From.getTime());
         cNextDay.setTime(From.getTime());
+        int rownumber = 0;
         for (int i=0; i < maxDays; i++) {
             cStart.add(Calendar.DAY_OF_YEAR, 1);
             cStart.set(Calendar.HOUR_OF_DAY, 0);
@@ -568,8 +579,12 @@ public class HistoryActivity extends AppCompatActivity {
             cNextDay.set(Calendar.HOUR_OF_DAY, 23);
             cNextDay.set(Calendar.MINUTE, 59);
             cNextDay.set(Calendar.SECOND, 59);
-
-            if (i%2 == 0) {
+            amount = dbHelper.getEntitledPaymentValueFromTo(cStart,cNextDay);
+            if (amount == 0f) {
+                continue;
+            }
+            rownumber++;
+            if (rownumber%2 == 0) {
                 evenrow = true;
             } else {
                 evenrow = false;
@@ -601,7 +616,7 @@ public class HistoryActivity extends AppCompatActivity {
             minutes = getMinutesinHour(hours);
             s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
             time.setText(s);
-            amount = dbHelper.getEntitledPaymentValueFromTo(cStart,cNextDay);
+
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
 
             row.addView(date);
@@ -641,9 +656,14 @@ public class HistoryActivity extends AppCompatActivity {
         TableLayout tl = rootView.findViewById(R.id.table);
         boolean evenrow = false;
         Calendar cal = Calendar.getInstance();
-
+        int rownumber = 0;
         for (int i=0; i < 12; i++) {
-            if (i%2 == 0) {
+            amount = dbHelper.getEntitledPaymentinMonth(i, -1);
+            if (amount == 0f) {
+                continue;
+            }
+            rownumber++;
+            if (rownumber%2 == 0) {
                 evenrow = true;
             } else {
                 evenrow = false;
@@ -675,7 +695,7 @@ public class HistoryActivity extends AppCompatActivity {
             minutes = getMinutesinHour(hours);
             s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
             time.setText(s);
-            amount = dbHelper.getEntitledPaymentinMonth(i, -1);
+
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
 
             row.addView(date);
@@ -718,9 +738,14 @@ public class HistoryActivity extends AppCompatActivity {
         cEnd.setTime(dbHelper.getLastWorkingDateTime());
         int years = cEnd.get(Calendar.YEAR) - cStart.get(Calendar.YEAR);
         int months = (years * 12) + cEnd.get(Calendar.MONTH) - cStart.get(Calendar.MONTH) + 1;
-
+        int rownumber = 0;
         for (int i=0; i < months; i++) {
-            if (i%2 == 0) {
+            amount = dbHelper.getEntitledPaymentinMonth(cStart.get(Calendar.MONTH), cStart.get(Calendar.YEAR));
+            if(amount == 0f) {
+                continue;
+            }
+            rownumber++;
+            if (rownumber%2 == 0) {
                 evenrow = true;
             } else {
                 evenrow = false;
@@ -753,7 +778,7 @@ public class HistoryActivity extends AppCompatActivity {
             minutes = getMinutesinHour(hours);
             s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
             time.setText(s);
-            amount = dbHelper.getEntitledPaymentinMonth(cStart.get(Calendar.MONTH), cStart.get(Calendar.YEAR));
+
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
 
             row.addView(date);
