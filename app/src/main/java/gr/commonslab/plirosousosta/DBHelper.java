@@ -56,14 +56,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String SETTINGS_COLUMN_DATE;
     public static final String SETTINGS_COLUMN_TYPE;
     public static final String HOLIDAYS_TABLE_NAME;
-    public static final String HOLIDAY;
+    public static final String HOLIDAY_COLUMN;
 
     static {
         DATABASE_NAME = "plirosousosta.db";
         DATABASE_VERSION = 1;
         overwork_start = 40;
         NIGHT = "NIGHT";
-        HOLIDAY = "holiday_date";
+        HOLIDAY_COLUMN = "holiday_date";
         HOLIDAYS_TABLE_NAME = "holidays";
         WORKINGHOURS_TABLE_NAME = "workinghours";
         WORKINGHOURS_COLUMN_BEGINSHIFT = "begin";
@@ -145,7 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         database.execSQL(
                 "create table " + HOLIDAYS_TABLE_NAME+
-                        " ("+HOLIDAY+" text primary key)"
+                        " ("+HOLIDAY_COLUMN+" text primary key)"
         );
 
         //Set Holidays
@@ -173,82 +173,139 @@ public class DBHelper extends SQLiteOpenHelper {
         //HOLIDAYS IN GREECE 2018 - 2022
         //ΠΡΩΤΟΧΡΟΝΙΑ
         try {
-            contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-01-01")));
-            contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-01-01")));
-            contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-01-01")));
-            contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-01-01")));
-            contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-01-01")));
-
+            contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-01-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+            contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-01-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+            contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-01-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+            contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-01-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+            contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-01-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΘΕΟΦΑΝΕΙΑ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-01-06")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-01-06")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-01-06")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-01-06")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-01-06")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-01-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-01-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-01-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-01-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-01-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΚΑΘΑΡΑ ΔΕΥΤΕΡΑ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-02-19")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-03-11")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-03-02")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-03-15")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-03-07")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-02-19")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-03-11")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-03-02")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-03-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-03-07")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //25η ΜΑΡΤΙΟΥ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-03-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-03-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-03-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-03-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-03-25")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-03-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-03-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-03-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-03-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-03-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΜΕΓΑΛΗ ΠΑΡΑΣΚΕΥΗ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-04-06")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-04-26")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-04-17")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-04-30")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-04-22")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-04-06")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-04-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-04-17")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-04-30")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-04-22")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΜΕΓΑΛΟ ΣΑΒΒΑΤΟ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-04-07")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-04-27")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-04-18")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-05-01")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-04-23")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-04-07")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-04-27")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-04-18")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-05-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-04-23")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΔΕΥΤΕΡΑ ΤΟΥ ΠΑΣΧΑ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-04-09")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-04-29")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-04-20")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-05-03")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-04-25")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-04-09")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-04-29")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-04-20")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-05-03")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-04-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //1η ΜΑΙΟΥ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-05-01")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-05-01")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-05-01")));
-        //contentValues.put(this.HOLIDAY, dateFormat.format("2021-05-01"))); Same as easter
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-05-01")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-05-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-05-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-05-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        //contentValues.put(this.HOLIDAY_COLUMN, dateFormat.format("2021-05-01"))); Same as easter
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-05-01")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //15 ΑΥΓΟΥΣΤΟΥ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-08-15")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-08-15")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-08-15")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-08-15")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-08-15")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-08-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-08-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-08-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-08-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-08-15")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //28η ΟΚΤΩΒΡΙΟΥ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-10-28")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-10-28")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-10-28")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-10-28")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-10-28")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-10-28")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-10-28")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-10-28")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-10-28")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-10-28")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΧΡΙΣΤΟΥΓΕΝΝA
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-12-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-12-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-12-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-12-25")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-12-25")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-12-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-12-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-12-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-12-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-12-25")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         //ΕΠΟΜΕΝΗ ΧΡΙΣΤΟΥΓΕΝΝΩΝ
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2018-12-26")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2019-12-26")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2020-12-26")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2021-12-26")));
-        contentValues.put(HOLIDAY, dateFormat.format(date.parse("2022-12-26")));
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2018-12-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2019-12-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2020-12-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2021-12-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
+        contentValues.put(HOLIDAY_COLUMN, dateFormat.format(date.parse("2022-12-26")));
+            sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        sqldb.insert(HOLIDAYS_TABLE_NAME, null, contentValues);
     }
 
     public void setHourWage() {
@@ -259,7 +316,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public Calendar setStartofDay(Calendar cal) {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 1);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 1);
         return cal;
     }
 
@@ -294,7 +352,7 @@ public class DBHelper extends SQLiteOpenHelper {
         beginwork.setTime(from);
         Calendar endwork = Calendar.getInstance();
         endwork.setTime(to);
-        long millisinhours = 3600000;
+        float millisinhours = 3600000;
 
         //Initialize calendars for nightshifts
         nightshift_start = (Calendar)beginwork.clone();
@@ -306,15 +364,15 @@ public class DBHelper extends SQLiteOpenHelper {
             //If begin working hour is before the night shift starting hour
             //Calculate the night shift working hour by subtracting the hour of the start of night shift
             if (nightshift_end.getTimeInMillis() > endwork.getTimeInMillis()) {
-                nightshifthours = (float)((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                nightshifthours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
             } else {
-                nightshifthours = (float)((nightshift_end.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                nightshifthours = ((nightshift_end.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
             }
         } else { //Begin work is after night shift start
             if (nightshift_end.getTimeInMillis() > endwork.getTimeInMillis()) {
-                nightshifthours = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+                nightshifthours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
             } else {
-                nightshifthours = (float)((nightshift_end.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+                nightshifthours = ((nightshift_end.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
             }
         }
         if (nightshifthours < 0)
@@ -330,31 +388,31 @@ public class DBHelper extends SQLiteOpenHelper {
         Calendar endwork = Calendar.getInstance();
         endwork.setTime(to);
         Float overtimehours;
-        long millisinhours = 3600000;
+        float millisinhours = 3600000;
         //Overtime in weekdays starts after the 9th hour of work
-        long weekDayOvertime = 9 * millisinhours;
+        float weekDayOvertime = 9 * millisinhours;
         //Overtime in weekend starts after the 8th hour of work
-        long weekEndOvertime = 8 * millisinhours;
+        float weekEndOvertime = 8 * millisinhours;
         boolean weekDay = isWeekDay(beginwork);
 
         if (weekDay) {
             if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-                overtimehours = (float)((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
             } else {
-                overtimehours = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekDayOvertime) / millisinhours);
+                overtimehours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekDayOvertime) / millisinhours);
             }
         } else {
             if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-                overtimehours = (float)((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
             } else {
-                overtimehours = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekEndOvertime) / millisinhours);
+                overtimehours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekEndOvertime) / millisinhours);
             }
         }
 
         if (overtimehours < 0) {
             overtimehours = 0f;
         }
-        return overtimehours;
+        return round(overtimehours, 2);
     }
 
     //Calculate the hours that are in SATURDAY
@@ -362,7 +420,11 @@ public class DBHelper extends SQLiteOpenHelper {
         if (FnBIndustryWorker) {
             return 0f;
         }
+
+        boolean isSaturdaybegin = false;
+        boolean isSaturdayend = false;
         float result = 0f;
+
         Calendar beginwork = Calendar.getInstance();
         beginwork.setTime(from);
         Calendar endwork = Calendar.getInstance();
@@ -372,19 +434,38 @@ public class DBHelper extends SQLiteOpenHelper {
         nightshift_end = (Calendar)endwork.clone();
         initializeNightshiftHours();
 
-        long millisinhours = 3600000;
-        if (beginwork.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            if (endwork.get(Calendar.DAY_OF_WEEK) != beginwork.get(Calendar.DAY_OF_WEEK)) {
-                endwork.add(Calendar.DAY_OF_MONTH,-1);
-                endwork = setEndofDay(endwork);
-                result = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
-            }
-            if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-                result = (float)((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+        float millisinhours = 3600000;
+
+        if (Calendar.SATURDAY == beginwork.get(Calendar.DAY_OF_WEEK)) {
+            isSaturdaybegin = true;
+        }
+        if (Calendar.SATURDAY == endwork.get(Calendar.DAY_OF_WEEK)) {
+            isSaturdayend = true;
+        }
+
+        if ((isSaturdaybegin) && (isSaturdayend)) {
+            result = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+        } else if (isSaturdaybegin) {
+            Calendar beginSat = (Calendar)beginwork.clone();
+            beginSat = setEndofDay(beginSat);
+            result = ((beginSat.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+        } else if (isSaturdayend) {
+            Calendar endSat = (Calendar)endwork.clone();
+            endSat = setStartofDay(endSat);
+            result = ((endwork.getTimeInMillis() - endSat.getTimeInMillis()) / millisinhours);
+        } else {
+            result = 0f;
+        }
+        if ((flag == NIGHT) && (endwork.getTimeInMillis() > nightshift_start.getTimeInMillis())) {
+            if (isSaturdaybegin) {
+                result = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
             } else {
-                result = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+                Calendar endSat = (Calendar)endwork.clone();
+                endSat = setStartofDay(endSat);
+                result = ((endwork.getTimeInMillis() - endSat.getTimeInMillis()) / millisinhours);
             }
         }
+
         if (result < 0) {
             result = 0f;
         } else {
@@ -438,10 +519,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Float getHolidaysHours(Date from, Date to, String flag) {
         Float holidayHours;
-        long millisinhours = 3600000;
+        float millisinhours = 3600000;
         boolean isHolidaybegin = false;
         boolean isHolidayend = false;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date holiday = new Date();
         Calendar beginwork = Calendar.getInstance();
         beginwork.setTime(from);
@@ -452,6 +533,10 @@ public class DBHelper extends SQLiteOpenHelper {
         Calendar hol = Calendar.getInstance();
         sqldb = this.getReadableDatabase();
 
+        nightshift_start = (Calendar)beginwork.clone();
+        nightshift_end = (Calendar)endwork.clone();
+        initializeNightshiftHours();
+
         if (Calendar.SUNDAY == beginwork.get(Calendar.DAY_OF_WEEK)) {
             isHolidaybegin = true;
         }
@@ -460,46 +545,43 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         Cursor cursor = null;
         try {
-            String sql = "SELECT * FROM " + HOLIDAYS_TABLE_NAME;
+            String sql = "SELECT * FROM " + HOLIDAYS_TABLE_NAME+" WHERE "+HOLIDAY_COLUMN+"='"+dateFormat.format(from)+"'";
             cursor = sqldb.rawQuery(sql, null);
 
             while (cursor.moveToNext()) {
-                try {
-                    holiday = dateFormat.parse(cursor.getString(0));
-                    hol.setTime(holiday);
-                    if (!isHolidaybegin) {
-                        isHolidaybegin = ((beginwork.get(Calendar.YEAR) == hol.get(Calendar.YEAR)) && (beginwork.get(Calendar.MONTH) == hol.get(Calendar.MONTH)) && (beginwork.get(Calendar.DATE) == hol.get(Calendar.DATE)));
-                    }
-                    if (!isHolidayend) {
-                        isHolidayend = ((endwork.get(Calendar.YEAR) == hol.get(Calendar.YEAR)) && (endwork.get(Calendar.MONTH) == hol.get(Calendar.MONTH)) && (endwork.get(Calendar.DATE) == hol.get(Calendar.DATE)));
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                isHolidaybegin = true;
+            }
+
+            sql = "SELECT * FROM " + HOLIDAYS_TABLE_NAME+" WHERE "+HOLIDAY_COLUMN+"='"+dateFormat.format(to)+"'";
+            cursor = sqldb.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                isHolidayend = true;
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
         }
 
         if ((isHolidaybegin) && (isHolidayend)) {
-            holidayHours = (float)((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+            holidayHours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
         } else if (isHolidaybegin) {
             beginHol = (Calendar)beginwork.clone();
             beginHol = setEndofDay(beginHol);
-            holidayHours = (float)((beginHol.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
+            holidayHours = ((beginHol.getTimeInMillis() - beginwork.getTimeInMillis()) / millisinhours);
         } else if (isHolidayend) {
             endHol = (Calendar)endwork.clone();
             endHol = setStartofDay(endHol);
-            holidayHours = (float)((endwork.getTimeInMillis() - endHol.getTimeInMillis()) / millisinhours);
-        } else if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-            holidayHours = (float)((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
-        }else {
+            holidayHours = ((endwork.getTimeInMillis() - endHol.getTimeInMillis()) / millisinhours);
+        } else {
             holidayHours = 0f;
+        }
+        if ((flag == NIGHT) && (endwork.getTimeInMillis() > nightshift_start.getTimeInMillis())) {
+            holidayHours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
         }
         if (cursor != null) {
             cursor.close();
         }
-        return holidayHours;
+        return round(holidayHours, 2);
     }
 
     public boolean isWeekDay(Calendar day) {
@@ -539,6 +621,7 @@ public class DBHelper extends SQLiteOpenHelper {
         float hours_normal = 0f;
         float hours_holidays = 0f;
         float hours_holidays_overtime = 0f;
+        float hours_holidays_night = 0f;
         float hours_holidays_night_overtime = 0f;
         float hours_night = 0f;
         float hours_overwork = 0f;
@@ -553,6 +636,9 @@ public class DBHelper extends SQLiteOpenHelper {
         float payment_night = 0f;
         float payment_overwork = 0f;
         float payment_overtime = 0f;
+        float payment_overtime_saturday = 0f;
+        float payment_overtime_holidays = 0f;
+        float payment_overtime_night = 0f;
         float payment_saturdays = 0f;
         float payment_entitled = 0f;
         float legal_hourly_pay = 0f;
@@ -588,6 +674,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 hours_overwork_night = getOverworkHours(from, to, NIGHT);
                 hours_overwork -= hours_overwork_night;
             }
+            if (hours_holidays > 0) {
+                hours_holidays_night = getHolidaysHours(from, to, NIGHT);
+            }
         }
 
        //Store working hours values to DB
@@ -599,36 +688,40 @@ public class DBHelper extends SQLiteOpenHelper {
         payment_normal = getPayment_Actual(hours_normal);
         payment_holidays = getHolidayPayment(hours_holidays, legal_hourly_pay);
         payment_night = getNightShiftPayment(hours_night, legal_hourly_pay);
-
+        /*if (hours_holidays_night > 0) {
+            tmp_hourly_wage = hourly_wage + (legal_hourly_pay*multiplier_holidays);
+            payment_holidays += getHolidayPayment(hours_holidays_night, tmp_hourly_wage);
+        }*/
         if (hours_saturday_night > 0) {
             tmp_hourly_wage = hourly_wage + (legal_hourly_pay*multiplier_nightshifts);
             payment_saturdays = getSaturdaysPayment(hours_saturday_night, tmp_hourly_wage);
         }
         payment_saturdays += getSaturdaysPayment(hours_saturday, hourly_wage);
-
-        if (hours_saturday > 0) {
-            //Calculate Overtime payment on a Saturday
-            tmp_hourly_wage = hourly_wage + (hourly_wage*multiplier_saturdays);
-            payment_overtime = getOvertimePayment(hours_overtime, tmp_hourly_wage);
-            //Calculate normal Overtime payment
-            payment_overtime += getOvertimePayment(hours_overtime, hourly_wage);
-        }
-        if (hours_holidays > 0) {
-            //Calculate Overtime payment on a Sunday or Holiday
-            tmp_hourly_wage = hourly_wage + (legal_hourly_pay*multiplier_holidays);
-            //tmp_hourly_wage += tmp_hourly_wage*multiplier_overtime;
-            payment_overtime = getOvertimePayment(hours_overtime, tmp_hourly_wage);
-            //Calculate normal Overtime payment
-            //payment_overtime += getOvertimePayment(hours_overtime, hourly_wage);
-        }
-        if (hours_overtime_night > 0) {
-            //Calculate overtime payment on a night
-            tmp_hourly_wage = hourly_wage + (legal_hourly_pay * multiplier_nightshifts);
-            payment_overtime += getOvertimePayment(hours_overtime_night, tmp_hourly_wage);
-            //Calculate normal Overtime payment
-            if (hours_holidays == 0) {
-                payment_overtime += getOvertimePayment(hours_overtime, hourly_wage);
+        if (hours_overtime > 0) {
+            payment_overtime = getOvertimePayment(hours_overtime, hourly_wage);
+            if (hours_saturday > 0) {
+                //Calculate Overtime payment on a Saturday
+                tmp_hourly_wage = hourly_wage + (hourly_wage * multiplier_saturdays);
+                payment_overtime_saturday = getOvertimePayment(hours_overtime, tmp_hourly_wage);
+                //Calculate normal Overtime payment
+                //payment_overtime += getOvertimePayment(hours_overtime, hourly_wage);
             }
+            if (hours_holidays > 0) {
+                payment_overtime = 0;
+                //Calculate Overtime payment on a Sunday or Holiday
+                tmp_hourly_wage = hourly_wage + (legal_hourly_pay * multiplier_holidays);
+                payment_overtime_holidays = getOvertimePayment(hours_overtime, tmp_hourly_wage);
+            }
+            if (hours_overtime_night > 0) {
+                //Calculate overtime payment on a night
+                tmp_hourly_wage = hourly_wage + (legal_hourly_pay * multiplier_nightshifts);
+                payment_overtime_night = getOvertimePayment(hours_overtime_night, tmp_hourly_wage);
+                //Calculate normal Overtime payment
+                if (hours_holidays == 0) {
+                    payment_overtime_holidays = getOvertimePayment(hours_overtime, hourly_wage);
+                }
+            }
+            payment_overtime += payment_overtime_holidays + payment_overtime_night + payment_overtime_saturday;
         }
 
         if (hours_overwork_night > 0) {
@@ -788,7 +881,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public float getWorkingHours(Date from, Date to) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date begin = new Date();
         Date end = new Date();
         float workinghours = 0;
@@ -800,16 +894,14 @@ public class DBHelper extends SQLiteOpenHelper {
             if ((from == null) && (to == null)) {
                 sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME;
             } else {
-                sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME + " WHERE datetime(" +
-                        WORKINGHOURS_COLUMN_BEGINSHIFT + ") > datetime('" + dateFormat.format(from) + "') AND datetime(" +
-                        WORKINGHOURS_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(to) + "')";
+                sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME + " WHERE date("+WORKINGHOURS_COLUMN_BEGINSHIFT+", 'start of day')=date('"+dateFormat.format(from)+"','start of day')";
             }
             cursor = sqldb.rawQuery(sql, null);
 
             while (cursor.moveToNext()) {
                 try {
-                    begin = dateFormat.parse(cursor.getString(0));
-                    end = dateFormat.parse(cursor.getString(1));
+                    begin = datetimeFormat.parse(cursor.getString(0));
+                    end = datetimeFormat.parse(cursor.getString(1));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -1187,16 +1279,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public float getPaymentValueFromTo(Calendar startDay, Calendar endDay, String column) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         sqldb = this.getReadableDatabase();
         float result = 0f;
         Cursor cursor = null;
 
         try {
+            /*
             String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime(" +
                         PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
                         PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
+                        */
+            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE date("+PAYMENT_COLUMN_BEGINSHIFT+", 'start of day')=date('"+dateFormat.format(startDay.getTime())+"','start of day')";
             cursor = sqldb.rawQuery(sql, null);
 
             while (cursor.moveToNext()) {
