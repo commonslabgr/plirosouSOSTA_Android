@@ -27,6 +27,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -178,7 +179,7 @@ public class HistoryActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
+        private static boolean bFirstRunFromTo = false;
         public FromToFragment() {
         }
 
@@ -189,6 +190,7 @@ public class HistoryActivity extends AppCompatActivity {
         public static FromToFragment newInstance(int sectionNumber) {
             FromToFragment fragment = new FromToFragment();
             Bundle args = new Bundle();
+            bFirstRunFromTo = true;
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
@@ -199,11 +201,17 @@ public class HistoryActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_fromto_history, container, false);
 
-            bFromToVisible = true;
-            if(isVisible()) {
+            return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            if ((bFirstRunFromTo && getUserVisibleHint()) || (bFromToVisible && getUserVisibleHint())) {
+                bFirstRunFromTo = false;
                 showDatePicker(getActivity());
             }
-            return rootView;
+            bFromToVisible = true;
         }
 
         @Override
@@ -343,10 +351,12 @@ public class HistoryActivity extends AppCompatActivity {
 
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
+            //TODO: REMOVE SET MAX
+            // dp.getDatePicker().setMaxDate(System.currentTimeMillis());
             if (bToDate) {
-                dp.setTitle("ΕΩΣ");
+                dp.setTitle(getString(R.string.picker_title_to));
             } else {
-                dp.setTitle("ΑΠΟ");
+                dp.setTitle(getString(R.string.picker_title_from));
             }
             return dp;
         }
@@ -361,7 +371,7 @@ public class HistoryActivity extends AppCompatActivity {
                 ToDate.set(Calendar.DAY_OF_MONTH, day);
                 if (ToDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a past or present date.";
+                    CharSequence text = getString(R.string.warning_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -371,7 +381,7 @@ public class HistoryActivity extends AppCompatActivity {
                     TodateFragment.show(getFragmentManager(), "datePicker");
                 } else if (ToDate.getTimeInMillis() <= FromDate.getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a date that is after the first selected date.";
+                    CharSequence text = getString(R.string.warning_after_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -393,7 +403,7 @@ public class HistoryActivity extends AppCompatActivity {
                 FromDate.set(Calendar.DAY_OF_MONTH, day);
                 if (FromDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a past date.";
+                    CharSequence text = getString(R.string.warning_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -452,7 +462,7 @@ public class HistoryActivity extends AppCompatActivity {
         TextView text_workhours = rootView.findViewById(R.id.text_workhours);
         hours = dbHelper.getTotalHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        s = setHoursandMinutesLongString(hours, minutes);
         text_workhours.setText(s);
 
         TableLayout tl = rootView.findViewById(R.id.table);
@@ -473,7 +483,8 @@ public class HistoryActivity extends AppCompatActivity {
             nextDay.set(Calendar.SECOND, 59);
             endDate.setTime(nextDay.getTimeInMillis());
 
-            amount = dbHelper.getEntitledPaymentValueFromTo(cal,nextDay);
+            //amount = dbHelper.getEntitledPaymentValueFromTo(cal,nextDay);
+            amount = dbHelper.getEntitledPaymentValueFromOnly(cal);
             if(amount == 0f) {
                 continue;
             }
@@ -506,9 +517,9 @@ public class HistoryActivity extends AppCompatActivity {
             date.setPadding(100,5,10,5);
             time.setPadding(100,5,10,5);
             amountPay.setPadding(100,5,50,5);
-            hours = dbHelper.getWorkingHours(startDate,endDate);
+            hours = dbHelper.getWorkingHours(startDate,null);
             minutes = getMinutesinHour(hours);
-            s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
+            s = setHoursandMinutesString(hours, minutes);
             time.setText(s);
 
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
@@ -546,7 +557,7 @@ public class HistoryActivity extends AppCompatActivity {
         TextView text_workhours = rootView.findViewById(R.id.text_workhours);
         hours = dbHelper.getWorkingHours(From.getTime(), to.getTime());
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        s = setHoursandMinutesLongString(hours, minutes);
         text_workhours.setText(s);
 
         TableLayout tl = rootView.findViewById(R.id.table);
@@ -579,7 +590,8 @@ public class HistoryActivity extends AppCompatActivity {
             cNextDay.set(Calendar.HOUR_OF_DAY, 23);
             cNextDay.set(Calendar.MINUTE, 59);
             cNextDay.set(Calendar.SECOND, 59);
-            amount = dbHelper.getEntitledPaymentValueFromTo(cStart,cNextDay);
+            //amount = dbHelper.getEntitledPaymentValueFromTo(cStart,cNextDay);
+            amount = dbHelper.getEntitledPaymentValueFromOnly(cStart);
             if (amount == 0f) {
                 continue;
             }
@@ -612,9 +624,9 @@ public class HistoryActivity extends AppCompatActivity {
             date.setPadding(100,5,10,5);
             time.setPadding(100,5,10,5);
             amountPay.setPadding(100,5,50,5);
-            hours = dbHelper.getWorkingHours(cStart.getTime(),cNextDay.getTime());
+            hours = dbHelper.getWorkingHours(cStart.getTime(),null);
             minutes = getMinutesinHour(hours);
-            s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
+            s = setHoursandMinutesString(hours, minutes);
             time.setText(s);
 
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
@@ -650,13 +662,14 @@ public class HistoryActivity extends AppCompatActivity {
             hours += dbHelper.getTotalHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        s = setHoursandMinutesLongString(hours, minutes);
         text_workhours.setText(s);
 
         TableLayout tl = rootView.findViewById(R.id.table);
         boolean evenrow = false;
         Calendar cal = Calendar.getInstance();
         int rownumber = 0;
+        String smonths[] = new DateFormatSymbols().getMonths();
         for (int i=0; i < 12; i++) {
             amount = dbHelper.getEntitledPaymentinMonth(i, -1);
             if (amount == 0f) {
@@ -687,13 +700,14 @@ public class HistoryActivity extends AppCompatActivity {
             }
             amountPay.setTextColor(0XFFE8646F);
 
-            date.setText(String.format(Locale.getDefault(),"%02d-%d",(i+1),cal.get(Calendar.YEAR)));
+            //date.setText(String.format(Locale.getDefault(),"%02d-%d",(i+1),cal.get(Calendar.YEAR)));
+            date.setText(String.format(Locale.getDefault(),"%s-%d",smonths[i],cal.get(Calendar.YEAR)));
             date.setPadding(100,5,10,5);
             time.setPadding(100,5,10,5);
             amountPay.setPadding(100,5,50,5);
             hours = dbHelper.getWorkingHoursinMonth(i);
             minutes = getMinutesinHour(hours);
-            s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
+            s = setHoursandMinutesString(hours, minutes);
             time.setText(s);
 
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
@@ -726,7 +740,8 @@ public class HistoryActivity extends AppCompatActivity {
         TextView text_workhours = rootView.findViewById(R.id.text_workhours);
         hours = dbHelper.getWorkingHours(null, null);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        //s = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        s = setHoursandMinutesLongString(hours, minutes);
         text_workhours.setText(s);
 
         TableLayout tl = rootView.findViewById(R.id.table);
@@ -739,6 +754,7 @@ public class HistoryActivity extends AppCompatActivity {
         int years = cEnd.get(Calendar.YEAR) - cStart.get(Calendar.YEAR);
         int months = (years * 12) + cEnd.get(Calendar.MONTH) - cStart.get(Calendar.MONTH) + 1;
         int rownumber = 0;
+        String smonths[] = new DateFormatSymbols().getMonths();
         for (int i=0; i < months; i++) {
             amount = dbHelper.getEntitledPaymentinMonth(cStart.get(Calendar.MONTH), cStart.get(Calendar.YEAR));
             if(amount == 0f) {
@@ -770,13 +786,14 @@ public class HistoryActivity extends AppCompatActivity {
             }
             amountPay.setTextColor(0XFFE8646F);
 
-            date.setText(String.format(Locale.getDefault(),"%02d-%d",(cStart.get(Calendar.MONTH)+1),cStart.get(Calendar.YEAR)));
+            //date.setText(String.format(Locale.getDefault(),"%02d-%d",(cStart.get(Calendar.MONTH)+1),cStart.get(Calendar.YEAR)));
+            date.setText(String.format(Locale.getDefault(),"%s-%d",smonths[i],cStart.get(Calendar.YEAR)));
             date.setPadding(100,5,10,5);
             time.setPadding(100,5,10,5);
             amountPay.setPadding(100,5,50,5);
             hours = dbHelper.getWorkingHoursinMonth(cStart.get(Calendar.MONTH));
             minutes = getMinutesinHour(hours);
-            s = String.format(Locale.getDefault(),"%.0fω %dλ", hours, minutes);
+            s = setHoursandMinutesString(hours, minutes);
             time.setText(s);
 
             amountPay.setText(String.format(Locale.getDefault(),"€%.2f",amount));
@@ -788,5 +805,25 @@ public class HistoryActivity extends AppCompatActivity {
 
             cStart.add(Calendar.MONTH, 1);
         }
+    }
+
+    public static String setHoursandMinutesLongString(float hours, int minutes) {
+        String text = "";
+        if (Locale.getDefault().getLanguage().equals("el")) {
+            text = String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά", hours, minutes);
+        } else {
+            text = String.format(Locale.getDefault(), "%.0f hours and %d minutes", hours, minutes);
+        }
+        return text;
+    }
+
+    public static String setHoursandMinutesString(float hours, int minutes) {
+        String text = "";
+        if (Locale.getDefault().getLanguage().equals("el")) {
+            text = String.format(Locale.getDefault(), "%.0fω %dλ", hours, minutes);
+        } else {
+            text = String.format(Locale.getDefault(), "%.0fh %dm", hours, minutes);
+        }
+        return text;
     }
 }
