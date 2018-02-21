@@ -387,25 +387,36 @@ public class DBHelper extends SQLiteOpenHelper {
         beginwork.setTime(from);
         Calendar endwork = Calendar.getInstance();
         endwork.setTime(to);
+        Calendar cal = Calendar.getInstance();
         Float overtimehours;
         float millisinhours = 3600000;
         //Overtime in weekdays starts after the 9th hour of work
-        float weekDayOvertime = 9 * millisinhours;
+        int weekDayOvertime = 9;
         //Overtime in weekend starts after the 8th hour of work
-        float weekEndOvertime = 8 * millisinhours;
+        int weekEndOvertime = 8;
         boolean weekDay = isWeekDay(beginwork);
 
         if (weekDay) {
             if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-                overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                //overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                cal = (Calendar)beginwork.clone();
+                cal.add(Calendar.HOUR, weekDayOvertime);
+                overtimehours = ((endwork.getTimeInMillis() - cal.getTimeInMillis()) / millisinhours);
             } else {
-                overtimehours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekDayOvertime) / millisinhours);
+                cal = (Calendar)beginwork.clone();
+                cal.add(Calendar.HOUR, weekDayOvertime);
+                overtimehours = ((endwork.getTimeInMillis() - cal.getTimeInMillis()) / millisinhours);
             }
         } else {
             if ((endwork.getTimeInMillis() > nightshift_start.getTimeInMillis()) && (flag == NIGHT)) {
-                overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                //overtimehours = ((endwork.getTimeInMillis() - nightshift_start.getTimeInMillis()) / millisinhours);
+                cal = (Calendar)beginwork.clone();
+                cal.add(Calendar.HOUR, weekEndOvertime);
+                overtimehours = ((endwork.getTimeInMillis() - cal.getTimeInMillis()) / millisinhours);
             } else {
-                overtimehours = ((endwork.getTimeInMillis() - beginwork.getTimeInMillis() - weekEndOvertime) / millisinhours);
+                cal = (Calendar)beginwork.clone();
+                cal.add(Calendar.HOUR, weekEndOvertime);
+                overtimehours = ((endwork.getTimeInMillis() - cal.getTimeInMillis()) / millisinhours);
             }
         }
 
@@ -500,20 +511,25 @@ public class DBHelper extends SQLiteOpenHelper {
         } else {
             endWeek.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
         }
-        Float overworkhours;
+        Float overworkhours = 0f;
+        Float overtime = 0f;
         float weeklyhours;
         boolean weekDay = isWeekDay(beginwork);
 
-        weeklyhours = getWorkingHours(startWeek.getTime(),endWeek.getTime());
+        weeklyhours = getWorkingHours(startWeek.getTime(), endWeek.getTime());
+
+        overtime = getHoursFromTo(startWeek, endWeek, WORKINGHOURS_COLUMN_OVERTIME);
 
         if ((weekDay) && (weeklyhours > overwork_start) ){
             overworkhours = weeklyhours - overwork_start;
+            overworkhours -= overtime;
             if (overworkhours < 0f) {
                 overworkhours = 0f;
             }
         } else {
             overworkhours = 0f;
         }
+
         return overworkhours;
     }
 
@@ -653,8 +669,12 @@ public class DBHelper extends SQLiteOpenHelper {
         hours_overtime = getOvertimeHours(from, to, "");
         hours_overwork = getOverworkHours(from, to, "");
         if (hours_overwork > 5f) {
-            hours_overtime = (hours_overwork - 5f) - hours_overtime;
+            hours_overtime = (hours_overwork - 5f);
             hours_overwork = 5f;
+        }
+        hours_overwork -= hours_overtime;
+        if (hours_overwork < 0f) {
+            hours_overwork = 0f;
         }
         if (hours_saturday > 0) {
             if (hours_overtime > 0) {
@@ -697,9 +717,10 @@ public class DBHelper extends SQLiteOpenHelper {
             payment_saturdays = getSaturdaysPayment(hours_saturday_night, tmp_hourly_wage);
         }
         payment_saturdays += getSaturdaysPayment(hours_saturday, hourly_wage);
-        if (hours_overtime > 0) {
+        if ((hours_overtime > 0) || (hours_overtime_night > 0)){
             payment_overtime = getOvertimePayment(hours_overtime, hourly_wage);
             if (hours_saturday > 0) {
+                payment_overtime = 0;
                 //Calculate Overtime payment on a Saturday
                 tmp_hourly_wage = hourly_wage + (hourly_wage * multiplier_saturdays);
                 payment_overtime_saturday = getOvertimePayment(hours_overtime, tmp_hourly_wage);
@@ -719,6 +740,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 //Calculate normal Overtime payment
                 if (hours_holidays == 0) {
                     payment_overtime_holidays = getOvertimePayment(hours_overtime, hourly_wage);
+                } else {
+                    payment_overtime_night = 0;
+                    tmp_hourly_wage = hourly_wage + (legal_hourly_pay * multiplier_holidays);
+                    payment_overtime_holidays = getOvertimePayment(hours_overtime_night, tmp_hourly_wage);
                 }
             }
             payment_overtime += payment_overtime_holidays + payment_overtime_night + payment_overtime_saturday;
@@ -785,12 +810,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Below25 = prefs.getBoolean("switch_below25", false);
         YearsExperience = Integer.parseInt(prefs.getString("years_experience_key","0"));
         //Set Hourly Legal Payment
-        LegalPaymentsOver25[0] = 3.52f;
-        LegalPaymentsOver25[1] = 3.87f;
-        LegalPaymentsOver25[2] = 4.21f;
-        LegalPaymentsOver25[3] = 4.57f;
-        LegalPaymentsUnder25[0] = 3.07f;
-        LegalPaymentsUnder25[1] = 3.37f;
+        LegalPaymentsOver25[0] = 2.96f;
+        LegalPaymentsOver25[1] = 3.25f;
+        LegalPaymentsOver25[2] = 3.54f;
+        LegalPaymentsOver25[3] = 3.84f;
+        LegalPaymentsUnder25[0] = 2.58f;
+        LegalPaymentsUnder25[1] = 2.83f;
 
         if (!Below25) {
             if (YearsExperience < 3) {
@@ -893,8 +918,12 @@ public class DBHelper extends SQLiteOpenHelper {
             String sql = "";
             if ((from == null) && (to == null)) {
                 sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME;
-            } else {
+            } else if (to == null) {
                 sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME + " WHERE date("+WORKINGHOURS_COLUMN_BEGINSHIFT+", 'start of day')=date('"+dateFormat.format(from)+"','start of day')";
+            } else {
+                sql = "SELECT * FROM " + WORKINGHOURS_TABLE_NAME + " WHERE datetime(" +
+                        WORKINGHOURS_COLUMN_BEGINSHIFT + ") > datetime('" + datetimeFormat.format(from) + "') AND datetime(" +
+                        WORKINGHOURS_COLUMN_ENDSHIFT + ") <= datetime('" + datetimeFormat.format(to) + "')";
             }
             cursor = sqldb.rawQuery(sql, null);
 
@@ -1074,11 +1103,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     e.printStackTrace();
                 }
                 result += (float)Math.round((((float)end.getTime() - (float)begin.getTime())/3600000)*4)/4;
-                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SATURDAY));
+                /*result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SATURDAY));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SUNDAY));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_NIGHT));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERTIME));
-                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERWORK));
+                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERWORK));*/
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -1145,11 +1174,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     e.printStackTrace();
                 }
                 result += (float)Math.round((((float)end.getTime() - (float)begin.getTime())/3600000)*4)/4;
-                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SATURDAY));
+                /*result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SATURDAY));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_SUNDAY));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_NIGHT));
                 result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERTIME));
-                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERWORK));
+                result += cursor.getFloat(cursor.getColumnIndex(WORKINGHOURS_COLUMN_OVERWORK));*/
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -1278,19 +1307,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return salary;
     }
 
-    public float getPaymentValueFromTo(Calendar startDay, Calendar endDay, String column) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public float getPaymentValueFromOnly(Calendar startDay, String column) {
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
         sqldb = this.getReadableDatabase();
         float result = 0f;
         Cursor cursor = null;
 
         try {
-            /*
-            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime(" +
-                        PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
-                        PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
-                        */
             String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE date("+PAYMENT_COLUMN_BEGINSHIFT+", 'start of day')=date('"+dateFormat.format(startDay.getTime())+"','start of day')";
             cursor = sqldb.rawQuery(sql, null);
 
@@ -1306,6 +1331,40 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return result;
+    }
+
+    public float getPaymentValueFromTo(Calendar startDay, Calendar endDay, String column) {
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        sqldb = this.getReadableDatabase();
+        float result = 0f;
+        Cursor cursor = null;
+
+        try {
+            String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE datetime(" +
+                        PAYMENT_COLUMN_BEGINSHIFT + ") >= datetime('" + dateFormat.format(startDay.getTime()) + "') AND datetime(" +
+                        PAYMENT_COLUMN_ENDSHIFT + ") <= datetime('" + dateFormat.format(endDay.getTime()) + "')";
+
+            //String sql = "SELECT * FROM " + PAYMENT_TABLE_NAME + " WHERE date("+PAYMENT_COLUMN_BEGINSHIFT+", 'start of day')=date('"+dateFormat.format(startDay.getTime())+"','start of day')";
+            cursor = sqldb.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                result += cursor.getFloat(cursor.getColumnIndex(column));
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+        if (result < 0)
+            result = 0f;
+        if (cursor!=null) {
+            cursor.close();
+        }
+        return result;
+    }
+
+    public float getEntitledPaymentValueFromOnly(Calendar From) {
+        return getPaymentValueFromOnly(From, PAYMENT_COLUMN_ENTITLED_AMOUNT);
     }
 
     public float getEntitledPaymentValueFromTo(Calendar From, Calendar To) {
