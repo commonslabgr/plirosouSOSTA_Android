@@ -211,7 +211,7 @@ public class EntitledActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
+        private static boolean bFirstRunFromTo = false;
         public FromToFragment() {}
 
         /**
@@ -223,6 +223,7 @@ public class EntitledActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+            bFirstRunFromTo = true;
             return fragment;
         }
 
@@ -256,7 +257,9 @@ public class EntitledActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             super.onResume();
-            if(bFromToVisible && isVisible()) {
+
+            if ((bFirstRunFromTo && getUserVisibleHint()) || (bFromToVisible && getUserVisibleHint())) {
+                bFirstRunFromTo = false;
                 showDatePicker(getActivity());
             }
             bFromToVisible = true;
@@ -432,6 +435,8 @@ public class EntitledActivity extends AppCompatActivity {
 
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
+            //TODO: REMOVE SET MAX
+            // dp.getDatePicker().setMaxDate(System.currentTimeMillis());
             if (bToDate) {
                 dp.setTitle(getString(R.string.picker_title_to));
             } else {
@@ -451,7 +456,7 @@ public class EntitledActivity extends AppCompatActivity {
                 ToDate.set(Calendar.DAY_OF_MONTH, day);
                 if (ToDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a past or present date.";
+                    CharSequence text = getString(R.string.warning_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -461,7 +466,7 @@ public class EntitledActivity extends AppCompatActivity {
                     TodateFragment.show(getFragmentManager(), "datePicker");
                 } else if (ToDate.getTimeInMillis() <= FromDate.getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a date that is after the first selected date.";
+                    CharSequence text = getString(R.string.warning_after_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -482,7 +487,7 @@ public class EntitledActivity extends AppCompatActivity {
                 FromDate.set(Calendar.DAY_OF_MONTH, day);
                 if (FromDate.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()) {
                     Context context = view.getContext();
-                    CharSequence text = "Please select a past date.";
+                    CharSequence text = getString(R.string.warning_date);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -531,7 +536,8 @@ public class EntitledActivity extends AppCompatActivity {
         text_total_amount.setText(s);
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
-        s = s.replaceAll("0 ΩΡΕΣ &amp; 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ &amp; %d ΛΕΠΤΑ",hours,minutes));
+        //s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
+        s = setHoursandMinutesLongString(hours, minutes, s);
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -545,7 +551,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
@@ -557,7 +563,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
@@ -569,7 +575,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
@@ -581,7 +587,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
@@ -593,7 +599,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursFromTo(From, to);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
@@ -629,7 +635,8 @@ public class EntitledActivity extends AppCompatActivity {
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
         //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
-        s = s.replaceAll("0 ΩΡΕΣ &amp; 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ &amp; %d ΛΕΠΤΑ",hours,minutes));
+        //s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
+        s = setHoursandMinutesLongString(hours, minutes, s);
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -649,7 +656,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getSundayHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
@@ -667,7 +674,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getSaturdayHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
@@ -685,7 +692,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getNightShiftHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
@@ -703,7 +710,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getOvertimeHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
@@ -721,7 +728,7 @@ public class EntitledActivity extends AppCompatActivity {
             hours += dbHelper.getOverworkHoursinMonth(i);
         }
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
@@ -755,7 +762,7 @@ public class EntitledActivity extends AppCompatActivity {
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
         //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
-        s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
+        s = setHoursandMinutesLongString(hours, minutes, s);
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -770,7 +777,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
@@ -782,7 +789,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
@@ -794,7 +801,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
@@ -806,7 +813,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
@@ -818,7 +825,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursinMonth(month);
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
@@ -848,7 +855,7 @@ public class EntitledActivity extends AppCompatActivity {
         minutes = getMinutesinHour(hours);
         s = text_total_hours.getText().toString();
         //s = s.replaceAll("0 ώρες και 0 λεπτά",String.format(Locale.getDefault(),"%.0f ώρες και %d λεπτά",hours,minutes));
-        s = s.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ",String.format(Locale.getDefault(),"%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ",hours,minutes));
+        s = setHoursandMinutesLongString(hours, minutes, s);
         text_total_hours.setText(s);
 
         //BOTTOM
@@ -862,7 +869,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_sunday_hours = rootView.findViewById(R.id.text_sunday_hours);
         hours = dbHelper.getSundayHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_sunday_hours.setText(s);
 
         TextView text_sunday_amount = rootView.findViewById(R.id.text_sunday_amount);
@@ -874,7 +881,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_saturday_hours = rootView.findViewById(R.id.text_saturday_hours);
         hours = dbHelper.getSaturdayHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_saturday_hours.setText(s);
 
         TextView text_saturday_amount = rootView.findViewById(R.id.text_saturday_amount);
@@ -886,7 +893,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_night_hours = rootView.findViewById(R.id.text_night_hours);
         hours = dbHelper.getNightShiftHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_night_hours.setText(s);
 
         TextView text_night_amount = rootView.findViewById(R.id.text_night_amount);
@@ -898,7 +905,7 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overtime_hours = rootView.findViewById(R.id.text_overtime_hours);
         hours = dbHelper.getOvertimeHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
         text_overtime_hours.setText(s);
 
         TextView text_overtime_amount = rootView.findViewById(R.id.text_overtime_amount);
@@ -910,12 +917,32 @@ public class EntitledActivity extends AppCompatActivity {
         TextView text_overwork_hours = rootView.findViewById(R.id.text_overwork_hours);
         hours = dbHelper.getOverworkHoursAll();
         minutes = getMinutesinHour(hours);
-        s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
+        s = setHoursandMinutesString(hours, minutes);
+        //s = String.format(Locale.getDefault(),"%.0fω %dλ",hours,minutes);
         text_overwork_hours.setText(s);
 
         TextView text_overwork_amount = rootView.findViewById(R.id.text_overwork_amount);
         amount = dbHelper.getOverworkPaymentAll();
         s = String.format(Locale.getDefault(),"€%.2f", amount);
         text_overwork_amount.setText(s);
+    }
+
+    public static String setHoursandMinutesString(float hours, int minutes) {
+        String text;
+        if (Locale.getDefault().getLanguage().equals("el")) {
+            text = String.format(Locale.getDefault(), "%.0fω %dλ", hours, minutes);
+        } else {
+            text = String.format(Locale.getDefault(), "%.0fh %dm", hours, minutes);
+        }
+        return text;
+    }
+
+    public static String setHoursandMinutesLongString(float hours, int minutes, String text) {
+        if (Locale.getDefault().getLanguage().equals("el")) {
+            text = text.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ", String.format(Locale.getDefault(), "%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ", hours, minutes));
+        } else {
+            text = text.replaceAll("0 HOURS AND 0 MINUTES", String.format(Locale.getDefault(), "%.0f HOURS AND %d MINUITES", hours, minutes));
+        }
+        return text;
     }
 }
