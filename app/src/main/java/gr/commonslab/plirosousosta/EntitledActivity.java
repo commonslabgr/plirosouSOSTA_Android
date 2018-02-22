@@ -393,7 +393,7 @@ public class EntitledActivity extends AppCompatActivity {
             String currentMonth;
             String currentYear;
             Calendar cal = Calendar.getInstance();
-            currentMonth = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            currentMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
             currentYear =  Integer.toString(cal.get(Calendar.YEAR));
             switch (position) {
                 case 0:
