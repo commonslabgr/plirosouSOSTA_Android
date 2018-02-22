@@ -867,7 +867,9 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor = sqldb.rawQuery(sql, null);
             if (cursor.moveToFirst()) {
                 try {
-                    result = dateFormat.parse(cursor.getString(0));
+                    if (cursor.getString(0) != null) {
+                        result = dateFormat.parse(cursor.getString(0));
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -891,7 +893,9 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor = sqldb.rawQuery(sql, null);
             if (cursor.moveToFirst()) {
                 try {
-                    result = dateFormat.parse(cursor.getString(0));
+                    if (cursor.getString(0) != null) {
+                        result = dateFormat.parse(cursor.getString(0));
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
