@@ -17,8 +17,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -27,7 +25,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,6 +95,7 @@ public class HistoryActivity extends AppCompatActivity {
         tab2 = new YearFragment().newInstance(1);
         tab3 = new FromToFragment().newInstance(2);
         tab4 = new AllFragment().newInstance(3);
+
     }
 
     /**
@@ -317,7 +315,7 @@ public class HistoryActivity extends AppCompatActivity {
             String currentMonth;
             String currentYear;
 
-            currentMonth = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            currentMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
             currentYear =  Integer.toString(cal.get(Calendar.YEAR));
             switch (position) {
                 case 0:
@@ -514,9 +512,9 @@ public class HistoryActivity extends AppCompatActivity {
             amountPay.setTextColor(0XFFE8646F);
 
             date.setText(dateFormat.format(startDate));
-            date.setPadding(100,5,10,5);
+            date.setPadding(50,5,10,5);
             time.setPadding(100,5,10,5);
-            amountPay.setPadding(100,5,50,5);
+            amountPay.setPadding(40,5,50,5);
             hours = dbHelper.getWorkingHours(startDate,null);
             minutes = getMinutesinHour(hours);
             s = setHoursandMinutesString(hours, minutes);
@@ -621,9 +619,9 @@ public class HistoryActivity extends AppCompatActivity {
             amountPay.setTextColor(0XFFE8646F);
 
             date.setText(dateFormat.format(cStart.getTime()));
-            date.setPadding(100,5,10,5);
+            date.setPadding(50,5,10,5);
             time.setPadding(100,5,10,5);
-            amountPay.setPadding(100,5,50,5);
+            amountPay.setPadding(40,5,50,5);
             hours = dbHelper.getWorkingHours(cStart.getTime(),null);
             minutes = getMinutesinHour(hours);
             s = setHoursandMinutesString(hours, minutes);
@@ -669,7 +667,7 @@ public class HistoryActivity extends AppCompatActivity {
         boolean evenrow = false;
         Calendar cal = Calendar.getInstance();
         int rownumber = 0;
-        String smonths[] = new DateFormatSymbols().getMonths();
+
         for (int i=0; i < 12; i++) {
             amount = dbHelper.getEntitledPaymentinMonth(i, -1);
             if (amount == 0f) {
@@ -701,10 +699,11 @@ public class HistoryActivity extends AppCompatActivity {
             amountPay.setTextColor(0XFFE8646F);
 
             //date.setText(String.format(Locale.getDefault(),"%02d-%d",(i+1),cal.get(Calendar.YEAR)));
-            date.setText(String.format(Locale.getDefault(),"%s-%d",smonths[i],cal.get(Calendar.YEAR)));
-            date.setPadding(100,5,10,5);
+            cal.set(cal.get(Calendar.YEAR),i,01);
+            date.setText(String.format(Locale.getDefault(),"%s-%d",cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()),cal.get(Calendar.YEAR)));
+            date.setPadding(50,5,10,5);
             time.setPadding(100,5,10,5);
-            amountPay.setPadding(100,5,50,5);
+            amountPay.setPadding(40,5,50,5);
             hours = dbHelper.getWorkingHoursinMonth(i);
             minutes = getMinutesinHour(hours);
             s = setHoursandMinutesString(hours, minutes);
@@ -754,7 +753,7 @@ public class HistoryActivity extends AppCompatActivity {
         int years = cEnd.get(Calendar.YEAR) - cStart.get(Calendar.YEAR);
         int months = (years * 12) + cEnd.get(Calendar.MONTH) - cStart.get(Calendar.MONTH) + 1;
         int rownumber = 0;
-        String smonths[] = new DateFormatSymbols().getMonths();
+
         for (int i=0; i < months; i++) {
             amount = dbHelper.getEntitledPaymentinMonth(cStart.get(Calendar.MONTH), cStart.get(Calendar.YEAR));
             if(amount == 0f) {
@@ -769,7 +768,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             TableRow row = new TableRow(rootView.getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(60,5,60,0);
+            lp.setMargins(30,5,30,0);
 
             row.setLayoutParams(lp);
             TextView date = new TextView(rootView.getContext());
@@ -787,10 +786,10 @@ public class HistoryActivity extends AppCompatActivity {
             amountPay.setTextColor(0XFFE8646F);
 
             //date.setText(String.format(Locale.getDefault(),"%02d-%d",(cStart.get(Calendar.MONTH)+1),cStart.get(Calendar.YEAR)));
-            date.setText(String.format(Locale.getDefault(),"%s-%d",smonths[i],cStart.get(Calendar.YEAR)));
-            date.setPadding(100,5,10,5);
+            date.setText(String.format(Locale.getDefault(),"%s-%d",cStart.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()),cStart.get(Calendar.YEAR)));
+            date.setPadding(50,5,10,5);
             time.setPadding(100,5,10,5);
-            amountPay.setPadding(100,5,50,5);
+            amountPay.setPadding(40,5,50,5);
             hours = dbHelper.getWorkingHoursinMonth(cStart.get(Calendar.MONTH));
             minutes = getMinutesinHour(hours);
             s = setHoursandMinutesString(hours, minutes);
