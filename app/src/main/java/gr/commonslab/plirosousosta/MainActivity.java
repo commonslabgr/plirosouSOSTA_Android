@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity
      *  TimePickerFragment
      *  Display a time picker for user to select start and end of shift.
      */
-    public class TimePickerFragment extends DialogFragment implements
+    public static class TimePickerFragment extends DialogFragment implements
             TimePickerDialog.OnTimeSetListener {
 
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -283,8 +283,10 @@ public class MainActivity extends AppCompatActivity
                 if (BeginWork.getTime().after(EndWork.getTime())) {
                     EndWork.add(Calendar.HOUR_OF_DAY, 24);
                 }
+
                 //Store working hours to DB
-                addWorkday(BeginWork,EndWork);
+                ((MainActivity) getActivity()).addWorkday(BeginWork,EndWork);
+                //addWorkday(BeginWork,EndWork);
             }
         }
 
@@ -298,7 +300,7 @@ public class MainActivity extends AppCompatActivity
      *  DatePickerFragment
      *  Display a calendar for the user to choose the date for adding a shift.
      */
-    public class DatePickerFragment extends DialogFragment implements
+    public static class DatePickerFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -376,7 +378,7 @@ public class MainActivity extends AppCompatActivity
         dbHelper.getEntitledPayment(begin, end);
     }
 
-    public class OverwriteWorkingHours extends DialogFragment {
+    public static class OverwriteWorkingHours extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -385,22 +387,22 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             b_Overwrite = true;
-                            deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
-                            setWorkingHourBegin(BeginWork.getTime());
-                            setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
-                            setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
-                            UpdateValuesOnScreen();
+                            ((MainActivity) getActivity()).deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
+                            ((MainActivity) getActivity()).setWorkingHourBegin(BeginWork.getTime());
+                            ((MainActivity) getActivity()).setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
+                            ((MainActivity) getActivity()).setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
+                            ((MainActivity) getActivity()).UpdateValuesOnScreen();
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             b_Overwrite = false;
-                            deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
-                            setWorkingHourBegin(BeginWork.getTime());
-                            setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
-                            setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
-                            UpdateValuesOnScreen();
+                            ((MainActivity) getActivity()).deleteHoursandPayments(BeginWork, EndWork, b_Overwrite);
+                            ((MainActivity) getActivity()).setWorkingHourBegin(BeginWork.getTime());
+                            ((MainActivity) getActivity()).setWorkingHourEnd(EndWork.getTime(), BeginWork.getTime());
+                            ((MainActivity) getActivity()).setEntitledPayment(BeginWork.getTime(), EndWork.getTime());
+                            ((MainActivity) getActivity()).UpdateValuesOnScreen();
                         }
                     });
             return builder.create();
