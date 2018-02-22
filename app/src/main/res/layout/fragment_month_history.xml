@@ -102,18 +102,18 @@
             android:layout_marginStart="16dp">
 
             <TextView
-                android:layout_width="150dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="@string/history_table_header_date"
                 />
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/history_table_header_hours" />
 
             <TextView
-                android:layout_width="150dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="@string/history_table_header_entitled"
                 android:layout_marginEnd="0dp"/>
