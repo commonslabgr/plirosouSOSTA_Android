@@ -51,7 +51,7 @@
 
     <!--ENTITLED ACTIVITY-->
     <string name="entitled_main">ΕΡΓΑΣΤΗΚΕΣ 0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ</string>
-    <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ €</string>
+    <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ € ΚΑΘΑΡΑ (ΣΤΗΝ ΤΣΕΠΗ ΣΟΥ)</string>
     <string name="entitled_law_states">ΑΝ ΔΕΝ ΠΗΡΕΣ ΤΟΣΑ, ΤΟΤΕ ΔΕΝ ΠΛΗΡΩΘΗΚΕΣ ΣΩΣΤΑ</string>
     <string name="entitled_info_bottom">Μπορώ να κάνω κάτι αν πήρα λιγότερα λεφτά από αυτά που κανονικά δικαιούμαι;</string>
     <string name="entitled_button_what_do">Μπορώ να κάνω κάτι;</string>
@@ -64,7 +64,7 @@
     <string name="entitled_infobox_should">ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ</string>
     <string name="entitled_infobox_more">ΕΠΙΠΛΕΟΝ</string>
     <string name="title_activity_settings">ΡΥΘΜΙΣΕΙΣ</string>
-    <string name="entitled_infobox_top_deserve">ΕΠΙ ΤΗΝ ΕΡΓΑΤΟΩΡΑ ΣΟΥ = </string>
+    <string name="entitled_infobox_top_deserve">επί ΤΗΝ ΕΡΓΑΤΟΩΡΑ ΣΟΥ = </string>
     <string name="entitled_infobox_top_more">ΕΠΙΠΛΕΟΝ ΕΠΡΕΠΕ ΝΑ ΠΑΡΕΙΣ:</string>
     <!-- HISTORY ACTIVITY -->
     <string name="history_youhaveworked">ΕΡΓΑΣΤΗΚΕΣ</string>

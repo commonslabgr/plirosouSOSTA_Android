@@ -56,15 +56,15 @@
     <string name="entitled_info_bottom">What can I do if I got less money than I should?</string>
     <string name="entitled_button_what_do">What can I do?</string>
     <string name="entitled_infobox_paid">YOU SHOULD GET € EXTRA</string>
-    <string name="entitled_infobox_sundays">SUNDAYS\nΔΟΥΛΕΨΕΣ</string>
+    <string name="entitled_infobox_sundays">SUNDAYS\nYOU WORKED</string>
     <string name="entitled_infobox_nights">NIGHTS\nYOU WORKED</string>
-    <string name="entitled_infobox_overtime">OVERTIME YOU WORKED</string>
-    <string name="entitled_infobox_overworking">OVERWORK YOU WORKED</string>
-    <string name="entitled_infobox_saturdays">SATURDAYS YOU WORKED</string>
+    <string name="entitled_infobox_overtime">OVERTIME\nYOU WORKED</string>
+    <string name="entitled_infobox_overworking">OVERWORK\nYOU WORKED</string>
+    <string name="entitled_infobox_saturdays">SATURDAYS\nYOU WORKED</string>
     <string name="entitled_infobox_should">YOU SHOULD GET</string>
     <string name="entitled_infobox_more">EXTRA</string>
     <string name="title_activity_settings">SETTINGS</string>
-    <string name="entitled_infobox_top_deserve">x your rate = </string>
+    <string name="entitled_infobox_top_deserve">x YOUR RATE = </string>
     <string name="entitled_infobox_top_more">ALSO, YOU SHOULD GET:</string>
     <!-- HISTORY ACTIVITY -->
     <string name="history_youhaveworked">YOU WORKED</string>
