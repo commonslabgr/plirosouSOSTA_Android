@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity
         //Set Month
         TextView text_info_month;
         text_info_month = findViewById(R.id.text_info_month);
-        text_info_month.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+        text_info_month.setText(cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
         //Set Date and Time
         SetCurrentDateTime();
         //Update Clock every minute
@@ -312,6 +312,8 @@ public class MainActivity extends AppCompatActivity
 
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
+            // TODO: REMOVE SET MAX
+            // dp.getDatePicker().setMaxDate(System.currentTimeMillis());
             return dp;
         }
 
