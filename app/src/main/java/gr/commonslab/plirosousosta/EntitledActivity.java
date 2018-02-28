@@ -435,8 +435,7 @@ public class EntitledActivity extends AppCompatActivity {
 
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog dp = new DatePickerDialog(getActivity(), R.style.MySpinnerPickerStyle , this, year, month, day);
-            //TODO: REMOVE SET MAX
-            // dp.getDatePicker().setMaxDate(System.currentTimeMillis());
+            dp.getDatePicker().setMaxDate(System.currentTimeMillis());
             if (bToDate) {
                 dp.setTitle(getString(R.string.picker_title_to));
             } else {
