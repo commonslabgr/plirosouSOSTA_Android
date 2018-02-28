@@ -80,23 +80,12 @@
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_infotop"> Για να υπολογίζονται τα λεφτά σου, είναι απαραίτητες οι παρακάτω 5 ερωτήσεις Τα στοιχεία αυτά δεν στέλνονται πουθενά και σε κανέναν. Τα βλέπεις μόνο εσύ.</string>
-    <string name="pref_title_paidby">1) Πώς έχεις συμφωνήσει την πληρωμή σου; (πάτα για να επιλέξεις)</string>
-    <string-array name="pref_list_paidby">
-        <item>ΜΕ ΤΗΝ ΩΡΑ</item>
-        <item>ΜΕ ΤΗΝ ΗΜΕΡΑ</item>
-        <item>ΜΕ ΤΟ ΜΗΝΑ</item>
-    </string-array>
-    <string-array name="pref_list_paidby_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-    <string name="pref_title_howmuch_paid">2) Πόσο έχεις συμφωνήσει να πληρώνεσαι καθαρά; (στην τσέπη σου) (πάτα για να επιλέξεις)</string>
+    <string name="pref_infotop"> Για να υπολογίζονται τα λεφτά σου, είναι απαραίτητες οι παρακάτω 4 ερωτήσεις. Τα στοιχεία αυτά δεν στέλνονται πουθενά και σε κανέναν. Τα βλέπεις μόνο εσύ.</string>
+    <string name="pref_title_howmuch_paid">1) Πόσο πληρώνεσαι την ώρα καθαρά; (στην τσέπη σου) (πάτα για να επιλέξεις)</string>
     <integer name="pref_default_howmuch_paid">5</integer>
-    <string name="pref_title_below25yold">3) Είσαι κάτω από 25 ετών; (αν ναι, πάτα)</string>
-    <string name="pref_title_hotels">4) Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση; (πχ καφετέρια, εστιατόριο, σαντουιτσάδικο κλπ); (αν ναι πάτα)</string>
-    <string name="pref_title_years_experience">5) Μέχρι τις 14/02/2012 πόσα χρόνια προϋπηρεσίας είχες; (πάτα για να επιλέξεις)</string>
+    <string name="pref_title_below25yold">2) Είσαι κάτω από 25 ετών; (αν ναι, πάτα)</string>
+    <string name="pref_title_hotels">3) Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση; (πχ καφετέρια, εστιατόριο, σαντουιτσάδικο κλπ); (αν ναι πάτα)</string>
+    <string name="pref_title_years_experience">4) Μέχρι τις 14/02/2012 πόσα χρόνια προϋπηρεσίας είχες; (πάτα για να επιλέξεις)</string>
     <integer name="pref_default_years_experience">0</integer>
 
     <!-- ABOUT ACTIVITY -->
