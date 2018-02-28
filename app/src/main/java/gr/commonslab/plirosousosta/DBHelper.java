@@ -310,6 +310,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void setHourWage() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        /*
+        String paidby = prefs.getString("list_paidby_values","0");
+        int salary = Integer.parseInt(paidby);
+        switch (salary) {
+            case 0:
+                hourly_wage = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                break;
+            case 1:
+                hourly_wage = (Float.parseFloat(prefs.getString("paid_hour_key","0")))/8;
+                break;
+            case 2:
+                hourly_wage = (Float.parseFloat(prefs.getString("paid_hour_key","0")))/166;
+                break;
+        }
+        /**/
         hourly_wage = Float.parseFloat(prefs.getString("paid_hour_key","0"));
     }
 
@@ -839,21 +854,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public float getPayment_Actual(float hours) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        float pay = 0f;
+        /*
         String paidby = prefs.getString("list_paidby_values","0");
         int salary = Integer.parseInt(paidby);
-        float pay = 0f;
         switch (salary) {
             case 0:
                 pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
                 break;
             case 1:
-                pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                pay = (Float.parseFloat(prefs.getString("paid_hour_key","0")))/8;
                 break;
             case 2:
-                pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
+                pay = (Float.parseFloat(prefs.getString("paid_hour_key","0")))/166;
                 break;
         }
-
+        /**/
+        pay = Float.parseFloat(prefs.getString("paid_hour_key","0"));
         return pay*hours;
     }
 
