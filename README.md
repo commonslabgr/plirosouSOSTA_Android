@@ -8,7 +8,7 @@ Android app for workers to calculate their salary and be informed about their pa
 ## Description
 Currently in Greece, a lot of workers who work by the hour get paid simply the agreed amount multiplied by the hours that they work, even though this is not what they are entitled to. The Greek labor laws give the right to workers to get extra pay for several conditions, but unfortunately most people are unaware of this.
 <b>plirosouSOSTA</b> is a simple Android Java application that wants to inform users for their payment rights.
-It lets a user to record their working hours. Then according to their agreed payment, age, years of experience the application calculates what they should get paid according to the current (01/2018) Greek labor laws. 
+It lets a user to record their working hours. Then according to their agreed payment, age, years of experience the application calculates what they should get paid according to the current (01/2018) Greek labor laws.
 To do this it looks at several factors that by law the worker is entitled get extra payment, those are when someone is working:
 * during night
 * on a Saturday
@@ -18,7 +18,7 @@ To do this it looks at several factors that by law the worker is entitled get ex
 ## Known issues
 
 * There are some extreme use cases of multiple multipliers, where the calculations of the entitled payment is not correct. This is the case for example when a user records working hours on a Sunday from 12:00pm to 02:00am then some hours should have multiple multipliers (working on a Sunday and night and overtime)
-* The tab "From-To" both on History and Entitled Activities is not initiating the Date pickers always as it should. This has to do with an unresolved issue of the Fragment life-cycle and more specifically in detecting correctly when the fragment is visible to the user.
+* Translation of texts in English not completed
 
 ## Extra features
 
