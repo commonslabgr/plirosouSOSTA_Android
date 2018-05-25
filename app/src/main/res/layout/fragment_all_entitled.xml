@@ -12,15 +12,40 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
     <TextView
-        android:id="@+id/square_top"
+        android:id="@+id/square_newtop"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="45dp"
         android:background="#e8646f"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/text_newtop_entitled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/entitled_infobox_newtop"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textColor="#941620"
+        android:gravity="center"
+        android:fontFamily="@font/mediumfont"
+        app:layout_constraintLeft_toLeftOf="@+id/square_newtop"
+        app:layout_constraintRight_toRightOf="@+id/square_newtop"
+        app:layout_constraintTop_toTopOf="@+id/square_newtop" />
+
+    <TextView
+        android:id="@+id/square_top"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#55b4ae"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/square_newtop"/>
 
     <TextView
         android:id="@+id/text_should_get"
@@ -29,7 +54,7 @@
         android:text="@string/entitled_main"
         android:layout_marginTop="16dp"
         android:textSize="16sp"
-        android:textColor="#941620"
+        android:textColor="#31706d"
         android:gravity="center"
         android:fontFamily="@font/mediumfont"
         app:layout_constraintLeft_toLeftOf="@+id/square_top"
@@ -43,7 +68,7 @@
         android:fontFamily="@font/mediumfont"
         android:text="@string/entitled_infobox_top_deserve"
         android:textSize="16sp"
-        android:textColor="#941620"
+        android:textColor="#31706d"
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="@+id/square_top"
         app:layout_constraintRight_toRightOf="@+id/square_top"
@@ -54,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/mediumfont"
-        android:background="#e8646f"
+        android:background="#55b4ae"
         android:textSize="16sp"
         android:layout_marginLeft="4dp"
         android:text=""
@@ -69,7 +94,7 @@
         android:fontFamily="@font/mediumfont"
         android:text="@string/entitled_infobox_top_more"
         android:textSize="16sp"
-        android:textColor="#941620"
+        android:textColor="#31706d"
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="@+id/square_top"
         app:layout_constraintRight_toRightOf="@+id/square_top"
