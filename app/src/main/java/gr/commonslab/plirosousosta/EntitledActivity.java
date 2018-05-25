@@ -524,6 +524,13 @@ public class EntitledActivity extends AppCompatActivity {
         float amount;
         String s;
 
+        //NEW TOP
+        TextView text_newtop = rootView.findViewById(R.id.text_newtop_entitled);
+        s = text_newtop.getText().toString();
+        amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_newtop.setText(Html.fromHtml(s));
+
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
         //amount = dbHelper.getEntitledPaymentValueFromTo(From, to);
@@ -616,6 +623,16 @@ public class EntitledActivity extends AppCompatActivity {
         float amount = 0f;
         String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
+
+        //NEWTOP
+        TextView text_newtop = rootView.findViewById(R.id.text_newtop_entitled);
+        s = text_newtop.getText().toString();
+        amount = 0;
+        for (int i=0; i < 12; i++) {
+            amount += dbHelper.getEntitledPaymentinMonth(i, -1);
+        }
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_newtop.setText(Html.fromHtml(s));
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
@@ -749,6 +766,13 @@ public class EntitledActivity extends AppCompatActivity {
         float amount;
         String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
+        //NEWTOP
+        TextView text_newtop = rootView.findViewById(R.id.text_newtop_entitled);
+        s = text_newtop.getText().toString();
+        amount = dbHelper.getEntitledPaymentinMonth(month, -1);
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        //s = s.replaceAll("€",String.format(Locale.getDefault(),"€%.2f", amount));
+        text_newtop.setText(Html.fromHtml(s));
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
@@ -842,6 +866,13 @@ public class EntitledActivity extends AppCompatActivity {
         float amount;
         String s;
         DBHelper dbHelper = new DBHelper(rootView.getContext());
+
+        //NEW TOP
+        TextView text_newtop = rootView.findViewById(R.id.text_newtop_entitled);
+        s = text_newtop.getText().toString();
+        amount = dbHelper.getEntitledPaymentAll();
+        s = s.replaceAll("€",String.format(Locale.getDefault(),"<font color=\"#FFFFFF\">€%.2f</font>", amount));
+        text_newtop.setText(Html.fromHtml(s));
 
         //TOP
         TextView text_total_amount = rootView.findViewById(R.id.text_total_amount);
