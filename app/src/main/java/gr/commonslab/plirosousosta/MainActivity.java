@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -104,12 +105,13 @@ public class MainActivity extends AppCompatActivity
 
         //Check if application is running for the first time.
         //Or it's initial data have been cleared
-        prefs = getSharedPreferences("gr.commonslab.plirosousosta", MODE_PRIVATE);
+        //prefs = getSharedPreferences("gr.commonslab.plirosousosta", MODE_APPEND);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+
         if (prefs.getBoolean("firstrun", true)) {
             //Initialize Shared Preferences: Salary per hour, years of experience etc.
             initializePreferences();
         }
-
     }
 
     /**
@@ -133,9 +135,14 @@ public class MainActivity extends AppCompatActivity
         button_payed_correctly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Go to entitled activity
-                Intent intent_entitled = new Intent(v.getContext(), EntitledActivity.class);
-                v.getContext().startActivity(intent_entitled);
+                //Check if amount of payment has been set
+                if (Float.parseFloat(prefs.getString("paid_hour_key","0")) == 0f) {
+                    PaymentNotSetInfoDialog();
+                } else {
+                    //Go to entitled activity
+                    Intent intent_entitled = new Intent(v.getContext(), EntitledActivity.class);
+                    v.getContext().startActivity(intent_entitled);
+                }
             }
         });
     }
@@ -147,7 +154,11 @@ public class MainActivity extends AppCompatActivity
         button_add_shift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addShift_showPickers();
+                if (Float.parseFloat(prefs.getString("paid_hour_key","0")) == 0f) {
+                    PaymentNotSetInfoDialog();
+                } else {
+                    addShift_showPickers();
+                }
             }
         });
     }
@@ -202,9 +213,14 @@ public class MainActivity extends AppCompatActivity
             intent_settings.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
             intent_settings.putExtra(SettingsActivity.EXTRA_NO_HEADERS, true);
             startActivity(intent_settings);
+            /*
         } else if (id == R.id.nav_history) {
             Intent intent_history = new Intent(getApplicationContext(), HistoryActivity.class);
             startActivity(intent_history);
+            /**/
+        } else if (id == R.id.nav_entitled) {
+            Intent intent_entitled = new Intent(getApplicationContext(), EntitledActivity.class);
+            startActivity(intent_entitled);
         } else if (id == R.id.nav_info) {
             Intent intent_additionalInfo = new Intent(getApplicationContext(), InfoActivity.class);
             startActivity(intent_additionalInfo);
@@ -222,6 +238,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
+
+        if (Float.parseFloat(prefs.getString("paid_hour_key","0")) == 0f) {
+            PaymentNotSetInfoDialog();
+        }
         //Set Month
         TextView text_info_month;
         text_info_month = findViewById(R.id.text_info_month);
@@ -238,6 +258,12 @@ public class MainActivity extends AppCompatActivity
         };
         registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         UpdateValuesOnScreen();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        unregisterReceiver(_broadcastReceiver);
     }
 
     //Set Current Date and time on main activity
@@ -458,5 +484,24 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
         prefs.edit().putBoolean("firstrun", false).apply();
         dbHelper.setHolidays();
+    }
+
+    private void PaymentNotSetInfoDialog(){
+        //Create Pop up dialog
+        final AlertDialog infodialog = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogCustom).create();
+        infodialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                //Go to SETTINGS
+                Intent intent_settings = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent_settings.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent_settings.putExtra(SettingsActivity.EXTRA_NO_HEADERS, true);
+                startActivity(intent_settings);
+            }
+        });
+
+        infodialog.setMessage(Html.fromHtml(getString(R.string.text_firstrun_dialog)));
+        infodialog.show();
     }
 }
