@@ -310,7 +310,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void setHourWage() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        /*
+        /* Check for shared preferences if payment is set for monthly/daily or hourly
         String paidby = prefs.getString("list_paidby_values","0");
         int salary = Integer.parseInt(paidby);
         switch (salary) {
