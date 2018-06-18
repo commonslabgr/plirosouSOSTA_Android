@@ -971,7 +971,7 @@ public class EntitledActivity extends AppCompatActivity {
         if (Locale.getDefault().getLanguage().equals("el")) {
             text = text.replaceAll("0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ", String.format(Locale.getDefault(), "%.0f ΩΡΕΣ ΚΑΙ %d ΛΕΠΤΑ", hours, minutes));
         } else {
-            text = text.replaceAll("0 HOURS AND 0 MINUTES", String.format(Locale.getDefault(), "%.0f HOURS AND %d MINUITES", hours, minutes));
+            text = text.replaceAll("0 HOURS AND 0 MINUTES", String.format(Locale.getDefault(), "%.0f HOURS AND %d MINUTES", hours, minutes));
         }
         return text;
     }
