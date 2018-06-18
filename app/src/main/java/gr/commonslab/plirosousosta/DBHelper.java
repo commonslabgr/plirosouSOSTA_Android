@@ -931,7 +931,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date begin = new Date();
         Date end = new Date();
-        float workinghours = 0;
+        float result = 0f;
         sqldb = this.getReadableDatabase();
         Cursor cursor = null;
 
@@ -947,7 +947,6 @@ public class DBHelper extends SQLiteOpenHelper {
                         WORKINGHOURS_COLUMN_ENDSHIFT + ") <= datetime('" + datetimeFormat.format(to) + "')";
             }
             cursor = sqldb.rawQuery(sql, null);
-
             while (cursor.moveToNext()) {
                 try {
                     begin = datetimeFormat.parse(cursor.getString(0));
@@ -955,7 +954,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                workinghours += ((end.getTime() - begin.getTime())/3600000);
+                result += (float)Math.round((((float)end.getTime() - (float)begin.getTime())/3600000)*4)/4;
             }
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -964,7 +963,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
         }
 
-        return workinghours;
+        return result;
     }
 
     public void storeWorkingHours(Date from, Date to, float holidays, float saturdays, float nights, float overtime, float overwork) {
