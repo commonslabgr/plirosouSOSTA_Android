@@ -16,7 +16,7 @@
     <string name="title_activity_history">ΙΣΤΟΡΙΚΟ</string>
 
     <!--BUTTONS-->
-    <string name="button_payed_correctly">Πληρώθηκα Σωστά;</string>
+    <string name="button_payed_correctly">ΔΙΚΑΙΟΥΣΑΙ</string>
     <string name="button_insert_shift">ΠΡΟΣΘΗΚΗ\nΒΑΡΔΙΑΣ</string>
     <string name="subtitle_insert_shift">ΣΗΜΕΙΩΣΕ ΠΟΤΕ ΔΟΥΛΕΨΕΣ</string>
     <string name="button_history">ΙΣΤΟΡΙΚΟ\nΒΑΡΔΙΩΝ</string>
@@ -41,6 +41,7 @@
     <!--NAVIGATION MENU-->
     <string name="nav_settings">ΡΥΘΜΙΣΕΙΣ</string>
     <string name="nav_history">ΙΣΤΟΡΙΚΟ</string>
+    <string name="nav_entitled">ΔΙΚΑΙΟΥΣΑΙ</string>
     <string name="nav_info">ΧΡΗΣΙΜΕΣ ΠΛΗΡΟΦΟΡΙΕΣ</string>
     <string name="nav_shifts">ΒΑΡΔΙΕΣ</string>
     <string name="nav_about">ΣΧΕΤΙΚΑ</string>
@@ -50,7 +51,7 @@
     <string name="tab_title_all">ΟΛΑ</string>
 
     <!--ENTITLED ACTIVITY-->
-    <string name="entitled_main">ΕΡΓΑΣΤΗΚΕΣ 0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ</string>
+    <string name="entitled_main">ΓΙΑΤΙ:\nΕΡΓΑΣΤΗΚΕΣ 0 ΩΡΕΣ ΚΑΙ 0 ΛΕΠΤΑ</string>
     <string name="entitled_should_get_paid">ΣΥΝΟΛΙΚΑ ΛΟΙΠΟΝ ΕΠΡΕΠΕ ΝΑ ΠΛΗΡΩΘΕΙΣ € ΚΑΘΑΡΑ (ΣΤΗΝ ΤΣΕΠΗ ΣΟΥ)</string>
     <string name="entitled_law_states">ΑΝ ΔΕΝ ΠΗΡΕΣ ΤΟΣΑ, ΤΟΤΕ ΔΕΝ ΠΛΗΡΩΘΗΚΕΣ ΣΩΣΤΑ</string>
     <string name="entitled_info_bottom">Μπορώ να κάνω κάτι αν πήρα λιγότερα λεφτά από αυτά που κανονικά δικαιούμαι;</string>
@@ -66,6 +67,7 @@
     <string name="title_activity_settings">ΡΥΘΜΙΣΕΙΣ</string>
     <string name="entitled_infobox_top_deserve">επί ΤΗΝ ΕΡΓΑΤΟΩΡΑ ΣΟΥ = </string>
     <string name="entitled_infobox_top_more">ΕΠΙΠΛΕΟΝ ΕΠΡΕΠΕ ΝΑ ΠΑΡΕΙΣ:</string>
+    <string name="entitled_infobox_newtop">ΣΥΝΟΛΙΚΑ ΔΙΚΑΙΟΥΣΑΙ: €</string>
     <!-- HISTORY ACTIVITY -->
     <string name="history_youhaveworked">ΕΡΓΑΣΤΗΚΕΣ</string>
     <string name="history_youwillget">ΘΑ ΠΑΡΕΙΣ ΣΥΝΟΛΟ</string>
@@ -82,7 +84,7 @@
     <string name="pref_header_general">General</string>
     <string name="pref_infotop"> Για να υπολογίζονται τα λεφτά σου, είναι απαραίτητες οι παρακάτω 4 ερωτήσεις. Τα στοιχεία αυτά δεν στέλνονται πουθενά και σε κανέναν. Τα βλέπεις μόνο εσύ.</string>
     <string name="pref_title_howmuch_paid">1) Πόσο πληρώνεσαι την ώρα καθαρά; (στην τσέπη σου) (πάτα για να επιλέξεις)</string>
-    <integer name="pref_default_howmuch_paid">5</integer>
+    <integer name="pref_default_howmuch_paid">0</integer>
     <string name="pref_title_below25yold">2) Είσαι κάτω από 25 ετών; (αν ναι, πάτα)</string>
     <string name="pref_title_hotels">3) Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση; (πχ καφετέρια, εστιατόριο, σαντουιτσάδικο κλπ); (αν ναι πάτα)</string>
     <string name="pref_title_years_experience">4) Μέχρι τις 14/02/2012 πόσα χρόνια προϋπηρεσίας είχες; (πάτα για να επιλέξεις)</string>
@@ -130,4 +132,6 @@
 
     <string name="warning_date">Παρακαλώ επιλέξτε ημερομηνία στο παρελθόν ή σημερινή.</string>
     <string name="warning_after_date">Παρακαλώ επιλέξτε ημερομηνία μετά την πρώτη.</string>
+
+    <string name="text_firstrun_dialog"><![CDATA[Καλωσήλθες στο plirosouSOSTA. Μια εφαρμογή που σε βοηθάει να γνωρίζεις τα δικαιώματα σου και πόσα χρήματα δικαιούσαι για την εργασία σου.<br /><br />Εσύ απλά σημειώνεις το πότε δούλεψες, πατώντας ΠΡΟΣΘΗΚΗ ΒΑΡΔΙΑΣ, και αυτόματα βλέπεις πόσο πρέπει να πληρωθείς.<br /><br />Για να βγαίνουν σωστά οι υπολογισμοί σου, πήγαινε πρώτα στις ΡΥΘΜΙΣΕΙΣ και συμπλήρωσε τις 4 ερωτήσεις.]]></string>
 </resources>

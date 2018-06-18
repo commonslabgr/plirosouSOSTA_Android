@@ -16,7 +16,7 @@
     <string name="title_activity_history">HISTORY</string>
 
     <!--BUTTONS-->
-    <string name="button_payed_correctly">Check your pay</string>
+    <string name="button_payed_correctly">ENTITLED</string>
     <string name="button_insert_shift">ADD\nSHIFT</string>
     <string name="subtitle_insert_shift">NOTE DOWN YOUR SHIFTS</string>
     <string name="button_history">YOUR\nHISTORY</string>
@@ -41,6 +41,7 @@
     <!--NAVIGATION MENU-->
     <string name="nav_settings">SETTINGS</string>
     <string name="nav_history">HISTORY</string>
+    <string name="nav_entitled">ENTITLED</string>
     <string name="nav_info">USEFUL INFO</string>
     <string name="nav_shifts">SHIFTS</string>
     <string name="nav_about">ABOUT</string>
@@ -50,7 +51,7 @@
     <string name="tab_title_all">ALL</string>
 
     <!--ENTITLED ACTIVITY-->
-    <string name="entitled_main">YOU WORKED 0 HOURS AND 0 MINUTES</string>
+    <string name="entitled_main">BECAUSE:\nYOU WORKED 0 HOURS AND 0 MINUTES</string>
     <string name="entitled_should_get_paid">SO, YOU SHOULD GET TOTALY €</string>
     <string name="entitled_law_states">IF YOU DID NOT GET THAT, YOUR PAY IS WRONG</string>
     <string name="entitled_info_bottom">What can I do if I got less money than I should?</string>
@@ -66,6 +67,7 @@
     <string name="title_activity_settings">SETTINGS</string>
     <string name="entitled_infobox_top_deserve">x YOUR RATE = </string>
     <string name="entitled_infobox_top_more">ALSO, YOU SHOULD GET:</string>
+    <string name="entitled_infobox_newtop">ENTITLED IN TOTAL: €</string>
     <!-- HISTORY ACTIVITY -->
     <string name="history_youhaveworked">YOU WORKED</string>
     <string name="history_youwillget">ΘΑ ΠΑΡΕΙΣ ΣΥΝΟΛΟ</string>
@@ -80,28 +82,17 @@
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_infotop"> Για να υπολογίζονται τα λεφτά σου, είναι απαραίτητες οι παρακάτω 5 ερωτήσεις Τα στοιχεία αυτά δεν στέλνονται πουθενά και σε κανέναν. Τα βλέπεις μόνο εσύ.</string>
-    <string name="pref_title_paidby">1) Πώς έχεις συμφωνήσει την πληρωμή σου; (πάτα για να επιλέξεις)</string>
-    <string-array name="pref_list_paidby">
-        <item>ΜΕ ΤΗΝ ΩΡΑ</item>
-        <item>ΜΕ ΤΗΝ ΗΜΕΡΑ</item>
-        <item>ΜΕ ΤΟ ΜΗΝΑ</item>
-    </string-array>
-    <string-array name="pref_list_paidby_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-    <string name="pref_title_howmuch_paid">2) Πόσο έχεις συμφωνήσει να πληρώνεσαι καθαρά; (στην τσέπη σου) (πάτα για να επιλέξεις)</string>
-    <integer name="pref_default_howmuch_paid">5</integer>
-    <string name="pref_title_below25yold">3) Είσαι κάτω από 25 ετών; (αν ναι, πάτα)</string>
-    <string name="pref_title_hotels">4) Δουλεύεις σε ξενοδοχειακή ή επισιτιστική επιχείρηση; (πχ καφετέρια, εστιατόριο, σαντουιτσάδικο κλπ); (αν ναι πάτα)</string>
-    <string name="pref_title_years_experience">5) Μέχρι τις 14/02/2012 πόσα χρόνια προϋπηρεσίας είχες; (πάτα για να επιλέξεις)</string>
+    <string name="pref_infotop">The following 4 questions are necessary in order to calculate correctly the money you should be paid. This data is never sent to noone. You are the only one who can see it.</string>
+    <string name="pref_title_howmuch_paid">1) How much money are you paid per hour? (net money, what you get in your hands) (tap here to answer)</string>
+    <integer name="pref_default_howmuch_paid">0</integer>
+    <string name="pref_title_below25yold">2) Are you younger than 25 years old? (if yes, tap here)</string>
+    <string name="pref_title_hotels">3) Do you work in a horeca business? (e.g. hotel, restaurant, taverna, catering, bar, cafe, souvlatzidiko, etc) (if yes, tap here)</string>
+    <string name="pref_title_years_experience">4) How many years of documented work experience did you have until 14/02/2012? (tap here to answer)</string>
     <integer name="pref_default_years_experience">0</integer>
 
     <!-- ABOUT ACTIVITY -->
     <string name="about_title"><b>plirosouSOSTA</b></string>
-    <string name="about_text"><![CDATA[Θέλουμε όλοι οι εργαζόμενοι να γνωρίζουν ποια είναι τα δικαιώματα τους, τι ορίζει η νομοθεσία και πόσα χρήματα δικαιούνται για την εργασία τους. <br /><br />Με το PlirosouSosta, οι εργαζόμενοι απλά σημειώνουν πότε δούλεψαν και αυτόματα βλέπουν πόσο ακριβώς πρέπει να πληρωθούν. Έτσι μπορούν να ελέγχουν αν η πληρωμή τους γίνεται σύμφωνα με όσα ορίζει ο νόμος και να έχουν κατευθύνσεις που θα τους βοηθήσουν στον εντοπισμό τυχόν λαθών στη μισθοδοσία τους.<br /><br />\Όλες οι πληροφορίες και οι υπολογισμοί της εφαρμογής αυτής αναφέρονται στους μισθωτούς υπαλλήλους στον ιδιωτικό τομέα (όχι του Δημοσίου), με βάση τις συμφωνημένες αποδοχές και τα κατώτατα νομοθετημένα όρια. <br /><br />Πχ σερβιτόροι, μάγειρες, ντελιβεράδες, κούριερ, υπάλληλοι καταστημάτων, υπάλληλοι γραφείου, καθηγητές φροντιστηρίων, υπάλληλοι σε τηλεφωνικά κέντρα, σε κομμωτήρια, σε ΜΚΟ, ρεσεψιονίστ, κλπ κλπ. <br /><br /> Λαμβάνονται κάθε φορά υπόψη όλοι οι πολύπλοκοι νομικοί κανόνες για την αμοιβή της εργασίας, πχ τι ορίζει ο νόμος αν εργαστεί κάποιος Κυριακές, Σάββατα, Νύχτα, παραπάνω από το κανονικό κλπ.<br /><br /> Η εφαρμογή αυτή είναι μια πρωτοβουλία του Χυμοποιείου (Αθήνα, Μοναστηράκι).<br /> (ιδέα, σχεδιασμός λειτουργίας, συντονισμός, χρηματοδότηση, διαχείριση).<br /><br />Η ανάπτυξη της εφαρμογής έγινε από τo commons|lab (http://commonslab.gr).<br /> Η εφαρμογή είναι ανοικτού λογισμικού, διατίθεται με άδεια GPL v3.<br /><br />Τα γραφιστικά της εφαρμογής έγιναν από τους designature (Αθήνα, http://www.designature.gr/).<br /><br /> Όλη τη νομική καθοδήγηση παρείχε το ειδικευμένο σε εργατικά θέματα δικηγορικό γραφείο "Χρυσούλα Μυλωνά │ Φιλόστρατος Στρούμπος και Συνεργάτες" (Αθήνα, Ναυαρίνου 17 - τηλ. 211 0121684, email: info@mslawoffice.eu - web: mslawoffice.eu).<br /><br /> Χρήσιμη βοήθεια, πληροφορίες, ανταλλαγή σκέψεων παρείχε το OpenLab (Αθήνα, https://www.olathens.org - email: info@olathens.com).<br /><br />Διαχειριστής της εφαρμογής και του περιεχομένου είναι το Χυμοποιείο και συγκεκριμένα ο Άρης Π. (plirosousosta@gmail.com). <br /><br /> Κάθε πληροφορία που εμπεριέχεται στην εφαρμογή και οι υπολογισμοί που εξάγονται από αυτή δεν αποτελούν επίσημη ενημέρωση ούτε δεσμευόμαστε ή ευθυνόμαστε ως προς την πληρότητα και ορθότητα τους. Η εφαρμογή είναι καθαρά ενημερωτικού χαρακτήρα, και δεν μπορεί να χρησιμοποιηθεί ως νομική συμβουλή. Για επίσημη ενημέρωση και ειδικές συμβουλές σε θέματα εργασιακών ζητημάτων που σε αφορούν και τον επακριβή υπολογισμό των αποδοχών σου, απευθύνσου σε δικηγόρο ή άλλο εξειδικευμένο φορέα. Η χρήση της εφαρμογής, των πληροφοριών που παρέχονται σε αυτή και όλου εν γένει του περιεχομένου της συμπεριλαμβανομένων των εξαγόμενων αποτελεσμάτων γίνεται με αποκλειστική δική σου ευθύνη. Σε καμία περίπτωση δεν παρέχεται εγγύηση, ρητή ή έμμεση, διατυπωμένη ή υποτιθέμενη, και κατά συνέπεια δεν υφίσταται καμία ευθύνη μας (ούτε καν από αμέλεια) για οποιαδήποτε ζημία τυχόν σου προκληθεί από τη χρήση της εφαρμογής ή των πληροφοριών που εμπεριέχονται ή εξάγονται από αυτή. Χρησιμοποιώντας την εφαρμογή αποδέχεσαι ανεπιφύλακτα ότι δεν ευθυνόμαστε για αποκατάσταση οποιασδήποτε τυχόν ζημίας (θετικής ή αποθετικής, που μπορεί ενδεικτικά να συνίσταται σε απώλεια κερδών, δεδομένων, διαφυγόντα κέρδη, χρηματική ικανοποίηση κλπ.) από τη χρήση της εφαρμογής από εσένα ή τρίτους, από αιτία που έχει σχέση με τη λειτουργία της ή μη, τη χρήση της, την ακρίβεια των πληροφοριών και υπολογισμών που εξάγονται, τυχόν αδυναμία παροχής υπηρεσιών / πληροφοριών που διατίθενται από αυτήν ή από τυχόν μη επιτρεπόμενες παρεμβάσεις τρίτων σε προϊόντα / υπηρεσίες / πληροφορίες που διατίθενται μέσω αυτής. Καταβάλλουμε κάθε δυνατή προσπάθεια για την καλή λειτουργία της εφαρμογής, σε καμία όμως περίπτωση δεν εγγυόμαστε ότι οι λειτουργίες της θα είναι αδιάκοπες ή χωρίς κανενός είδους σφάλμα, απαλλαγμένες από ιούς και παρόμοια στοιχεία. Σε ενημερώνουμε ότι διατηρούμε το δικαίωμα τροποποίησης του περιεχομένου της εφαρμογής οποτεδήποτε κριθεί αναγκαίο και χωρίς προηγούμενη προειδοποίηση.]]></string>
+    <string name="about_text"><![CDATA[Get paid right!<br /><br />We want all workers to know their working rights, what the Greek labor law says, and how much they should be getting for their labor.<br /><br />In this app, workers can simply note down the work shifts they did and they can see immediately how much they should be paid. Thus, they can check if their reimbursement is according to the Greek law and they can have some directions that can help them identify possible mistakes in their reimbursement.<br /><br />All the information and the calculations in this app refer to salaried employees (“misthoti ipalili”) in the Private sector (not in the Public sector) in Greece, according to the agreed compensation and the minimum wage.<br /><br />E.g. cooks, delivery workers, courier workers, retail shop clerks, call-centers agents, employees in hair-salons, hotel receptionists, employees in NGOs, etc.<br /><br />Every time, all the complicated Greek legislation provisions are taken into consideration, e.g. what the Greek law says if someone works on a Sunday or a Saturday or during night or do overtime.<br /><br />This app is an initiative of Hymopio juice-bar (in Athens, Monastiraki).<br />(idea, concept, app functions, management, funding).<br /><br />The app was developed by commons|lab (http://commonslab.gr). It’s open-source, on a GPL v3 permission.<br /><br />The app layout was designed by designature (Athens, http://www.designature.gr/).<br /><br />All the legislation guidance was provided by the specialised in Labor-Law lawyer firm “Chrysoula Mylona I  Filostratos Stroubos & Associates” (Athens, Navarinou 17, tel: 211 0121684, email: info@mslawoffice.eu  I  web: mslawoffice.eu).<br /><br />Useful help, information and contemplation exchange was provided by OpenLab (Athens, https://www.olathens.org - email: info@olathens.com).<br /><br />Administrator of the app and its content is Hymopio juice-bar and specifically Aris P. (plirosousosta@gmail.com).]]>Κάθε πληροφορία που εμπεριέχεται στην εφαρμογή και οι υπολογισμοί που εξάγονται από αυτή δεν αποτελούν επίσημη ενημέρωση ούτε δεσμευόμαστε ή ευθυνόμαστε ως προς την πληρότητα και ορθότητα τους. Η εφαρμογή είναι καθαρά ενημερωτικού χαρακτήρα, και δεν μπορεί να χρησιμοποιηθεί ως νομική συμβουλή. Για επίσημη ενημέρωση και ειδικές συμβουλές σε θέματα εργασιακών ζητημάτων που σε αφορούν και τον επακριβή υπολογισμό των αποδοχών σου, απευθύνσου σε δικηγόρο ή άλλο εξειδικευμένο φορέα. Η χρήση της εφαρμογής, των πληροφοριών που παρέχονται σε αυτή και όλου εν γένει του περιεχομένου της συμπεριλαμβανομένων των εξαγόμενων αποτελεσμάτων γίνεται με αποκλειστική δική σου ευθύνη. Σε καμία περίπτωση δεν παρέχεται εγγύηση, ρητή ή έμμεση, διατυπωμένη ή υποτιθέμενη, και κατά συνέπεια δεν υφίσταται καμία ευθύνη μας (ούτε καν από αμέλεια) για οποιαδήποτε ζημία τυχόν σου προκληθεί από τη χρήση της εφαρμογής ή των πληροφοριών που εμπεριέχονται ή εξάγονται από αυτή. Χρησιμοποιώντας την εφαρμογή αποδέχεσαι ανεπιφύλακτα ότι δεν ευθυνόμαστε για αποκατάσταση οποιασδήποτε τυχόν ζημίας (θετικής ή αποθετικής, που μπορεί ενδεικτικά να συνίσταται σε απώλεια κερδών, δεδομένων, διαφυγόντα κέρδη, χρηματική ικανοποίηση κλπ.) από τη χρήση της εφαρμογής από εσένα ή τρίτους, από αιτία που έχει σχέση με τη λειτουργία της ή μη, τη χρήση της, την ακρίβεια των πληροφοριών και υπολογισμών που εξάγονται, τυχόν αδυναμία παροχής υπηρεσιών / πληροφοριών που διατίθενται από αυτήν ή από τυχόν μη επιτρεπόμενες παρεμβάσεις τρίτων σε προϊόντα / υπηρεσίες / πληροφορίες που διατίθενται μέσω αυτής. Καταβάλλουμε κάθε δυνατή προσπάθεια για την καλή λειτουργία της εφαρμογής, σε καμία όμως περίπτωση δεν εγγυόμαστε ότι οι λειτουργίες της θα είναι αδιάκοπες ή χωρίς κανενός είδους σφάλμα, απαλλαγμένες από ιούς και παρόμοια στοιχεία. Σε ενημερώνουμε ότι διατηρούμε το δικαίωμα τροποποίησης του περιεχομένου της εφαρμογής οποτεδήποτε κριθεί αναγκαίο και χωρίς προηγούμενη προειδοποίηση.</string>
 
     <string name="img_zygos_desc"><b>Image scale</b></string>
     <string name="img_addshift_desc"><b>Image add shift</b></string>
@@ -141,4 +132,6 @@
 
     <string name="warning_date">Please select today or a past date.</string>
     <string name="warning_after_date">Please select a date after the first.</string>
+
+    <string name="text_firstrun_dialog"><![CDATA[Welcome to plirosouSOSTA. This is an app that helps you know your working rights in Greece and how much money you should be paid.<br /><br />You just note down when you worked (by ADD SHIFT) and immediately you see how much you should get paid.<br /><br />You first need to go to SETTINGS and fill in the 4 questions, so that your calculations are correct.]]></string>
 </resources>
